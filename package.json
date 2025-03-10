@@ -15,12 +15,14 @@
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-spinners": "^0.15.0",
+    "socket.io-client": "^4.8.1",
     "sonner": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/socket.io-client": "^3.0.0",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",

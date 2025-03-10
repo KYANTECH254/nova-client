@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SocketProvider } from "@/contexts/SocketProvider";
+import { PlatformProvider } from "@/contexts/PlatformProvider";
 
 export const metadata: Metadata = {
   title: "Nova",
@@ -14,7 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <SocketProvider >
+          <PlatformProvider>
+            {children}
+          </PlatformProvider>
+        </SocketProvider>
       </body>
     </html>
   );

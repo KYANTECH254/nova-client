@@ -2,10 +2,12 @@
 import { useState, useEffect } from "react";
 import { LucideHandHelping } from "lucide-react";
 import GetCodePopup from "./Code";
+import { usePlatform } from "@/contexts/PlatformProvider";
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const { platformData, error, isConnected } = usePlatform();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,10 +26,7 @@ export default function Header() {
                 }`}
             >
                 <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                    {/* Logo styled as a text */}
-                    <h1 className="text-white text-3xl font-bold tracking-wide">NOVA</h1>
-
-                    {/* Get Code button */}
+                    <h1 className="text-white text-3xl font-bold tracking-wide">{platformData?.name || 'NOVA'}</h1>
                     <button
                         className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors duration-200"
                         onClick={() => setIsPopupOpen(true)}
@@ -37,8 +36,6 @@ export default function Header() {
                     </button>
                 </div>
             </header>
-
-            {/* Render GetCodePopup when open */}
             {isPopupOpen && <GetCodePopup onClose={() => setIsPopupOpen(false)} />}
         </>
     );
