@@ -1,34 +1,35 @@
 "use client";
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { useSearchParams } from "next/navigation"; 
+import { useSearchParams } from "next/navigation";
 import { useSocket } from "./SocketProvider";
-import Loader from "@/components/Loader"; 
+import Loader from "@/components/Loader";
 
 interface PlatformContextProps {
-  sendClientData: () => void; 
+  sendClientData: () => void;
   platform: string | null;
   ip: string | null;
   platformData: any;
+  packages: any[] | null;
   error: string | null;
   isConnected: boolean;
-  loading: boolean; 
+  loading: boolean;
 }
 
 const PlatformContext = createContext<PlatformContextProps | undefined>(undefined);
 
 export const PlatformProvider = ({ children }: { children: ReactNode }) => {
   const { socket, isConnected } = useSocket();
-  const searchParams = useSearchParams(); 
+  const searchParams = useSearchParams();
   const [platform, setPlatform] = useState<string | null>(null);
   const [ip, setIp] = useState<string | null>(null);
   const [platformData, setPlatformData] = useState<any>(null);
+  const [packages, setPackages] = useState<any[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); 
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const urlPlatform = searchParams.get("platform");
     if (urlPlatform) {
-      console.log("🔍 Platform from URL:", urlPlatform);
       setPlatform(urlPlatform);
     }
   }, [searchParams]);
@@ -40,11 +41,9 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
         const data = await response.json();
         setIp(data.ip);
       } catch (err) {
-        console.error("Failed to fetch IP:", err);
         setIp(null);
       }
     }
-
     getPublicIP();
   }, []);
 
@@ -60,14 +59,13 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     const handlePlatformData = (data: any) => {
       setPlatformData(data);
       setError(null);
-      setLoading(false); 
+      setLoading(false);
     };
 
     const handlePlatformError = (errorData: { error: string }) => {
-      console.error("Platform error received:", errorData);
       setPlatformData(null);
       setError(errorData.error);
-      setLoading(false); 
+      setLoading(false);
     };
 
     socket.on("platform-data", handlePlatformData);
@@ -79,17 +77,44 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [socket]);
 
+  useEffect(() => {
+    async function fetchPackages(platformID: string) {
+      try {
+        const response = await fetch('http://localhost:3013/req/packages', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ platformID }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch packages: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        
+        setPackages(data?.packages);
+      } catch (err) {
+        setPackages(null);
+      }
+    }
+
+    if (platformData?.platformID) {
+      fetchPackages(platformData.platformID);
+    }
+  }, [platformData]);
+
   const sendClientData = () => {
     if (socket && isConnected && platform && ip) {
       socket.emit("client-data", { platform, ip });
-    } else {
-      console.error("Missing data, cannot send");
     }
   };
 
   return (
-    <PlatformContext.Provider value={{ sendClientData, platform, ip, platformData, error, isConnected, loading }}>
-      {loading ? <Loader /> : children} 
+    <PlatformContext.Provider
+      value={{ sendClientData, platform, ip, platformData, packages, error, isConnected, loading }}
+    >
+      {loading ? <Loader /> : children}
     </PlatformContext.Provider>
   );
 };

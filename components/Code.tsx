@@ -55,7 +55,6 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="bg-white/10 border-white/20 p-6 rounded-2xl shadow-2xl max-w-md w-full relative"
             >
-                {/* Close Button */}
                 <button
                     className="absolute top-4 right-4 text-gray-500 bg-gray-200 hover:text-gray-900 transition rounded-full hover:bg-blue-200 w-10 h-10 flex items-center justify-center"
                     onClick={onClose}
@@ -64,10 +63,7 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                 </button>
 
                 <h2 className="text-2xl font-bold text-[#00AEEF] mb-4">Get Your Login Code</h2>
-
-                {/* Scrollable Content */}
                 <div className="max-h-[70vh] overflow-y-auto pr-2 no-scrollbar">
-                    {/* Input Field with Label */}
                     <div className="flex flex-row gap-1 items-center mb-2">
                         <Info size={24} className="text-[#00AEEF]" />
                         <label className="text-[var(--color-text)] font-medium block">
@@ -81,8 +77,6 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                         onChange={(e) => setInput(e.target.value)}
                         className="bg-[var(--background)] text-[var(--color-text)] w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEEF] outline-none transition"
                     />
-
-                    {/* Get Code Button */}
                     <button
                         className="mt-4 w-full bg-[#00AEEF] hover:bg-[#008ecc] text-white font-semibold py-3 rounded-lg transition-all shadow-lg flex items-center justify-center"
                         onClick={fetchCode}
@@ -90,16 +84,12 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                     >
                         {loading ? <ClipLoader size={20} color="#fff" /> : "Get Code"}
                     </button>
-
-                    {/* Loading Animation */}
                     {loading && (
                         <div className="mt-4 flex justify-center items-center gap-2">
                             <Loader2 className="animate-spin w-5 h-5 text-[#00AEEF]" />
                             <p>Fetching your codes... Please wait</p>
                         </div>
                     )}
-
-                    {/* Response Section */}
                     {!loading && codes.length > 0 && (
                         <>
                             <h3 className="mt-5 text-lg font-bold text-white">
@@ -129,8 +119,6 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                                         <br />
                                         Remaining time: {c.remainingTime}.
                                     </p>
-
-                                    {/* Action Buttons */}
                                     <button
                                         onClick={c.expired ? onClose : () => {}}
                                         className={`mt-4 w-full ${c.expired ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"
@@ -142,8 +130,6 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                             ))}
                         </>
                     )}
-
-                    {/* No Codes Found */}
                     {!loading && codes.length === 0 && (
                         <p className="mt-5 text-center text-gray-400">No codes found for this input.</p>
                     )}

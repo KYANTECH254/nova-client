@@ -15,18 +15,16 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const socketInstance: Socket = io("http://localhost:3013", {
-      transports: ["websocket"], // Ensures stable connection
-      reconnectionAttempts: 5, // Prevent infinite loops
+      transports: ["websocket"], 
+      reconnectionAttempts: 5, 
     });
 
     socketInstance.on("connect", () => {
-      console.log("✅ Connected:", socketInstance.id);
       setIsConnected(true);
       setSocket(socketInstance);
     });
 
     socketInstance.on("disconnect", () => {
-      console.log("❌ Disconnected");
       setIsConnected(false);
     });
 
