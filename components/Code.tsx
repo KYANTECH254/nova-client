@@ -7,43 +7,67 @@ import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
 
 interface Code {
-    code: string;
+    password: string;
+    username: string;
     expired: boolean;
     activeFrom: string;
-    remainingTime: string;
+    timeLeft: string;
 }
 
 export default function GetCodePopup({ onClose }: { onClose: () => void }) {
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
+    const [loggingin, setLoggingIn] = useState(false);
     const [codes, setCodes] = useState<Code[]>([]);
 
-    const fetchCode = () => {
-        if (!input.trim()) return;
+    const fetchCode = async () => {
+        if (!input.trim()) {
+            toast.error("Please enter a phone number or Mpesa code.");
+            return;
+        }
+
         setLoading(true);
-        setTimeout(() => {
-            // Mock response: Generate 0-3 codes
-            const numCodes = Math.floor(Math.random() * 4);
-            const newCodes: Code[] = Array.from({ length: numCodes }, () => {
-                const isExpired = Math.random() < 0.3; // 30% chance expired
-                return {
-                    code: `CODE-${Math.floor(100000 + Math.random() * 900000)}`,
-                    expired: isExpired,
-                    activeFrom: "2024-02-01",
-                    remainingTime: isExpired ? "Expired" : "2 days, 4 hours",
-                };
+        setCodes([]);
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/code`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone: input }),
             });
 
-            setCodes(newCodes);
+            if (!response.ok) {
+                throw new Error("Failed to fetch codes");
+            }
+
+            const data = await response.json();
+
+            if (data.type !== "success" || !data.foundcodes || data.foundcodes.length === 0) {
+                toast.error("No codes found for this input.");
+                setLoading(false);
+                return;
+            }
+
+            const formattedCodes = data.foundcodes.map((code: any) => ({
+                username: code.username,
+                password: code.password,
+                expired: code.timeLeft === "Expired",
+                activeFrom: code.activeFrom || "Unknown",
+                timeLeft: code.timeLeft || "Unknown",
+            }));
+
+            setCodes(formattedCodes);
+        } catch (error) {
+            console.error("Error fetching codes:", error);
+            toast.error("Failed to fetch codes. Please try again.");
+        } finally {
             setLoading(false);
-        }, 2000);
+        }
     };
 
-    const copyToClipboard = (code: string) => {
-        navigator.clipboard.writeText(code);
-        toast.success("Code copied to clipboard!", {
-            style: { backgroundColor: "[var(--background)]" }
-        });
+    const copyToClipboard = (username: string) => {
+        navigator.clipboard.writeText(username);
+        toast.success("Code copied to clipboard!");
     };
 
     return (
@@ -55,6 +79,7 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="bg-white/10 border-white/20 p-6 rounded-2xl shadow-2xl max-w-md w-full relative"
             >
+                {/* Close Button */}
                 <button
                     className="absolute top-4 right-4 text-gray-500 bg-gray-200 hover:text-gray-900 transition rounded-full hover:bg-blue-200 w-10 h-10 flex items-center justify-center"
                     onClick={onClose}
@@ -84,12 +109,14 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                     >
                         {loading ? <ClipLoader size={20} color="#fff" /> : "Get Code"}
                     </button>
+
                     {loading && (
                         <div className="mt-4 flex justify-center items-center gap-2">
                             <Loader2 className="animate-spin w-5 h-5 text-[#00AEEF]" />
                             <p>Fetching your codes... Please wait</p>
                         </div>
                     )}
+
                     {!loading && codes.length > 0 && (
                         <>
                             <h3 className="mt-5 text-lg font-bold text-white">
@@ -108,28 +135,42 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
 
                                     <div
                                         className="mt-2 p-2 bg-gray-800 text-white border rounded-lg flex items-center justify-between cursor-pointer"
-                                        onClick={() => copyToClipboard(c.code)}
+                                        onClick={() => copyToClipboard(c.username)}
                                     >
-                                        <span className="font-mono text-lg">{c.code}</span>
+                                        <span className="font-mono text-lg">{c.username}</span>
                                         <Copy className="w-5 h-5 text-gray-400 hover:text-white transition" />
                                     </div>
 
                                     <p className="text-xs text-gray-400 mt-2">
                                         This code was active from {c.activeFrom}.
                                         <br />
-                                        Remaining time: {c.remainingTime}.
+                                        Remaining time: {c.timeLeft}.
                                     </p>
                                     <button
-                                        onClick={c.expired ? onClose : () => {}}
+                                        onClick={() => {
+                                            if (c.expired) {
+                                                onClose();
+                                            } else {
+                                                setLoggingIn(true)
+                                                window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/login?username=${c.username}&password=${c.password}`;
+                                            }
+                                        }}
                                         className={`mt-4 w-full ${c.expired ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"
-                                            } text-white font-semibold py-2 rounded-lg transition-all`}
+                                            } text-white font-semibold py-2 rounded-lg transition-all flex flex-row items-center gap-2 justify-center`}
                                     >
-                                        {c.expired ? "Subscribe" : "Sign In"}
+                                        {c.expired ? "Subscribe" : loggingin ? (
+                                            <>
+                                                <Loader2 className="animate-spin w-5 h-5 mr-2" />
+                                                Logging in...
+                                            </>
+                                        ) : "Log In"}
                                     </button>
+
                                 </motion.div>
                             ))}
                         </>
                     )}
+
                     {!loading && codes.length === 0 && (
                         <p className="mt-5 text-center text-gray-400">No codes found for this input.</p>
                     )}

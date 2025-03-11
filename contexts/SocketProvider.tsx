@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance: Socket = io("http://localhost:3013", {
+    const socketInstance: Socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`, {
       transports: ["websocket"], 
       reconnectionAttempts: 5, 
     });

@@ -95,3 +95,11 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.alert {
+  background-color: #008ecc !important;
+  color: white !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  border: none !important;
+}

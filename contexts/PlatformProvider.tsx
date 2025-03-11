@@ -106,50 +106,33 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
 
 
   useEffect(() => {
-    async function fetchPackagesFromJson() {
+    async function fetchPackages(platformID: string) {
       try {
-        const response = await fetch("/packages.json");
-  
-        if (!response.ok) {
-          setError("Failed to load packages");
-          setLoading(false);
-          return;
-        }
-  
-        const data = await response.json();
-        setPackages(data);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to load packages");
-        setLoading(false);
-        setPackages([]);
-      }
-    }
-  
-    async function fetchPackagesFromBackend(platformID: string) {
-      try {
-        const response = await fetch("http://localhost:3013/req/packages", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/packages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ platformID }),
         });
-  
+
         if (!response.ok) {
           setLoading(false);
+          setError('Failed to fetch packages');
           return;
         }
-  
+
         const data = await response.json();
-        await SavePackagesToJson(data?.packages);
-      } catch (err) {
+        setPackages(data?.packages);
         setLoading(false);
+        // await SavePackagesToJson(data?.packages);
+      } catch (err) {
+        setError('Failed to fetch packages');
+        setLoading(false);
+        setPackages([]);
       }
     }
-  
-    fetchPackagesFromJson();
-  
+
     if (platformData?.platformID) {
-      fetchPackagesFromBackend(platformData.platformID);
+      fetchPackages(platformData.platformID);
     }
   }, [platformData]);
 

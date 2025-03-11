@@ -93,7 +93,7 @@ export default function PricingCards() {
               <p className="text-4xl font-extrabold text-[#00AEEF]">shs.{plan.price}</p>
               <div className="mt-4 space-y-2 text-white text-sm">
                 <p className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" /> Upto {plan.speed} Speed
+                  <CheckCircle className="w-4 h-4 text-green-400" /> Upto {plan.speed}Mbps Speed
                 </p>
                 <p className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-yellow-400" /> Valid for {plan.period}
@@ -102,7 +102,7 @@ export default function PricingCards() {
                   <CheckCircle className="w-4 h-4 text-green-400" /> {plan.usage} Usage
                 </p>
                 <p className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" /> {plan.devices}
+                  <CheckCircle className="w-4 h-4 text-green-400" />{parseInt(plan.devices) === 1 ? `${plan.devices} Device` : parseInt(plan.devices) < 1 ? 'Unlimited Devices' : `${plan.devices} Devices`}
                 </p>
               </div>
               <button

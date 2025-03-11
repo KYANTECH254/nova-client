@@ -1,14 +1,16 @@
 "use server";
 
 import fs from "fs/promises";
+import { platform } from "os";
 import path from "path";
-
-const filePath = path.join(process.cwd(), "public", "packages.json");
 
 export async function SavePackagesToJson(packages: any) {
   try {
     const sanitizedPackages = packages.map(({ id, adminID, createdAt, updatedAt, platformID, ...rest }: any) => rest);
-
+    const platform = packages[0].platform;
+    console.log(platform);
+    
+    const filePath = path.join(process.cwd(), "public", `${platform}.json`);
     const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
 
     if (fileExists) {
