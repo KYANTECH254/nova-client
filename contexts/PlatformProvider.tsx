@@ -104,7 +104,6 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [socket]);
 
-
   useEffect(() => {
     async function fetchPackages(platformID: string) {
       try {
