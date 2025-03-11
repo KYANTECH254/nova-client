@@ -12,7 +12,7 @@ export default function Home() {
       <Header />
       <Hero />
       <PricingCards />
-      <HelpButton phoneNumber="+1234567890" />
+      <HelpButton />
       <Footer />
     </>
   );

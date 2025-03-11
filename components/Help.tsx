@@ -1,15 +1,16 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, HelpCircle, X, MessageCircle, MessageSquare } from "lucide-react";
+import { usePlatform } from "@/contexts/PlatformProvider";
 
-interface HelpButtonProps {
-    phoneNumber: string;
-}
-
-export default function HelpButton({ phoneNumber }: HelpButtonProps) {
+export default function HelpButton() {
     const [isOpen, setIsOpen] = useState(false);
+    const { platformData, error, isConnected } = usePlatform();
+    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    useEffect(() => {
+        platformData ? setPhoneNumber(platformData.phone) : setPhoneNumber('')
+    }, [platformData]);
 
     return (
         <div className="fixed bottom-10 right-6 z-50">

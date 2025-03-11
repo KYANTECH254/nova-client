@@ -3,13 +3,25 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { useSearchParams } from "next/navigation";
 import { useSocket } from "./SocketProvider";
 import Loader from "@/components/Loader";
+import ErrorComponent from "@/components/Error";
+import { SavePackagesToJson } from "@/actions/Operations";
+
+export type Plan = {
+  name: string;
+  price: string;
+  speed: string;
+  period: string;
+  usage: string;
+  devices: string;
+  category: "Daily" | "Weekly" | "Monthly";
+}
 
 interface PlatformContextProps {
   sendClientData: () => void;
   platform: string | null;
   ip: string | null;
   platformData: any;
-  packages: any[] | null;
+  packages: Plan[];
   error: string | null;
   isConnected: boolean;
   loading: boolean;
@@ -23,14 +35,22 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
   const [platform, setPlatform] = useState<string | null>(null);
   const [ip, setIp] = useState<string | null>(null);
   const [platformData, setPlatformData] = useState<any>(null);
-  const [packages, setPackages] = useState<any[] | null>(null);
+  const [packages, setPackages] = useState<Plan[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const urlPlatform = searchParams.get("platform");
+    let urlPlatform;
+    urlPlatform = searchParams.get("platform");
     if (urlPlatform) {
-      setPlatform(urlPlatform);
+      localStorage.setItem("platform", urlPlatform);
+      setPlatform(urlPlatform)
+      return;
+    } else {
+      urlPlatform = localStorage.getItem("platform");
+      if (urlPlatform) {
+        setPlatform(urlPlatform);
+      }
     }
   }, [searchParams]);
 
@@ -49,7 +69,8 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (socket && isConnected && platform && ip) {
-      socket.emit("client-data", { platform, ip });
+      const plat_id = localStorage.getItem("platform_id");
+      plat_id ? socket.emit("client-data_2", { plat_id, ip }) : socket.emit("client-data", { platform, ip });
     }
   }, [socket, isConnected, platform, ip]);
 
@@ -57,6 +78,12 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     if (!socket) return;
 
     const handlePlatformData = (data: any) => {
+      if (data === null) {
+        setLoading(false);
+        setError("An error occured, please try again!")
+        return;
+      }
+      localStorage.setItem("platform_id", data.platformID);
       setPlatformData(data);
       setError(null);
       setLoading(false);
@@ -77,30 +104,52 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [socket]);
 
+
   useEffect(() => {
-    async function fetchPackages(platformID: string) {
+    async function fetchPackagesFromJson() {
       try {
-        const response = await fetch('http://localhost:3013/req/packages', {
+        const response = await fetch("/packages.json");
+  
+        if (!response.ok) {
+          setError("Failed to load packages");
+          setLoading(false);
+          return;
+        }
+  
+        const data = await response.json();
+        setPackages(data);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to load packages");
+        setLoading(false);
+        setPackages([]);
+      }
+    }
+  
+    async function fetchPackagesFromBackend(platformID: string) {
+      try {
+        const response = await fetch("http://localhost:3013/req/packages", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ platformID }),
         });
-
+  
         if (!response.ok) {
-          throw new Error(`Failed to fetch packages: ${response.statusText}`);
+          setLoading(false);
+          return;
         }
-
+  
         const data = await response.json();
-        console.log(data);
-        
-        setPackages(data?.packages);
+        await SavePackagesToJson(data?.packages);
       } catch (err) {
-        setPackages(null);
+        setLoading(false);
       }
     }
-
+  
+    fetchPackagesFromJson();
+  
     if (platformData?.platformID) {
-      fetchPackages(platformData.platformID);
+      fetchPackagesFromBackend(platformData.platformID);
     }
   }, [platformData]);
 
@@ -114,7 +163,7 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     <PlatformContext.Provider
       value={{ sendClientData, platform, ip, platformData, packages, error, isConnected, loading }}
     >
-      {loading ? <Loader /> : children}
+      {loading ? <Loader /> : error ? <ErrorComponent message={error} /> : children}
     </PlatformContext.Provider>
   );
 };

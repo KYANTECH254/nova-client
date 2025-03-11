@@ -1,8 +1,9 @@
 "use client";
-
-import { Heart, ShieldCheck } from "lucide-react";
+import { usePlatform } from "@/contexts/PlatformProvider";
+import { ShieldCheck } from "lucide-react";
 
 export default function Footer() {
+    const { platformData, error, isConnected } = usePlatform();
     return (
         <footer className="bg-[var(--background)] text-[var(--color-text)] py-6 px-4 md:px-8 mt-10">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-center md:text-left">
@@ -16,7 +17,7 @@ export default function Footer() {
                     </p>
                 </div>
                 <p className="text-sm mt-2 md:mt-0">
-                    &copy; TurboGlobe {new Date().getFullYear()} | All Rights Reserved.
+                    &copy; {platformData?.name || "NOVA"} {new Date().getFullYear()} | All Rights Reserved.
                 </p>
             </div>
         </footer>

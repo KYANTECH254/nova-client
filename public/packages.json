@@ -1,0 +1,11 @@
+[
+  {
+    "name": "30 Minutes offer",
+    "period": "30 min",
+    "price": "5",
+    "speed": "3Mbps",
+    "devices": "1 Device",
+    "usage": "Unlimited",
+    "category": "Daily"
+  }
+]
