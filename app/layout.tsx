@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import "./globals.css";
 import { SocketProvider } from "@/contexts/SocketProvider";
@@ -27,9 +28,11 @@ export default function RootLayout({
             }
           }} />
         <SocketProvider >
-          <PlatformProvider>
-            {children}
-          </PlatformProvider>
+          <Suspense fallback={<div>Loading Platform...</div>}>
+            <PlatformProvider>
+              {children}
+            </PlatformProvider>
+          </Suspense>
         </SocketProvider>
       </body>
     </html>
