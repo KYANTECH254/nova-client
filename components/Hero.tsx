@@ -10,13 +10,14 @@ export default function Hero() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { platformData } = usePlatform();
+    const origin = window.location.origin.replace(/^https?:\/\//, '');
 
     const handleLogin = () => {
         if (!code.trim()) {
             return toast.error("Code is required!")
         }
         setIsLoading(true);
-        window.location.href = `${window.location.origin}/login?username=${code}&password=${code}`;
+        window.location.href = `${origin}/login?username=${code}&password=${code}`;
     };
 
     return (

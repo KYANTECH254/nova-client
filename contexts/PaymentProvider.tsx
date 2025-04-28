@@ -22,9 +22,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
     const [status, setStatus] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [loginCode, setLoginCode] = useState<string | null>(null);
-
-    console.log(window.location.origin);
-    
+    const origin = window.location.origin.replace(/^https?:\/\//, '');
 
     useEffect(() => {
         if (!socket || !isConnected) return;
@@ -42,7 +40,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
             if (newStatus === "COMPLETE" && newMessage) {
                 toast.success(newMessage);
                 if (newLoginCode) {
-                    const loginUrl = `${window.location.origin}/login?username=${newLoginCode}&password=${newLoginCode}`;
+                    const loginUrl = `${origin}/login?username=${newLoginCode}&password=${newLoginCode}`;
                     window.location.href = loginUrl;
                 }
             }
