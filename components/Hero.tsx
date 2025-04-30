@@ -22,7 +22,7 @@ export default function Hero() {
 
     return (
         <>
-            <section className="relative flex items-center justify-center h-[70vh] w-full dark:text-white text-black px-4 md:px-0">
+            <section className="relative flex items-center justify-center h-[70vh] w-full dark:text-white px-4 md:px-0">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#00AEEF] via-[#8E44AD] to-[#1B263B] animate-gradient"></div>
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-md"></div>
 
