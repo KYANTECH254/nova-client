@@ -40,7 +40,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
             if (newStatus === "COMPLETE" && newMessage) {
                 toast.success(newMessage);
                 if (newLoginCode) {
-                    const loginUrl = `http://${origin}/login?username=${newLoginCode}&password=${newLoginCode}`;
+                    const loginUrl = `http://local.wifi/login?username=${newLoginCode}&password=${newLoginCode}`;
                     window.location.href = loginUrl;
                 }
             }

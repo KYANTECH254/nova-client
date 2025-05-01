@@ -165,7 +165,7 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                                         onClick={() => {
                                             if (!c.expired) {
                                                 setLoggingIn(true);
-                                                window.location.href = `http://${origin}/login?username=${c.username}&password=${c.password}`;
+                                                window.location.href = `http://local.wifi/login?username=${c.username}&password=${c.password}`;
                                             }
                                         }}
                                         className={`mt-4 w-full ${c.expired ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"} text-white font-semibold py-2 rounded-lg transition-all flex flex-row items-center gap-2 justify-center`}
