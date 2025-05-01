@@ -27,7 +27,7 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-md"></div>
 
                 <div className="relative z-10 text-center max-w-lg mx-auto">
-                    <h1 className="text-2xl md:text-3xl font-extrabold tracking-wide mb-4 flex items-center justify-center gap-2">
+                    <h1 className="text-2xl md:text-3xl font-extrabold tracking-wide mb-4 flex flex-wrap items-center justify-center break-words gap-2">
                         <Wifi className="w-8 h-8 text-[#00AEEF]" />
                         Connect to <span className="text-[#00AEEF]">{platformData?.name || "NOVA"}</span> WiFi
                     </h1>
@@ -35,7 +35,6 @@ export default function Hero() {
                         Enter your code to start browsing.
                     </p>
 
-                    {/* Input & Login Button */}
                     <div className="flex items-center bg-white/10 backdrop-blur-lg rounded-full px-3 py-2 w-full max-w-sm mx-auto transition-transform duration-300 hover:scale-105">
                         <Lock className="text-[#00AEEF] w-5 h-5 mr-2" />
                         <input

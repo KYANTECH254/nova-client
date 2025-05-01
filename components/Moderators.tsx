@@ -154,6 +154,7 @@ export default function Moderators() {
 
             if (res.success) {
                 toast.success(res.message);
+                currentModerator && setModerators(prev => prev.filter(moderator => moderator.id !== moderatorData.id));
                 setModerators(prev => [...prev, moderatorData]);
             } else {
                 toast.error(res.message);

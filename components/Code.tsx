@@ -105,7 +105,7 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                 <h2 className="text-2xl font-bold text-[#00AEEF] mb-4">Get Your Login Code</h2>
                 <div className="max-h-[70vh] overflow-y-auto pr-2 no-scrollbar">
                     <div className="flex flex-row gap-1 items-center mb-2">
-                        <Info size={24} className="text-[#00AEEF]" />
+                        {/* <Info size={24} className="text-[#00AEEF]" /> */}
                         <label className="text-[var(--color-text)] font-medium block">
                             Enter Phone Number or Mpesa Code or Paste full Mpesa message
                         </label>
