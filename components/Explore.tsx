@@ -43,7 +43,7 @@ export default function Explore() {
                     Chat on WhatsApp
                 </a>
 
-                <p className="text-sm text-gray-700 dark:text-gray-300 mt-6">
+                <p className="text-sm text-gray-300 mt-6">
                     Powered by <span className="text-[#00AEEF] font-bold">NOVA</span>
                 </p>
             </div>

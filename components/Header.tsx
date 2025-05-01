@@ -26,7 +26,7 @@ export default function Header() {
                 }`}
             >
                 <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                    <h1 className="dark:text-white text-black text-3xl font-bold tracking-wide">{platformData?.name || 'NOVA'}</h1>
+                    <h1 className="text-white text-3xl font-bold tracking-wide">{platformData?.name || 'NOVA'}</h1>
                     <button
                         className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors duration-200"
                         onClick={() => setIsPopupOpen(true)}

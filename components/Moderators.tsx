@@ -237,7 +237,7 @@ export default function Moderators() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-white flex flex-col dark:bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto">
+                    <div className="flex flex-col bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">
                             {currentModerator ? "Edit Moderator" : "Add New Moderator"}
                         </h2>
@@ -249,7 +249,7 @@ export default function Moderators() {
                                         type="text"
                                         name="name"
                                         defaultValue={currentModerator?.name || ""}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
                                     />
                                 </div>
@@ -260,7 +260,7 @@ export default function Moderators() {
                                         type="email"
                                         name="email"
                                         defaultValue={currentModerator?.email || ""}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
                                     />
                                 </div>
@@ -273,13 +273,13 @@ export default function Moderators() {
                                             name="password"
                                             defaultValue={currentModerator ? "" : ""}
                                             placeholder={currentModerator ? "Leave blank to keep current" : ""}
-                                            className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white pr-10"
+                                            className="w-full px-3 py-2 border rounded-md bg-black text-white pr-10"
                                             required={!currentModerator}
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                                         >
                                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                         </button>
@@ -288,7 +288,7 @@ export default function Moderators() {
                                         type="button"
                                         onClick={generateRandomPassword}
                                         disabled={isGeneratingPassword}
-                                        className="mt-2 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 disabled:opacity-50"
+                                        className="mt-2 text-sm hover:text-blue-800 text-blue-400 disabled:opacity-50"
                                     >
                                         {isGeneratingPassword ? "Generating..." : "Generate Random Password"}
                                     </button>
@@ -300,7 +300,7 @@ export default function Moderators() {
                                         type="tel"
                                         name="phone"
                                         defaultValue={currentModerator?.phone || ""}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                     />
                                 </div>
 
@@ -309,7 +309,7 @@ export default function Moderators() {
                                     <select
                                         name="role"
                                         defaultValue={currentModerator?.role || "admin"}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
                                     >
                                         <option value="admin">Admin</option>

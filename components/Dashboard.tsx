@@ -134,7 +134,7 @@ export default function Dashboard() {
     return (
         <>
             <div className="flex flex-col min-h-screen p-5 mt-20">
-                <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-6">Dashboard Overview</h1>
+                <h1 className="text-2xl font-semibold text-gray-200 mb-6">Dashboard Overview</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     {[
                         { title: "Total Users (Active)", value: stats.totalUsers },
@@ -142,23 +142,23 @@ export default function Dashboard() {
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
-                        <div key={index} className="bg-white dark:bg-black rounded-lg shadow p-6">
+                        <div key={index} className="bg-black rounded-lg shadow p-6">
                             <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
-                            <p className="text-2xl font-bold mt-2 text-gray-800 dark:text-gray-300">{stat.value}</p>
+                            <p className="text-2xl font-bold mt-2text-gray-300">{stat.value}</p>
                         </div>
                     ))}
                 </div>
                 {IsB2B && (
                     <>
-                        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-6">Funds Overview</h1>
+                        <h1 className="text-2xl font-semiboldtext-gray-200 mb-6">Funds Overview</h1>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                             {[
                                 { title: "Total Balance", value: `KSH ${funds.balance}` },
                                 { title: "Total Withdrawals", value: `KSH ${funds.withdrawals}` },
                             ].map((stat, index) => (
-                                <div key={index} className="bg-white dark:bg-black rounded-lg shadow p-6">
+                                <div key={index} className="bg-black rounded-lg shadow p-6">
                                     <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
-                                    <p className="text-2xl font-bold mt-2 text-gray-800 dark:text-gray-300">{stat.value}</p>
+                                    <p className="text-2xl font-bold mt-2text-gray-300">{stat.value}</p>
                                 </div>
                             ))}
                         </div>
@@ -166,13 +166,13 @@ export default function Dashboard() {
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="bg-white dark:bg-black rounded-lg shadow p-6 lg:col-span-2">
-                        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-4">Recent Activities</h2>
+                    <div className="bg-black rounded-lg shadow p-6 lg:col-span-2">
+                        <h2 className="text-lg font-semiboldtext-gray-300 mb-4">Recent Activities</h2>
                         <ul className="space-y-4">
                             {recentActivities.map(activity => (
                                 <li key={activity.id} className="flex items-start pb-4 border-b border-gray-100 last:border-0 last:pb-0">
                                     <div>
-                                        <p className="text-xs font-medium text-gray-800 dark:text-gray-400">{activity.user} bought package</p>
+                                        <p className="text-xs font-mediumtext-gray-400">{activity.user} bought package</p>
                                     </div>
                                     <span className="ml-auto text-sm text-gray-500">{activity.time}</span>
                                 </li>
@@ -184,15 +184,15 @@ export default function Dashboard() {
                             </button>
                         </Link>
                     </div>
-                    <div className="bg-white dark:bg-black rounded-lg shadow p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-4">Quick Actions</h2>
+                    <div className="bg-black rounded-lg shadow p-6">
+                        <h2 className="text-lg font-semibold text-gray-300 mb-4">Quick Actions</h2>
                         <div className="flex flex-col space-y-3 gap-1">
-                            <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3 bg-blue-50 dark:bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
+                            <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
                                 <span className="text-blue-700 font-medium">Add New User</span>
                                 <Plus className="w-5 h-5 text-blue-500" />
                             </button>
                             <Link href="/admin/users" >
-                                <button className="w-full flex items-center justify-between p-3 bg-purple-50 dark:bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
+                                <button className="w-full flex items-center justify-between p-3bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
                                     <span className="text-purple-700 font-medium">Manage Users</span>
                                     <Users className="w-5 h-5 text-purple-500" />
                                 </button>
@@ -203,11 +203,11 @@ export default function Dashboard() {
             </div>
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
+                    <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
                         <h2 className="text-xl font-bold mb-4">Add New User</h2>
                         <form onSubmit={handleSave} className="space-y-4">
-                            <input type="text" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white" required />
-                            <select value={packageID} onChange={(e) => setPackageID(e.target.value)} className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white" required>
+                            <input type="text" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2 border rounded-md bg-black text-white" required />
+                            <select value={packageID} onChange={(e) => setPackageID(e.target.value)} className="w-full px-3 py-2 border rounded-md bg-black text-white" required>
                                 <option value="">Select Package</option>
                                 {packages.map((pkg) => (
                                     <option key={pkg.id} value={pkg.id}>{pkg.name}</option>

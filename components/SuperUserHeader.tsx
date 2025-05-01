@@ -35,17 +35,17 @@ export default function SuperUserHeader() {
                     {isAuthenticated && (
                         <button
                             onClick={toggleSidebar}
-                            className="fixed top-4 left-4 z-30 p-2 rounded-md bg-white dark:bg-gray-900 shadow-lg"
+                            className="fixed top-4 left-4 z-30 p-2 rounded-md bg-gray-900 shadow-lg"
                         >
                             {isOpen ? (
-                                <X className="w-6 h-6 text-gray-800 dark:text-gray-100" />
+                                <X className="w-6 h-6 text-gray-100" />
                             ) : (
-                                <Menu size={40} className="w-6 h-6 text-gray-800 dark:text-gray-100" />
+                                <Menu size={40} className="w-6 h-6 text-gray-100" />
                             )}
                         </button>
                     )}
                     <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                        <h1 className="dark:text-white text-black text-3xl font-bold tracking-wide">Nova Portal</h1>
+                        <h1 className="text-white text-3xl font-bold tracking-wide">Nova Portal</h1>
                     </div>
                 </div>
             </header>

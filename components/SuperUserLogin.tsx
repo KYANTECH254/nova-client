@@ -49,7 +49,7 @@ export default function SuperUserLogin() {
 
     return (
         <div className="flex flex-col p-6 justify-center items-center min-h-screen">
-            <div className="bg-gray-300 dark:bg-gray-900 rounded-xl border border-gray-400/30 dark:border-gray-800/30 p-5">
+            <div className="bg-gray-900 rounded-xl border border-gray-800/30 p-5">
                 <div className="mt-5 flex flex-col gap-2">
                     <label htmlFor="email">Email</label>
                     <input

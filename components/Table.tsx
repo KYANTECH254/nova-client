@@ -35,7 +35,7 @@ export default function Table({
 }: TableProps) {
     return (
         <div className="p-6 ">
-            <h1 className="mt-14 ml-2 text-2xl font-bold text-gray-800 dark:text-gray-200">{title}</h1>
+            <h1 className="mt-14 ml-2 text-2xl font-bold text-gray-200">{title}</h1>
             <div className="mt-5 flex flex-wrap justify-between items-center gap-2">
                 {showSearch && onSearchChange && (
                     <div className="relative mb-6">
@@ -44,7 +44,7 @@ export default function Table({
                             value={searchValue}
                             onChange={(e) => onSearchChange(e.target.value)}
                             placeholder={`Search ${title.toLowerCase()}...`}
-                            className="pl-4 pr-4 py-2 w-full max-w-md text-black outline-none dark:text-gray-300 bg-gray-900 border border-gray-300 dark:border-gray-500 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            className="pl-4 pr-4 py-2 w-full max-w-md outline-none text-gray-300 bg-gray-900 border border-gray-500 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
                 )}
@@ -91,9 +91,9 @@ export default function Table({
                 )}
             </div>
 
-            <div className="overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-900">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-                    <thead className="bg-gray-50 dark:bg-gray-900">
+            <div className="overflow-y-auto rounded-lg border border-gray-900">
+                <table className="min-w-full divide-y divide-gray-800">
+                    <thead className="bg-gray-900">
                         <tr>
                             {columns.map((column) => (
                                 <th
@@ -105,9 +105,9 @@ export default function Table({
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-black divide-y divide-gray-200 dark:divide-gray-900">
+                    <tbody className="bg-black divide-y divide-gray-900">
                         {data.map((row, rowIndex) => (
-                            <tr key={rowIndex} className="hover:bg-gray-50 dark:hover:bg-gray-900/20 cursor-pointer">
+                            <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
                                 {columns.map((column) => (
                                     <td key={column.accessor} className="px-6 py-4 whitespace-nowrap">
                                        {column.render ? column.render(row[column.accessor], row) : row[column.accessor]}

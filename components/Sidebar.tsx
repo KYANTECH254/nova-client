@@ -1,9 +1,6 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
 import {
-    Menu,
-    X,
     LayoutDashboard,
     Users,
     Settings,
@@ -11,7 +8,8 @@ import {
     CreditCard,
     Package,
     UserPlus,
-    Satellite
+    Satellite,
+    Folder
 } from "lucide-react";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 
@@ -28,11 +26,12 @@ export default function Sidebar({ isOpen, setIsOpen }: any) {
                 onClick={toggleSidebar}
             />
             <aside
-                className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-black shadow-lg z-20 transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+                className={`fixed top-0 left-0 h-full w-64 bg-black shadow-lg z-20 transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
                     } lg:translate-x-0`}
             >
-                <div className="p-4 h-full flex flex-col">
-                    <nav className="flex-1a mt-20">
+                <div className="flex flex-col h-full">
+                    {/* Scrollable content */}
+                    <div className="flex-1 overflow-y-auto mt-20 px-4">
                         <ul className="space-y-2">
                             <SidebarLink href="/admin" icon={<LayoutDashboard className="w-5 h-5" />} title="Dashboard" />
                             <SidebarLink href="/admin/users" icon={<Users className="w-5 h-5" />} title="Users" />
@@ -44,20 +43,25 @@ export default function Sidebar({ isOpen, setIsOpen }: any) {
                                     <SidebarLink href="/admin/stations" icon={<Satellite className="w-5 h-5" />} title="Routers" />
                                     <SidebarLink href="/admin/funds" icon={<CreditCard className="w-5 h-5" />} title="Funds" />
                                     <SidebarLink href="/admin/settings" icon={<Settings className="w-5 h-5" />} title="Settings" />
+                                    <SidebarLink href="/admin/files" icon={<Folder className="w-5 h-5" />} title="Files" />
                                 </>
                             )}
                         </ul>
-                    </nav>
-                    <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-900">
+                    </div>
+
+                    {/* Footer */}
+                    <div className="p-4 border-tborder-gray-900">
                         <button
                             onClick={logout}
-                            className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 dark:hover:bg-gray-900 hover:bg-gray-100 hover:text-red-600 transition-colors w-full">
+                            className="flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-900 transition-colors w-full"
+                        >
                             <LogOut className="w-5 h-5" />
                             <span>Logout</span>
                         </button>
                     </div>
                 </div>
             </aside>
+
         </>
     );
 }
@@ -75,7 +79,7 @@ function SidebarLink({
         <li>
             <Link
                 href={href}
-                className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-blue-600 transition-colors"
+                className="flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-900 hover:text-blue-600 transition-colors"
             >
                 {icon}
                 <span>{title}</span>

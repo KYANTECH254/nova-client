@@ -203,7 +203,7 @@ export default function Stations() {
             )}
 
             {showForm && (
-                <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-6 mb-6">
+                <div className="bg-gray-900 rounded-lg shadow p-6 mb-6">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-lg font-semibold">{editingStation ? "Edit Router" : "Add Router"}</h2>
                         <button onClick={() => setShowForm(false)} className="text-gray-500 hover:text-gray-700">
@@ -268,7 +268,7 @@ export default function Stations() {
                     <form className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium dark:text-gray-300">Router Name</label>
+                                <label className="block text-sm font-medium text-gray-300">Router Name</label>
                                 <input required type="text" name="name" value={formData.name || ""} onChange={handleChange} placeholder="Enter Router Name" className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
                             </div>
                             <div className="space-y-2">
@@ -296,10 +296,10 @@ export default function Stations() {
                                 <input required type="text" name="mikrotikUser" value={formData.mikrotikUser || ""} onChange={handleChange} placeholder="Enter Mikrotik Username" className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
                             </div>
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium dark:text-gray-300">Router Password</label>
+                                <label className="block text-sm font-medium text-gray-300">Router Password</label>
                                 <div className="relative flex items-center flex-row">
-                                    <input required type={showPassword ? "text" : "password"} name="mikrotikPassword" value={formData.mikrotikPassword || ""} onChange={handleChange} placeholder="Enter Mikrotik Password" className="w-full px-3 py-2 border dark:bg-black dark:text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
-                                    <div className="absolute fontbold right-5 dark:text-gray-300 cursor-pointer" onClick={() => setShowPassword((prev) => !prev)}>
+                                    <input required type={showPassword ? "text" : "password"} name="mikrotikPassword" value={formData.mikrotikPassword || ""} onChange={handleChange} placeholder="Enter Mikrotik Password" className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                                    <div className="absolute fontbold right-5 text-gray-300 cursor-pointer" onClick={() => setShowPassword((prev) => !prev)}>
                                         {showPassword ? <Eye /> : <EyeClosed />}
                                     </div>
                                 </div>
@@ -318,7 +318,7 @@ export default function Stations() {
                 {stations.length === 0 ? <p>No stations available.</p> : stations.map((station) => {
                     const status = connectionStatus[station.id] || "Connecting";
                     return (
-                        <div key={station.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all p-6">
+                        <div key={station.id} className="bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all p-6">
                             <h3 className="text-lg font-semibold">{station.name}</h3>
                             <p className="text-sm text-gray-500">{station.mikrotikHost}</p>
                             <p className={`mt-2 text-sm font-medium ${status === "Connected" ? "text-green-600" :

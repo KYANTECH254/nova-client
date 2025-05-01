@@ -100,7 +100,7 @@ export default function Login() {
         <div className="flex flex-col p-6 mt-14 justify-center items-center min-h-screen">
             <div className="text-2xl font-bold mb-6 text-white">{isCreateMode ? "Create Platform" : "Login"}</div>
 
-            <div className="bg-gray-300 dark:bg-gray-900 rounded-xl border border-gray-400/30 dark:border-gray-800/30 p-5 min-w-[340px]">
+            <div className="bg-gray-900 rounded-xl border border-gray-800/30 p-5 min-w-[340px]">
                 {isCreateMode && (
                     <>
                         <div className="mt-3 flex flex-col gap-2">

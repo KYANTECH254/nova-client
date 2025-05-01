@@ -20,7 +20,7 @@ export default function SuperUserSidebar({ isOpen, setIsOpen }: any) {
                 onClick={toggleSidebar}
             />
             <aside
-                className={`fixed top-0 left-0 h-full w-64 bg-white dark:bg-black shadow-lg z-20 transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+                className={`fixed top-0 left-0 h-full w-64 bg-black shadow-lg z-20 transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
                     } lg:translate-x-0`}
             >
                 <div className="p-4 h-full flex flex-col">
@@ -30,10 +30,10 @@ export default function SuperUserSidebar({ isOpen, setIsOpen }: any) {
                             <SidebarLink href="/manager/platforms" icon={<Users className="w-5 h-5" />} title="Platforms" />
                         </ul>
                     </nav>
-                    <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-900">
+                    <div className="mt-auto p-4 border-t border-gray-900">
                         <button
                             onClick={logout}
-                            className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 dark:hover:bg-gray-900 hover:bg-gray-100 hover:text-red-600 transition-colors w-full">
+                            className="flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-900 hover:text-red-600 transition-colors w-full">
                             <LogOut className="w-5 h-5" />
                             <span>Logout</span>
                         </button>
@@ -57,7 +57,7 @@ function SidebarLink({
         <li>
             <Link
                 href={href}
-                className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-blue-600 transition-colors"
+                className="flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-900 hover:text-blue-600 transition-colors"
             >
                 {icon}
                 <span>{title}</span>

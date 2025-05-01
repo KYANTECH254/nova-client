@@ -329,7 +329,7 @@ export default function Platforms() {
             {/* Platform Add/Edit Modal */}
             {showPlatformModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
+                    <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
                         <h2 className="text-xl font-bold mb-4">
                             {currentPlatform ? "Edit Platform" : "Add New Platform"}
                         </h2>
@@ -341,7 +341,7 @@ export default function Platforms() {
                                         type="text"
                                         name="name"
                                         defaultValue={currentPlatform?.name || ""}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
                                         placeholder="Enter platform name"
                                     />
@@ -351,19 +351,19 @@ export default function Platforms() {
                                     <>
                                         <div>
                                             <label className="block text-sm font-medium mb-1">URL</label>
-                                            <div className="p-2 bg-gray-100 dark:bg-black rounded-md">
+                                            <div className="p-2 bg-black rounded-md">
                                                 {currentPlatform.url}
                                             </div>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium mb-1">Platform ID</label>
-                                            <div className="p-2 bg-gray-100 dark:bg-black rounded-md">
+                                            <div className="p-2 bg-black rounded-md">
                                                 {currentPlatform.platformID}
                                             </div>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium mb-1">Admin ID</label>
-                                            <div className="p-2 bg-gray-100 dark:bg-black rounded-md">
+                                            <div className="p-2 bg-black rounded-md">
                                                 {currentPlatform.adminID}
                                             </div>
                                         </div>
@@ -402,7 +402,7 @@ export default function Platforms() {
             {/* Add Admin Modal */}
             {showAdminModal && currentPlatform && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
+                    <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
                         <h2 className="text-xl font-bold mb-4">
                             Add Admin to {currentPlatform.name}
                         </h2>
@@ -415,7 +415,7 @@ export default function Platforms() {
                                         name="name"
                                         value={newAdmin.name}
                                         onChange={handleAdminChange}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
                                     />
                                 </div>
@@ -427,7 +427,7 @@ export default function Platforms() {
                                         name="email"
                                         value={newAdmin.email}
                                         onChange={handleAdminChange}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
                                     />
                                 </div>
@@ -440,13 +440,13 @@ export default function Platforms() {
                                             name="password"
                                             value={newAdmin.password}
                                             onChange={handleAdminChange}
-                                            className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white pr-10"
+                                            className="w-full px-3 py-2 border rounded-md bg-black text-white pr-10"
                                             required
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                                         >
                                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                         </button>
@@ -455,7 +455,7 @@ export default function Platforms() {
                                         type="button"
                                         onClick={generateRandomPassword}
                                         disabled={isGeneratingPassword}
-                                        className="mt-2 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 disabled:opacity-50"
+                                        className="mt-2 text-sm hover:text-blue-800 text-blue-400 disabled:opacity-50"
                                     >
                                         {isGeneratingPassword ? "Generating..." : "Generate Random Password"}
                                     </button>
@@ -468,7 +468,7 @@ export default function Platforms() {
                                         name="phone"
                                         value={newAdmin.phone}
                                         onChange={handleAdminChange}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                     />
                                 </div>
 
@@ -478,7 +478,7 @@ export default function Platforms() {
                                         name="role"
                                         value={newAdmin.role}
                                         onChange={handleAdminChange}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
                                     >
                                         <option value="admin">Admin</option>

@@ -420,7 +420,7 @@ export default function Packages() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-white flex flex-col dark:bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto">
+                    <div className="flex flex-col bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">
                             {currentPackage ? "Edit Package" : "Add New Package"}
                         </h2>
@@ -430,7 +430,7 @@ export default function Packages() {
                                     <label className="block text-sm font-medium mb-1">Select Station / Router</label>
                                     <select
                                         name="station"
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         required
                                         value={selectedStation?.id || ""}
                                         onChange={(e) => handleStationChange(e.target.value)}
@@ -447,7 +447,7 @@ export default function Packages() {
                                     <label className="block text-sm font-medium mb-1">Select Pool</label>
                                     <select
                                         name="pool"
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         required
                                         value={selectedPool?.name || ""}
                                         onChange={(e) => handlePoolChange(e.target.value)}
@@ -464,7 +464,7 @@ export default function Packages() {
                                     <label className="block text-sm font-medium mb-1">Select Profile</label>
                                     <select
                                         name="profile"
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         value={selectedProfileId}
                                         onChange={(e) => {
                                             const profileId = e.target.value;
@@ -493,7 +493,7 @@ export default function Packages() {
                                         name="name"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         required
                                     />
                                 </div>
@@ -503,7 +503,7 @@ export default function Packages() {
                                     <select
                                         name="category"
                                         defaultValue={currentPackage?.category || "Daily"}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         required
                                     >
                                         <option value="Daily">Daily</option>
@@ -519,14 +519,14 @@ export default function Packages() {
                                             type="number"
                                             value={periodValue}
                                             onChange={(e) => setPeriodValue(e.target.value)}
-                                            className="w-1/2 px-3 py-2 border rounded-l-md dark:bg-black dark:text-gray-300"
+                                            className="w-1/2 px-3 py-2 border rounded-l-md bg-black text-gray-300"
                                             placeholder="Value"
                                             required
                                         />
                                         <select
                                             value={periodUnit}
                                             onChange={(e) => setPeriodUnit(e.target.value)}
-                                            className="w-1/2 px-3 py-2 border rounded-r-md dark:bg-black dark:text-gray-300"
+                                            className="w-1/2 px-3 py-2 border rounded-r-md bg-black text-gray-300"
                                             required
                                         >
                                             <option value="minutes">Minutes</option>
@@ -542,7 +542,7 @@ export default function Packages() {
                                         type="number"
                                         name="price"
                                         defaultValue={currentPackage?.price || ""}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         required
                                     />
                                 </div>
@@ -554,7 +554,7 @@ export default function Packages() {
                                         name="speed"
                                         value={speed}
                                         onChange={(e) => setSpeed(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         required
                                     />
                                 </div>
@@ -580,7 +580,7 @@ export default function Packages() {
                                             name="devices"
                                             value={devices}
                                             onChange={(e) => setDevices(e.target.value)}
-                                            className="w-full px-3 py-2 border rounded-md dark:bg-black dark:text-gray-300 text-black"
+                                            className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                             required
                                         />
                                     )}
@@ -612,7 +612,7 @@ export default function Packages() {
                                                         ? currentPackage?.usage
                                                         : ""
                                                 }
-                                                className="w-1/2 px-3 py-2 border rounded-l-md dark:bg-black dark:text-gray-300 text-black"
+                                                className="w-1/2 px-3 py-2 border rounded-l-md bg-black text-gray-300"
                                                 required={!isUnlimited}
                                             />
                                             <select
@@ -622,7 +622,7 @@ export default function Packages() {
                                                         ? currentPackage?.usage.replace(/[0-9.\s]/g, "").toUpperCase()
                                                         : "MB"
                                                 }
-                                                className="w-1/2 px-3 py-2 border rounded-r-md dark:bg-black dark:text-gray-300 text-black"
+                                                className="w-1/2 px-3 py-2 border rounded-r-md bg-black text-gray-300"
                                                 required={!isUnlimited}
                                             >
                                                 <option value="MB">MB</option>
