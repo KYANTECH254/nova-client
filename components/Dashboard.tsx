@@ -187,12 +187,12 @@ export default function Dashboard() {
                     <div className="bg-black rounded-lg shadow p-6">
                         <h2 className="text-lg font-semibold text-gray-300 mb-4">Quick Actions</h2>
                         <div className="flex flex-col space-y-3 gap-1">
-                            <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
+                            <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
                                 <span className="text-blue-700 font-medium">Add New User</span>
                                 <Plus className="w-5 h-5 text-blue-500" />
                             </button>
                             <Link href="/admin/users" >
-                                <button className="w-full flex items-center justify-between p-3bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
+                                <button className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
                                     <span className="text-purple-700 font-medium">Manage Users</span>
                                     <Users className="w-5 h-5 text-purple-500" />
                                 </button>

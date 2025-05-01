@@ -14,13 +14,63 @@ export default function Files() {
                         <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">Hotspot folder
                             <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">Configure WiFi DNS and Hotspot server profile to use hotspot folder. Update your login.html with the file below.</p>
                         </h2>
-                        <CodeBlock code={`<html>
+                        <CodeBlock code={`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
 <head>
-     <meta http-equiv="refresh" content="0; url=${window.location.origin}/login" />
- </head>
- <body>
-   Redirecting...
- </body>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
+<title>Logging in...</title>
+</head>
+
+<body onload="autoLogin()">
+<script type="text/javascript" src="/md5.js"></script>
+<script type="text/javascript">
+    function autoLogin() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+        const password = urlParams.get('password');
+
+        if (username && password) {
+            const form = document.createElement('form');
+            form.action = "$(link-login-only)";
+            form.method = 'post';
+
+            const inputUsername = document.createElement('input');
+            inputUsername.type = 'hidden';
+            inputUsername.name = 'username';
+            inputUsername.value = username;
+            form.appendChild(inputUsername);
+
+            const inputPassword = document.createElement('input');
+            inputPassword.type = 'hidden';
+            inputPassword.name = 'password';
+            inputPassword.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
+            form.appendChild(inputPassword);
+
+            const inputDst = document.createElement('input');
+            inputDst.type = 'hidden';
+            inputDst.name = 'dst';
+            inputDst.value = "$(link-orig)";
+            form.appendChild(inputDst);
+
+            const inputPopup = document.createElement('input');
+            inputPopup.type = 'hidden';
+            inputPopup.name = 'popup';
+            inputPopup.value = 'true';
+            form.appendChild(inputPopup);
+
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            window.location.href = "${window.location.origin}/login";
+        }
+    }
+</script>
+
+</body>
 </html>`} fileName="login.html" />
                     </div>
                 </form>

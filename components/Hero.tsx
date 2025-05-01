@@ -17,7 +17,7 @@ export default function Hero() {
             return toast.error("Code is required!")
         }
         setIsLoading(true);
-        window.location.href = `${origin}/login?username=${code}&password=${code}`;
+        window.location.href = `http://${origin}/login?username=${code}&password=${code}`;
     };
 
     return (
