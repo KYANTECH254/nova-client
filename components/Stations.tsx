@@ -258,7 +258,7 @@ export default function Stations() {
                                         <h1 className="semibold  italic">10. After setting up and filling all details below try pinging our server wireguard internal ip on mikrotik to see if connection was successful</h1>
                                         <CommandInput command="ping 10.10.10.1" />
 
-                                        <h1 className="semibold  italic">11. Lastly make sure to add <span className="text-green-600 font-bold">{origin}</span> as your WiFi hotspot server profile DNS name. Remember to make sure you /hotspot folder as well</h1>
+                                        <h1 className="semibold  italic">11. Lastly make sure to add <span className="text-green-600 font-bold">{origin}</span> as your WiFi hotspot server profile DNS name. Remember to make sure you have /hotspot<a className="font-bold text-blue-600" href="/admin/files">/login.html</a> folder as well</h1>
 
                                     </div>
                                 </div>
