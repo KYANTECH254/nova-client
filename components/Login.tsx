@@ -22,7 +22,7 @@ export default function Login() {
 
     useEffect(() => {
         if (!isLoading && isAuthenticated) {
-            router.push("/admin");
+            window.location.href = `${window.location.origin}/admin`;
         }
     }, [isAuthenticated, isLoading, router]);
 
@@ -43,7 +43,7 @@ export default function Login() {
             if (res.success) {
                 login({ token: res.token, userData: res.user });
                 toast.success("Login successful!");
-                router.push("/admin");
+                window.location.href = `${window.location.origin}/admin`;
             } else {
                 toast.error(res.message);
             }

@@ -28,7 +28,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
         if (!socket || !isConnected) return;
 
         const handleDepositSuccess = (data: any) => {
-            localStorage.setItem("wifiLogin", data);
+            localStorage.setItem("wifiLogin", data.loginCode);
             if (transactionId && data.checkoutRequestId !== transactionId) return;
             const newStatus = data.status || null;
             const newMessage = data.message || null;
@@ -37,7 +37,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
             setTransactionId(data.checkoutRequestId || null);
             setMessage(newMessage);
             setLoginCode(newLoginCode);
-            if (newStatus === "COMPLETE" && newMessage) {
+            if (newStatus === "COMPLETE") {
                 toast.success(newMessage);
                 if (newLoginCode) {
                     const loginUrl = `http://local.wifi/login?username=${newLoginCode}&password=${newLoginCode}`;
@@ -54,7 +54,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
             setTransactionId(data.checkoutRequestId || null);
             setMessage(newMessage);
             setLoginCode(null);
-            if (newStatus === "FAILED" && newMessage) {
+            if (newStatus === "FAILED") {
                 toast.error(newMessage);
             }
         };
