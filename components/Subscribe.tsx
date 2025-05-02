@@ -5,13 +5,11 @@ import { X, DollarSign, Zap, Clock, CheckCircle, Smartphone } from "lucide-react
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { usePlatform } from "@/contexts/PlatformProvider";
-import { usePayment } from "@/contexts/PaymentProvider";
 
 export default function SubscribePopup({ plan, onClose }: any) {
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);
     const { platformData } = usePlatform();
-    const { setTransactionId } = usePayment();
 
     useEffect(() => {
         const savedphone = localStorage.getItem("phone");
@@ -37,10 +35,8 @@ export default function SubscribePopup({ plan, onClose }: any) {
             const data = await response.json();
             if (!response.ok) {
                 toast.error(data.message);
-                setTransactionId(data.data.checkoutRequestId);
-                console.log("TRX FROM BACKEND",data.data.checkoutRequestId);
-                
             } else {
+                localStorage.setItem("transactionId", data.data.checkoutRequestId);
                 toast.success(data.message);
                 onClose();
             }

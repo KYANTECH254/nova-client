@@ -25,16 +25,23 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
     const origin = window.location.origin.replace(/^https?:\/\//, '');
 
     useEffect(() => {
+        const storedTransactionId = localStorage.getItem("transactionId");
+        if (storedTransactionId) {
+            setTransactionId(storedTransactionId);
+        }
+    }, [socket]);
+
+    useEffect(() => {
         if (!socket || !isConnected) return;
 
         const handleDepositSuccess = (data: any) => {
             localStorage.setItem("wifiLogin", data.loginCode);
+            console.log("Saved transaction id",transactionId, "Socket transaction id",data.checkoutRequestId)
             if (transactionId && data.checkoutRequestId !== transactionId) return;
             const newStatus = data.status || null;
             const newMessage = data.message || null;
             const newLoginCode = data.loginCode || null;
             setStatus(newStatus);
-            setTransactionId(data.checkoutRequestId || null);
             setMessage(newMessage);
             setLoginCode(newLoginCode);
             if (newStatus === "COMPLETE") {
@@ -47,11 +54,11 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
         };
 
         const handleDepositStatus = (data: any) => {
+            console.log("Saved transaction id",transactionId, "Socket transaction id",data.checkoutRequestId)
             if (transactionId && data.checkoutRequestId !== transactionId) return;
             const newStatus = data.status || null;
             const newMessage = data.message || null;
             setStatus(newStatus);
-            setTransactionId(data.checkoutRequestId || null);
             setMessage(newMessage);
             setLoginCode(null);
             if (newStatus === "FAILED") {

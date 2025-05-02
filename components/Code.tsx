@@ -107,7 +107,7 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                     <div className="flex flex-row gap-1 items-center mb-2">
                         {/* <Info size={24} className="text-[#00AEEF]" /> */}
                         <label className="text-[var(--color-text)] font-medium block">
-                            Enter Phone Number or Mpesa Code or Paste full Mpesa message
+                            Enter Phone Number or Mpesa Code or Paste full Mpesa message after payment
                         </label>
                     </div>
                     <input
@@ -166,6 +166,8 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                                             if (!c.expired) {
                                                 setLoggingIn(true);
                                                 window.location.href = `http://local.wifi/login?username=${c.username}&password=${c.password}`;
+                                            } else {
+                                                window.location.href = `${window.location.origin}/login`;
                                             }
                                         }}
                                         className={`mt-4 w-full ${c.expired ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"} text-white font-semibold py-2 rounded-lg transition-all flex flex-row items-center gap-2 justify-center`}

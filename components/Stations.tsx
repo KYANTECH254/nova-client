@@ -46,11 +46,10 @@ export default function Stations() {
             socket.emit("connect-mikrotik", { token: token });
             socket.on("connection-status", (results: { id: string; status: string }[]) => {
                 const updatedStatus: Record<string, string> = {};
+                if (!results) return;
                 results.forEach(({ id, status }) => {
                     updatedStatus[id] = status;
                 });
-                console.log(results);
-
                 setConnectionStatus(updatedStatus);
             });
             return () => {
@@ -133,6 +132,7 @@ export default function Stations() {
 
     const handleSubmit = async () => {
         setIsLoading(true);
+        formData.token = token;
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/updateStation`, {
                 method: "POST",
