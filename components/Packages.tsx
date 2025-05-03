@@ -5,8 +5,6 @@ import Table from "./Table";
 import { Trash2, Edit, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
-import { p } from "framer-motion/client";
-import { profile } from "console";
 
 export type Package = {
     id: string;

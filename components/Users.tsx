@@ -33,7 +33,6 @@ export default function Users() {
 
         const res = await response.json();
         if (res.success) {
-          console.log(res);
           setUsers(res.codes)
         } else {
           toast.error(res.message);

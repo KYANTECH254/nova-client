@@ -19,7 +19,6 @@ export default function Hero() {
         const checkWifiDetails = () => {
             const wifiDetails = localStorage.getItem("wifiLogin");
             if (wifiDetails) {
-                console.log("Login info", wifiDetails);
                 setConnect(true);
                 setCode(wifiDetails);
                 return true;

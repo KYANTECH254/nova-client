@@ -79,7 +79,7 @@ export default function Files() {
     )
 }
 
-export function CodeBlock({ code, fileName = "code.tsx" }: { code: string; fileName?: string }) {
+export function CodeBlock({ code, fileName = "code.html" }: { code: string; fileName?: string }) {
     const handleDownload = () => {
         const blob = new Blob([code], { type: "text/plain" });
         const url = URL.createObjectURL(blob);

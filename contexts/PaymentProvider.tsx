@@ -36,7 +36,6 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
 
         const handleDepositSuccess = (data: any) => {
             localStorage.setItem("wifiLogin", data.loginCode);
-            console.log("Saved transaction id",transactionId, "Socket transaction id",data.checkoutRequestId)
             if (transactionId && data.checkoutRequestId !== transactionId) return;
             const newStatus = data.status || null;
             const newMessage = data.message || null;
@@ -54,7 +53,6 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
         };
 
         const handleDepositStatus = (data: any) => {
-            console.log("Saved transaction id",transactionId, "Socket transaction id",data.checkoutRequestId)
             if (transactionId && data.checkoutRequestId !== transactionId) return;
             const newStatus = data.status || null;
             const newMessage = data.message || null;

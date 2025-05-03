@@ -15,7 +15,8 @@ interface Station {
     mikrotikPublicKey: string;
     mikrotikPublicHost: string;
     mikrotikPassword: string;
-    token:String;
+    mikrotikDDNS: string;
+    token: String;
 }
 
 export default function Stations() {
@@ -25,6 +26,7 @@ export default function Stations() {
     const [showPassword, setShowPassword] = useState(false);
     const [showInstructions, setShowInstructions] = useState(true);
     const [showForm, setShowForm] = useState(false);
+    const [useDDNS, setUseDDNS] = useState(false);
     const [editingStation, setEditingStation] = useState<Station | null>(null);
     const { adminUser, token } = useAdminAuth();
     const [formData, setFormData] = useState<Station>({
@@ -35,7 +37,8 @@ export default function Stations() {
         mikrotikPublicKey: "",
         mikrotikUser: "",
         mikrotikPassword: "",
-        token:token
+        mikrotikDDNS: "",
+        token: token
     });
     const { socket, isConnected } = useSocket();
     const [connectionStatus, setConnectionStatus] = useState<{ [id: string]: string }>({});
@@ -127,7 +130,27 @@ export default function Stations() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        const updatedFormData = { ...formData, [name]: value };
+
+        if (name === 'name' && useDDNS) {
+            const slug = value.toLowerCase().replace(/\s+/g, '');
+            updatedFormData.mikrotikDDNS = `${slug}.${window.location.origin.replace(/^https?:\/\//, '')}`;
+        }
+
+        setFormData(updatedFormData);
+    };
+
+    const handleToggle = () => {
+        const updatedUseDDNS = !useDDNS;
+        setUseDDNS(updatedUseDDNS);
+
+        if (updatedUseDDNS && formData.name) {
+            const slug = formData.name.toLowerCase().replace(/\s+/g, '');
+            setFormData((prev) => ({
+                ...prev,
+                mikrotikDDNS: `${slug}.${window.location.origin.replace(/^https?:\/\//, '')}`
+            }));
+        }
     };
 
     const handleSubmit = async () => {
@@ -233,7 +256,7 @@ export default function Stations() {
                                         <CommandInput command={`/ip address add address=${formData.mikrotikHost}/24 interface=wireguard`} />
 
                                         <h1 className="semibold  italic">3. Add Remote Server IP as Peer</h1>
-                                        <CommandInput command="/interface wireguard peers add interface=wireguard name=novapeer public-key='wZsLOvBo5gfLp+2ixsHXfP3MjLD2uUqzvuXXQYv9EkM=' endpoint-address=16.170.70.95 endpoint-port=51820 allowed-address=10.10.10.1/32 persistent-keepalive=25" />
+                                        <CommandInput command={`/interface wireguard peers add interface=wireguard name=novapeer public-key="wZsLOvBo5gfLp+2ixsHXfP3MjLD2uUqzvuXXQYv9EkM=" endpoint-address=16.170.70.95 endpoint-port=51820 allowed-address=10.10.10.1/32 persistent-keepalive=10 `} />
 
                                         <h1 className="semibold  italic">4. Confirm WireGuard Interface and Peer are set</h1>
                                         <CommandInput command="/interface wireguard print" />
@@ -244,14 +267,16 @@ export default function Stations() {
 
                                         <h1 className="semibold  italic">6. Add Firewall Rule for API </h1>
                                         <CommandInput command={`/ip firewall filter add \ chain=input \ src-address=10.10.10.0/24 \ protocol=tcp \ dst-port=8728 \ action=accept \ comment="Allow API from WireGuard"`} />
+                                        <CommandInput command={`/interface list member add list=LAN interface=wireguard`} />
 
                                         <h1 className="semibold  italic">7. Add Walled garden access </h1>
-                                        <CommandInput command={`/ip hotspot walled-garden add dst-host=novawifi.online action=allow add dst-host=*.novawifi.online action=allow add dst-host=api64.ipify.org action=allow`} />
-                                        <CommandInput command="/ip hotspot walled-garden add dst-port=53 protocol=udp action=allow comment='Allow DNS'" />
+                                        <CommandInput command={`/ip hotspot walled-garden add dst-host=novawifi.online action=allow`} />
+                                        <CommandInput command={`/ip hotspot walled-garden add dst-host=*.novawifi.online action=allow`} />
+                                        <CommandInput command="/ip hotspot walled-garden add dst-host=api64.ipify.org action=allow" />
 
                                         <h1 className="semibold  italic">8. Add Firewall Rule for Wireguard listen port </h1>
-                                        <CommandInput command="/ip firewall add action=accept chain=input dst-port=13231 protocol=udp" />
-                                        <CommandInput command="/ip firewall add action=accept chain=input src-address=10.10.10.0/24" />
+                                        <CommandInput command="/ip firewall filter add action=accept chain=input dst-port=13231 protocol=udp" />
+                                        <CommandInput command="/ip firewall filter add action=accept chain=input src-address=10.10.10.0/24" />
                                         <CommandInput command="/ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes" />
 
                                         <h1 className="semibold  italic">9. Continue and add Router Login Username and password below</h1>
@@ -266,15 +291,51 @@ export default function Stations() {
                         </div>
                     )}
                     <form className="space-y-4">
+                    <div className="flex items-center space-x-3 mb-4 mt-4">
+                                <span className="text-sm text-gray-300">Use DDNS</span>
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={useDDNS}
+                                        onChange={handleToggle}
+                                        className="sr-only peer"
+                                    />
+                                    <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-600 transition-all"></div>
+                                    <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-5 transition-transform"></div>
+                                </label>
+                            </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium text-gray-300">Router Name</label>
                                 <input required type="text" name="name" value={formData.name || ""} onChange={handleChange} placeholder="Enter Router Name" className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
                             </div>
-                            <div className="space-y-2">
-                                <label className="block text-sm font-medium text-gray-300">Public Host (IP Provided by ISP, use <a target="_blank" rel="noopener noreferrer" className="text-blue-600 underline" href="https://whatismyipaddress.com/">WhatIsMyIp</a> to get it.)</label>
-                                <input required type="text" name="mikrotikPublicHost" value={formData.mikrotikPublicHost || ""} onChange={handleChange} placeholder="Enter Mikrotik Public Host" className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
-                            </div>
+                            {useDDNS ? (
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-gray-300">DDNS Host</label>
+                                    <input
+                                        readOnly
+                                        type="text"
+                                        name="mikrotikDDNS"
+                                        value={formData.mikrotikDDNS || ""}
+                                        className="w-full px-3 py-2 border bg-gray-800 text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none cursor-not-allowed"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-gray-300">
+                                        Public IP Host (Use <a target="_blank" rel="noopener noreferrer" className="text-blue-600 underline" href="https://whatismyipaddress.com/">WhatIsMyIp</a> or check on WinBox IP/Cloud)
+                                    </label>
+                                    <input
+                                        required
+                                        type="text"
+                                        name="mikrotikPublicHost"
+                                        value={formData.mikrotikPublicHost || ""}
+                                        onChange={handleChange}
+                                        placeholder="Enter Mikrotik Public Host"
+                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                </div>
+                            )}
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium text-gray-300">Private Host (IP Provided by Us)</label>
                                 <input

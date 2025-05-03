@@ -13,6 +13,7 @@ type TableProps = {
     columns: Column[];
     onExport?: () => void;
     handleAdd?: () => void;
+    handleAddPool?: () => void;
     onAdd?: () => void;
     onAddP?: () => void;
     title?: string;
@@ -26,6 +27,7 @@ export default function Table({
     columns,
     onExport,
     handleAdd,
+    handleAddPool,
     onAdd,
     onAddP,
     title = "Table",
@@ -61,13 +63,24 @@ export default function Table({
                 </div>
                 {handleAdd && (
                     <div className="flex justify-between items-center mb-6 ">
-
                         <button
                             onClick={handleAdd}
                             className="flex items-center px-4 py-2 ml- bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
                             <Plus size={18} className="mr-2" />
                             Add Package
+                        </button>
+                    </div>
+                )}
+                {handleAddPool && (
+                    <div className="flex justify-between items-center mb-6 ">
+
+                        <button
+                            onClick={handleAddPool}
+                            className="flex items-center px-4 py-2 ml- bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        >
+                            <Plus size={18} className="mr-2" />
+                            Add Pool
                         </button>
                     </div>
                 )}
@@ -110,7 +123,7 @@ export default function Table({
                             <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
                                 {columns.map((column) => (
                                     <td key={column.accessor} className="px-6 py-4 whitespace-nowrap">
-                                       {column.render ? column.render(row[column.accessor], row) : row[column.accessor]}
+                                        {column.render ? column.render(row[column.accessor], row) : row[column.accessor]}
                                     </td>
                                 ))}
                             </tr>

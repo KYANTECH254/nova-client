@@ -9,7 +9,9 @@ import {
     Package,
     UserPlus,
     Satellite,
-    Folder
+    Folder,
+    LinkIcon,
+    Terminal,
 } from "lucide-react";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 
@@ -35,15 +37,20 @@ export default function Sidebar({ isOpen, setIsOpen }: any) {
                         <ul className="space-y-2">
                             <SidebarLink href="/admin" icon={<LayoutDashboard className="w-5 h-5" />} title="Dashboard" />
                             <SidebarLink href="/admin/users" icon={<Users className="w-5 h-5" />} title="Users" />
+                            {/* {adminUser.role === "superuser" && (
+                            <SidebarLink href="/admin/pppoe" icon={<Network className="w-5 h-5" />} title="PPPoe" />
+                            )} */}
                             <SidebarLink href="/admin/payments" icon={<CreditCard className="w-5 h-5" />} title="Payments" />
                             {adminUser.role === "superuser" && (
                                 <>
                                     <SidebarLink href="/admin/moderators" icon={<UserPlus className="w-5 h-5" />} title="Moderators" />
                                     <SidebarLink href="/admin/packages" icon={<Package className="w-5 h-5" />} title="Packages" />
                                     <SidebarLink href="/admin/stations" icon={<Satellite className="w-5 h-5" />} title="Routers" />
+                                    <SidebarLink href="/admin/pools" icon={<LinkIcon className="w-5 h-5" />} title="Pools" />
                                     <SidebarLink href="/admin/funds" icon={<CreditCard className="w-5 h-5" />} title="Funds" />
                                     <SidebarLink href="/admin/settings" icon={<Settings className="w-5 h-5" />} title="Settings" />
                                     <SidebarLink href="/admin/files" icon={<Folder className="w-5 h-5" />} title="Files" />
+                                    <SidebarLink href="/admin/scripts" icon={<Terminal className="w-5 h-5" />} title="Scripts" />
                                 </>
                             )}
                         </ul>

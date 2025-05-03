@@ -35,8 +35,8 @@ export default function Dashboard() {
                 const res = await response.json();
                 if (res.success) {
                     setPackages(res.packages)
-                } else if (!res.success) {
-                    toast.error(res.message);
+                }  else {
+                    console.log("Error fetching stats:", res.message);
                 }
             } catch (error) {
                 console.log("Error fetching packages:", error);
@@ -71,8 +71,8 @@ export default function Dashboard() {
                         }))
                         .slice(0, 5);
                     setRecentActivities(formattedActivities);
-                } else if (!res.success) {
-                    toast.error(res.message);
+                } else {
+                    console.log("Error fetching stats:", res.message);
                 }
             } catch (error) {
                 console.log("Error fetching codes:", error);
@@ -97,7 +97,7 @@ export default function Dashboard() {
                     setFunds(res.funds)
                     setIsB2B(res.IsB2B)
                 } else {
-                    toast.error(res.message);
+                    console.log("Error fetching stats:", res.message);
                 }
             } catch (error) {
                 console.log("Error fetching stats:", error);
