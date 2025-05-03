@@ -50,8 +50,6 @@ export default function Pools() {
                         )
                         .flat();
                     setPools(poolsData);
-                    console.log(poolsData);
-
                 } else {
                     toast.error(res.message);
                 }

@@ -12,6 +12,7 @@ import {
     Folder,
     LinkIcon,
     Terminal,
+    Cloud,
 } from "lucide-react";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 
@@ -49,8 +50,9 @@ export default function Sidebar({ isOpen, setIsOpen }: any) {
                                     <SidebarLink href="/admin/pools" icon={<LinkIcon className="w-5 h-5" />} title="Pools" />
                                     <SidebarLink href="/admin/funds" icon={<CreditCard className="w-5 h-5" />} title="Funds" />
                                     <SidebarLink href="/admin/settings" icon={<Settings className="w-5 h-5" />} title="Settings" />
+                                    <SidebarLink href="/admin/ddns" icon={<Cloud className="w-5 h-5" />} title="DDNS" />
                                     <SidebarLink href="/admin/files" icon={<Folder className="w-5 h-5" />} title="Files" />
-                                    <SidebarLink href="/admin/scripts" icon={<Terminal className="w-5 h-5" />} title="Scripts" />
+                                    {/* <SidebarLink href="/admin/scripts" icon={<Terminal className="w-5 h-5" />} title="Scripts" /> */}
                                 </>
                             )}
                         </ul>

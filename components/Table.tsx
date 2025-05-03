@@ -14,6 +14,7 @@ type TableProps = {
     onExport?: () => void;
     handleAdd?: () => void;
     handleAddPool?: () => void;
+    handleAddDDNS?: () => void;
     onAdd?: () => void;
     onAddP?: () => void;
     title?: string;
@@ -28,6 +29,7 @@ export default function Table({
     onExport,
     handleAdd,
     handleAddPool,
+    handleAddDDNS,
     onAdd,
     onAddP,
     title = "Table",
@@ -100,6 +102,15 @@ export default function Table({
                     >
                         <Plus size={18} className="mr-2" />
                         Add Platform
+                    </button>
+                )}
+                {handleAddDDNS && (
+                    <button
+                        onClick={handleAddDDNS}
+                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                        <Plus size={18} className="mr-2" />
+                        Add DDNS
                     </button>
                 )}
             </div>

@@ -2,10 +2,12 @@
 
 import { Eye, EyeClosed, Trash, Edit, Plus, X, ArrowRight, ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
-import { useState, useEffect } from "react";
+import { useState, useEffect, cache } from "react";
 import { toast } from "sonner";
 import { useSocket } from "@/contexts/SocketProvider";
 import { getNextAvailableIP } from "@/utils/FUnstions";
+import Link from "next/link";
+import { DDNS } from "./DDNS";
 
 interface Station {
     id: string;
@@ -27,6 +29,9 @@ export default function Stations() {
     const [showInstructions, setShowInstructions] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [useDDNS, setUseDDNS] = useState(false);
+    const [ddns, setddns] = useState<DDNS[]>([]);
+    const [url, seturl] = useState("")
+    const [publicIP, setpublicIP] = useState("")
     const [editingStation, setEditingStation] = useState<Station | null>(null);
     const { adminUser, token } = useAdminAuth();
     const [formData, setFormData] = useState<Station>({
@@ -62,7 +67,7 @@ export default function Stations() {
     }, [socket, isConnected]);
 
     useEffect(() => {
-        const fetchStations = async () => {
+        const fetchStations = cache(async () => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/fetchStations`, {
                     method: "POST",
@@ -81,7 +86,7 @@ export default function Stations() {
                 console.log("Error fetching Stations:", error);
                 toast.error("Failed to fetch Stations");
             }
-        };
+        });
         fetchStations();
     }, []);
 
@@ -128,7 +133,47 @@ export default function Stations() {
         fetchAllStations();
     }, [showForm, editingStation]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+        if (editingStation && editingStation.mikrotikDDNS) {
+            setUseDDNS(true);
+        } else {
+            setUseDDNS(false);
+        }
+    }, [editingStation]);
+
+    useEffect(() => {
+        const fetchddns = cache(async () => {
+            const data = {
+                token
+            };
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/fetchddns`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+                const res = await response.json();
+                if (res.success) {
+                    const ddnsData = res.data;
+                    setddns(ddnsData);
+                    console.log(ddnsData);
+
+                } else {
+                    toast.error(res.message);
+                }
+            } catch (error) {
+                console.log("Error fetching ddns:", error);
+                toast.error("Failed to fetch ddns");
+            }
+        });
+        fetchddns();
+    }, []);
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
+    ) => {
         const { name, value } = e.target;
         const updatedFormData = { ...formData, [name]: value };
 
@@ -245,7 +290,11 @@ export default function Stations() {
                             </div>
                             {showInstructions && (
                                 <div className="flex flex-col">
-                                    <h1 className="bold italic">Before adding router complete these instructions for configuring Wireguard VPN on the Router you are about to add.</h1>
+                                    <h1 className="bold italic">
+                                        Before adding the router, please follow these instructions to configure WireGuard VPN on the router you're about to add.
+                                        <strong> Rest assured, these changes will not affect the router's regular operations.</strong>
+                                    </h1>
+
                                     <h1 className="bold flex flex-row items-center text-green-500"><ArrowRight size={15} /> Make sure your MikroTik RouterOS version 7.x and above.</h1>
                                     <h1 className="bold underline pt-2">Open MikroTik terminal and Run these Commands</h1>
                                     <div className="mb-2 flex flex-col gap-1">
@@ -283,7 +332,7 @@ export default function Stations() {
                                         <h1 className="semibold  italic">10. After setting up and filling all details below try pinging our server wireguard internal ip on mikrotik to see if connection was successful</h1>
                                         <CommandInput command="ping 10.10.10.1" />
 
-                                        <h1 className="semibold  italic">11. Lastly make sure to add <span className="text-green-600 font-bold">"local.wifi"</span> as your WiFi hotspot server profile DNS name. Remember to make sure you have /hotspot<a className="font-bold text-blue-600" href="/admin/files">/login.html</a> folder as well</h1>
+                                        <h1 className="semibold  italic">11. Lastly make sure to add <span className="text-green-600 font-bold">"local.wifi"</span> as your WiFi hotspot server profile DNS name. Remember to make sure you have /hotspot<Link className="font-semibold text-blue-600 underline" href="/admin/files">/login.html</Link> folder as well</h1>
 
                                     </div>
                                 </div>
@@ -291,7 +340,8 @@ export default function Stations() {
                         </div>
                     )}
                     <form className="space-y-4">
-                    <div className="flex items-center space-x-3 mb-4 mt-4">
+                        {ddns.length > 0 && (
+                            <div className="flex items-center space-x-3 mb-4 mt-4">
                                 <span className="text-sm text-gray-300">Use DDNS</span>
                                 <label className="relative inline-flex items-center cursor-pointer">
                                     <input
@@ -304,6 +354,8 @@ export default function Stations() {
                                     <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-5 transition-transform"></div>
                                 </label>
                             </div>
+                        )}
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium text-gray-300">Router Name</label>
@@ -311,14 +363,29 @@ export default function Stations() {
                             </div>
                             {useDDNS ? (
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">DDNS Host</label>
-                                    <input
-                                        readOnly
-                                        type="text"
+                                    <label
+                                        htmlFor="mikrotikDDNS"
+                                        className="block text-sm font-medium text-gray-300"
+                                    >
+                                        DDNS Host (Select one)
+                                    </label>
+                                    <select
+                                        id="mikrotikDDNS"
                                         name="mikrotikDDNS"
                                         value={formData.mikrotikDDNS || ""}
-                                        className="w-full px-3 py-2 border bg-gray-800 text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none cursor-not-allowed"
-                                    />
+                                        onChange={handleChange}
+                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                        required
+                                    >
+                                        <option value="" disabled>
+                                            -- choose a DDNS --
+                                        </option>
+                                        {ddns.filter(d => d.isActive).map((d) => (
+                                            <option key={d.id} value={d.url}>
+                                                {d.url.replace(`.${origin}`, "")}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             ) : (
                                 <div className="space-y-2">
