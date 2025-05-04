@@ -1,0 +1,29 @@
+[
+  {
+    "version": "1.0.1",
+    "build": "2025-05-04T11:00:00Z",
+    "description": "UI components updates and bug fixes.",
+    "features": [
+      "Added pools page, add, edit and delete mikrotik pools",
+      "Intergration of DDNS feature to solve dynamic Public IP Address",
+      "Feature to Add router using DDNS instead of public IP",
+      "Added Scripts page for DDNS Update"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  },
+  {
+    "version": "1.0.0",
+    "build": "2025-05-02T10:00:00Z",
+    "description": "Initial release with basic functionality and UI components.",
+    "features": [
+      "User authentication",
+      "Dashboard with analytics",
+      "API integration with external services",
+      "Added Hotspot packages, users, payments",
+      "Intergrated Daraja and Intasend payments for stk and B2B"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  }
+]

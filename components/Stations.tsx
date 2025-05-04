@@ -26,7 +26,7 @@ export default function Stations() {
     const [allstations, setAllStations] = useState<Station[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [showInstructions, setShowInstructions] = useState(true);
+    const [showInstructions, setShowInstructions] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [useDDNS, setUseDDNS] = useState(false);
     const [ddns, setddns] = useState<DDNS[]>([]);

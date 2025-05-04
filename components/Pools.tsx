@@ -23,6 +23,9 @@ export default function Pools() {
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
     const [comment, setComment] = useState("")
+    const [selectedStation, setSelectedStation] = useState<any>();
+    const [selectedHost, setSelectedHost] = useState<any>();
+    const [stations, setStations] = useState<any[]>([]);
     const { adminUser, token } = useAdminAuth();
 
     useEffect(() => {
@@ -60,6 +63,48 @@ export default function Pools() {
         });
         fetchpools();
     }, []);
+
+    useEffect(() => {
+        const fetchstations = cache(async () => {
+            const data = {
+                token
+            }
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/stations`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                });
+                const res = await response.json();
+                if (res.success) {
+                    setStations(res.stations);
+                    if (res.stations.length > 0) {
+                        const firstStation = res.stations[0];
+                        setSelectedStation(firstStation);
+                        setSelectedHost(firstStation.mikrotikHost);
+                    }
+                } else {
+                    toast.error(res.message);
+                }
+            } catch (error) {
+                console.log("Error fetching stations:", error);
+                toast.error("Failed to fetch stations");
+            }
+        });
+        fetchstations();
+    }, [])
+    
+    const handleStationChange = (stationId: string) => {
+        const station = stations.find(s => s.id === stationId);
+        if (station) {
+            setSelectedStation(station);
+            setSelectedHost(station.mikrotikHost);
+            setName("");
+            setSelectedPool("");
+        }
+    };
 
     const filteredPools = pools.reverse()
 
@@ -105,8 +150,10 @@ export default function Pools() {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setIsAdding(true);
         e.preventDefault();
         const poolData = {
+            station: selectedHost || "",
             name: selectedPool?.name || name,
             ranges: selectedPool?.ranges || address,
             comment: selectedPool?.comment || comment
@@ -189,66 +236,81 @@ export default function Pools() {
             />
 
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto">
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
                         <h2 className="text-xl font-bold mb-4">
                             {selectedPool ? "Edit Pool" : "Add New Pool"}
                         </h2>
                         <form onSubmit={handleSubmit}>
                             <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium mb-1">Select Station / Router</label>
+                                        <select
+                                            name="station"
+                                            className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                            required
+                                            value={selectedStation?.id || ""}
+                                            onChange={(e) => handleStationChange(e.target.value)}
+                                        >
+                                            {stations.map((station) => (
+                                                <option key={station.id} value={station.id}>
+                                                    {station.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-1">Pool Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={name || selectedPool?.name || ""}
+                                            onChange={(e) => setName(e.target.value)}
+                                            className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                            required
+                                        />
+                                    </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Name</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={name || selectedPool?.name || ""}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                    />
+                                    <div>
+                                        <label className="block text-sm font-medium mb-1">Addresses (E.g 192.168.88.10-192.168.88.254)</label>
+                                        <input
+                                            type="text"
+                                            name="address"
+                                            value={address || selectedPool?.ranges || ""}
+                                            onChange={(e) => setAddress(e.target.value)}
+                                            className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium mb-1">Comment</label>
+                                        <input
+                                            type="text"
+                                            name="address"
+                                            value={comment || selectedPool?.comment || ""}
+                                            onChange={(e) => setComment(e.target.value)}
+                                            className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        />
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Addresses (E.g 192.168.88.10-192.168.88.254)</label>
-                                    <input
-                                        type="text"
-                                        name="address"
-                                        value={address || selectedPool?.ranges || ""}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                    />
+                                <div className="flex justify-end space-x-2 mt-6">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowModal(false)}
+                                        className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                        disabled={isAdding}
+                                    >
+                                        {isAdding ? "Adding..." : selectedPool ? "Update Pool" : "Add Pool"}
+                                    </button>
                                 </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Comment</label>
-                                    <input
-                                        type="text"
-                                        name="address"
-                                        value={comment || selectedPool?.comment || ""}
-                                        onChange={(e) => setComment(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="flex justify-end space-x-2 mt-6">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                                    disabled={isAdding}
-                                >
-                                    {isAdding ? "Adding..." : selectedPool ? "Update Pool" : "Add Pool"}
-                                </button>
-                            </div>
                         </form>
                     </div>
                 </div>

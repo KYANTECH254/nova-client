@@ -11,7 +11,7 @@ export type DDNS = {
     url: string;
     publicIP: string;
     platformID?: string;
-    isActive? :boolean;
+    isActive?: boolean;
     createAt?: Date;
     updatedAt?: Date;
 };
@@ -82,8 +82,8 @@ export default function DDNS() {
                 toast.error(res.message);
             }
         } catch (error) {
-            console.log("Error deleting pool:", error);
-            toast.error("Failed to delete pool");
+            console.log("Error deleting ddns:", error);
+            toast.error("Failed to delete ddns");
         } finally {
             setIsDeleting(false);
         }
@@ -207,8 +207,8 @@ export default function DDNS() {
             />
 
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto">
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
                         <h2 className="text-xl font-bold mb-4">
                             {selectedDDNS ? "Edit DDNS" : "Add New DDNS"}
                         </h2>
@@ -220,7 +220,13 @@ export default function DDNS() {
                                         <input
                                             type="text"
                                             name="url"
-                                            value={url ? url.replace(`.${window.location.origin}`, "") : selectedDDNS?.url.replace(`.${window.location.origin}`, "") || ""}
+                                            value={
+                                                url
+                                                    ? url.replace(`.${window.location.origin}`, "")
+                                                    : selectedDDNS?.url
+                                                        ? selectedDDNS.url.replace(`.${window.location.origin}`, "")
+                                                        : ""
+                                            }
                                             onChange={(e) => {
                                                 const rawValue = e.target.value.toLowerCase();
                                                 const sanitized = rawValue.replace(/[^a-z]/g, "");
@@ -264,7 +270,7 @@ export default function DDNS() {
                                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                                     disabled={isAdding}
                                 >
-                                    {isAdding ? "Adding..." : selectedDDNS ? "Update Pool" : "Add Pool"}
+                                    {isAdding ? "Adding..." : selectedDDNS ? "Update DDNS" : "Add DDNS"}
                                 </button>
                             </div>
                         </form>

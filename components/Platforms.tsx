@@ -328,8 +328,8 @@ export default function Platforms() {
 
             {/* Platform Add/Edit Modal */}
             {showPlatformModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
                         <h2 className="text-xl font-bold mb-4">
                             {currentPlatform ? "Edit Platform" : "Add New Platform"}
                         </h2>
