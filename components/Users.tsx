@@ -65,7 +65,6 @@ export default function Users() {
         new Date(user.updatedAt).toLocaleString(),
       ]),
     ]
-    .reverse()
       .map((row) => row.join(","))
       .join("\n");
 

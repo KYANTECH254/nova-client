@@ -222,11 +222,11 @@ export default function DDNS() {
                                             name="url"
                                             value={
                                                 url
-                                                    ? url.replace(`.${window.location.origin}`, "")
-                                                    : selectedDDNS?.url
-                                                        ? selectedDDNS.url.replace(`.${window.location.origin}`, "")
-                                                        : ""
-                                            }
+                                                  ? url.replace(`.${window.location.origin.replace(/^https?:\/\//, "")}`, "")
+                                                  : selectedDDNS?.url
+                                                  ? selectedDDNS.url.replace(`.${window.location.origin.replace(/^https?:\/\//, "")}`, "")
+                                                  : ""
+                                              }                                              
                                             onChange={(e) => {
                                                 const rawValue = e.target.value.toLowerCase();
                                                 const sanitized = rawValue.replace(/[^a-z]/g, "");

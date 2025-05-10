@@ -7,7 +7,8 @@
       "Added pools page, add, edit and delete mikrotik pools",
       "Intergration of DDNS feature to solve dynamic Public IP Address",
       "Feature to Add router using DDNS instead of public IP",
-      "Added Scripts page for DDNS Update"
+      "Added Scripts page for DDNS Update",
+      "Intergrated Webfig interface for routers"
     ],
     "maintenance": false,
     "mandatoryUpdate": false

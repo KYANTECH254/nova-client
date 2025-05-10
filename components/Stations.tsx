@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, EyeClosed, Trash, Edit, Plus, X, ArrowRight, ChevronDown, ChevronUp, Copy } from "lucide-react";
+import { Eye, EyeClosed, Trash, Edit, Plus, X, ArrowRight, ChevronDown, ChevronUp, Copy, Link2 } from "lucide-react";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { useState, useEffect, cache } from "react";
 import { toast } from "sonner";
@@ -18,6 +18,7 @@ interface Station {
     mikrotikPublicHost: string;
     mikrotikPassword: string;
     mikrotikDDNS: string;
+    mikrotikWebfigHost: string;
     token: String;
 }
 
@@ -43,6 +44,7 @@ export default function Stations() {
         mikrotikUser: "",
         mikrotikPassword: "",
         mikrotikDDNS: "",
+        mikrotikWebfigHost: "",
         token: token
     });
     const { socket, isConnected } = useSocket();
@@ -447,7 +449,7 @@ export default function Stations() {
                     const status = connectionStatus[station.id] || "Connecting";
                     return (
                         <div key={station.id} className="bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all p-6">
-                            <h3 className="text-lg font-semibold">{station.name}</h3>
+                            <h3 className="text-lg font-semibold flex flex-row items-center gap-2">{station.name} <Link href={`https://${station.mikrotikWebfigHost}`}><p className="text-blue-600 semibold underline text-sm flex flex-row items-center gap-1">Open Webfig <Link2 size={16}/></p></Link></h3>
                             <p className="text-sm text-gray-500">{station.mikrotikHost}</p>
                             <p className={`mt-2 text-sm font-medium ${status === "Connected" ? "text-green-600" :
                                 status === "Failed" ? "text-red-500" :

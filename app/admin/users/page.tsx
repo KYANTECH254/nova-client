@@ -1,4 +1,5 @@
 import AdminHeader from "@/components/AdminHeader";
+import DashFooter from "@/components/DashFooter";
 import Users from "@/components/Users";
 
 export default function page() {
@@ -6,6 +7,7 @@ export default function page() {
         <>
             <AdminHeader />
             <Users />
+            <DashFooter />
         </>
     )
 }

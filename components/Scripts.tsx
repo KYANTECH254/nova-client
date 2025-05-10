@@ -17,7 +17,7 @@ export default function Scripts() {
                         <CodeBlock
                             fileName="ddnsupdatescript.txt"
                             code={`:local serverUrl "https://api.novawifi.online/req/updateddns"  # API Endpoint
-:local subdomain "routerddnsname.yourplatform.novawifi.online" # Router DDNS Name get it from routers section
+:local subdomain "routerddnsname.${window.location.origin.replace(/^https?:\/\//, "")}" # Router DDNS Name get it from routers section
 
 /tool fetch url="https://api.ipify.org" mode=http output=user as-value
 :local newIP [:pick (\$user->"data") 0 [:len (\$user->"data")]]

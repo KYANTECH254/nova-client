@@ -99,7 +99,6 @@ export default function Payments() {
                 new Date(payment.updatedAt).toLocaleString(),
             ]),
         ]
-            .reverse()
             .map((row) => row.join(","))
             .join("\n");
 
