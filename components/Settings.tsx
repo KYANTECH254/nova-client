@@ -12,11 +12,11 @@ export default function Settings() {
         mpesaConsumerKey: "",
         mpesaConsumerSecret: "",
         mpesaShortCode: "",
-        mpesaShortCodeType: "Till",
+        mpesaShortCodeType: "Phone",
         mpesaPassKey: "",
         adminID: "",
-        IsC2B: false,
-        IsB2B: true,
+        IsC2B: true,
+        IsB2B: false,
         IsAPI: false,
         mpesaAccountNumber: ""
     });
@@ -24,7 +24,7 @@ export default function Settings() {
     const [isChangingName, setIsChangingName] = useState(false);
     const [showconsumer, setShowConsumer] = useState(false);
     const [showpasskey, setShowpasskey] = useState(false);
-    const { adminUser,token } = useAdminAuth();
+    const { adminUser, token } = useAdminAuth();
 
     useEffect(() => {
         const fetchsettings = async () => {
@@ -51,9 +51,9 @@ export default function Settings() {
                             mpesaShortCodeType: res.settings.mpesaShortCodeType || "Till",
                             mpesaPassKey: res.settings.mpesaPassKey || "",
                             mpesaAccountNumber: res.settings.mpesaAccountNumber || "",
-                            IsC2B: res.settings.IsC2B || false,
+                            IsC2B: res.settings.IsC2B || true,
                             IsAPI: res.settings.IsAPI || false,
-                            IsB2B: res.settings.IsB2B || true
+                            IsB2B: res.settings.IsB2B || false
                         }));
                     }
                     setName(res.name);
@@ -231,23 +231,23 @@ export default function Settings() {
                                 <input
                                     type="radio"
                                     name="mpesaType"
-                                    value="B2B"
-                                    checked={settings.IsB2B === true}
-                                    onChange={handleChangeRadio}
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2 text-gray-300">Mpesa B2B</span>
-                            </label>
-                            <label className="inline-flex items-center">
-                                <input
-                                    type="radio"
-                                    name="mpesaType"
                                     value="C2B"
                                     checked={settings.IsC2B === true}
                                     onChange={handleChangeRadio}
                                     className="form-radio text-blue-600"
                                 />
                                 <span className="ml-2 text-gray-300">Mpesa C2B</span>
+                            </label>
+                            <label className="inline-flex items-center">
+                                <input
+                                    type="radio"
+                                    name="mpesaType"
+                                    value="B2B"
+                                    checked={settings.IsB2B === true}
+                                    onChange={handleChangeRadio}
+                                    className="form-radio text-blue-600"
+                                />
+                                <span className="ml-2 text-gray-300">Mpesa B2B</span>
                             </label>
                             <label className="inline-flex items-center">
                                 <input
@@ -311,10 +311,7 @@ export default function Settings() {
                             </>
                         )}
                         {settings.IsC2B && (
-                            <div className="relative">
-                                <div className="absolute rounded-md inset-0 z-10 backdrop-blur-sm bg-black/30 flex items-center justify-center pointer-events-auto">
-                                    <span className="text-white text-lg font-semibold">Coming Soon</span>
-                                </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                                 {/* Short Code */}
                                 < div className="space-y-2">
@@ -334,17 +331,18 @@ export default function Settings() {
                                     <label className="block text-sm font-medium text-gray-300">Short Code Type</label>
                                     <select
                                         name="mpesaShortCodeType"
-                                        value={settings.mpesaShortCodeType || "Till"}
+                                        value={settings.mpesaShortCodeType || "Phone"}
                                         onChange={handleChange}
                                         className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
                                     >
+                                        <option value="Phone">Phone Number</option>
                                         <option value="Paybill">Paybill</option>
                                         <option value="Till">Till</option>
                                     </select>
                                 </div>
 
                                 {/* Conditionally show Account Number for Paybill */}
-                                {settings.mpesaShortCodeType === "Paybill" && (
+                                {/* {settings.mpesaShortCodeType === "Paybill" && (
                                     <div className="space-y-2 md:col-span-2">
                                         <label className="block text-sm font-medium text-gray-300">Account No (Leave Blank to use customer's phone number as account no.)</label>
                                         <input
@@ -356,7 +354,7 @@ export default function Settings() {
                                             className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
                                         />
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         )}
                         {settings.IsAPI && (
@@ -481,12 +479,6 @@ export default function Settings() {
 
 
                     <div className="flex justify-start mt-3 relative">
-                        {settings.IsC2B && (
-                            <div className="absolute rounded-md inset-0 z-10 backdrop-blur-sm bg-black/30 flex items-center justify-center pointer-events-auto">
-                                <span className="text-white text-lg font-semibold">Coming Soon</span>
-                            </div>
-
-                        )}
                         <button
                             onClick={handleSubmit}
                             type="button"

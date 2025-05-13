@@ -4,11 +4,12 @@ import { cache, useEffect, useState } from "react";
 import Table from "./Table";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { toast } from "sonner";
+import { Trash2 } from "lucide-react";
 
 type User = {
   id: string;
   phone: string;
-  username:string;
+  username: string;
   code: string;
   status: "active" | "inactive" | "expired";
   updatedAt: string;
@@ -18,6 +19,7 @@ export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const { isAuthenticated, adminUser, token } = useAdminAuth();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchUsers = cache(async () => {
@@ -78,6 +80,35 @@ export default function Users() {
     document.body.removeChild(link);
   };
 
+  const handleDelete = cache(async (user: User) => {
+    setIsDeleting(true);
+    const data = {
+      token,
+      id: user.id,
+      username: user.username
+    }
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deleteUser`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const res = await response.json();
+      if (res.success) {
+        setUsers(prev => prev.filter(pkg => pkg.id !== user.id));
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log("Auth Error:", error);
+      toast.error("Failed to delete.");
+    } finally {
+      setIsDeleting(false);
+    }
+  })
+
   const columns = [
     {
       header: "Phone",
@@ -107,6 +138,22 @@ export default function Users() {
       header: "Last Login",
       accessor: "updatedAt",
       render: (value: string) => new Date(value).toLocaleString(),
+    },
+    {
+      header: "Actions",
+      accessor: "id",
+      render: (value: string, row: User) => (
+        <div className="flex space-x-2">
+          <button
+            onClick={() => handleDelete(row)}
+            disabled={isDeleting}
+            className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Delete user"
+          >
+            <Trash2 size={18} />
+          </button>
+        </div>
+      ),
     },
   ];
 

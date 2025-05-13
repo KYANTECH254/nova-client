@@ -36,9 +36,13 @@ export default function SubscribePopup({ plan, onClose }: any) {
             if (!response.ok) {
                 toast.error(data.message);
             } else {
+                if (data.data.authorization_url) {
+                    window.location.href = data.data.authorization_url;
+                }
                 localStorage.setItem("transactionId", data.data.checkoutRequestId);
                 toast.success(data.message);
                 onClose();
+
             }
         } catch (err) {
             toast.error("Something went wrong. Please try again.");

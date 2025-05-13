@@ -83,10 +83,10 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
 
     async function getPublicIP() {
       try {
-        const response = await fetch("https://api64.ipify.org?format=json");
-        const data = await response.json();
-        setIp(data.ip);
-        // setIp("10.10.10.1")
+        // const response = await fetch("https://api64.ipify.org?format=json");
+        // const data = await response.json();
+        // setIp(data.ip);
+        setIp("10.10.10.1")
       } catch (err) {
         setIp(null);
       }

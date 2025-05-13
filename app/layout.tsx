@@ -7,6 +7,7 @@ import { PlatformProvider } from "@/contexts/PlatformProvider";
 import { AdminAuthProvider, ManagerAuthProvider } from "@/contexts/AdminSessionProvider";
 import { Toaster } from "sonner";
 import { PaymentProvider } from "@/contexts/PaymentProvider";
+import { TutorialProvider } from "@/contexts/TutorialProvider";
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
@@ -45,7 +46,9 @@ export default function RootLayout({
               <AdminAuthProvider>
                 <PlatformProvider>
                   <PaymentProvider>
-                    {children}
+                    <TutorialProvider>
+                      {children}
+                    </TutorialProvider>
                   </PaymentProvider>
                 </PlatformProvider>
               </AdminAuthProvider>

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, cache } from "react";
 import { useSocket } from "./SocketProvider";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -28,8 +28,47 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
         const storedTransactionId = localStorage.getItem("transactionId");
         if (storedTransactionId) {
             setTransactionId(storedTransactionId);
+            let intervalTime = 3000;
+
+            const intervalId = setInterval(() => {
+                const checkPayment = cache(async () => {
+                    try {
+                        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mpesa/confirm`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ code:transactionId })
+                        });
+
+                        const res = await response.json();
+                        if (res.success) {
+                            toast.success(res.message);
+                            clearInterval(intervalId);
+                            localStorage.removeItem("transactionId");
+                            const newLoginCode = res.loginCode;
+                            if (newLoginCode) {
+                                const loginUrl = `http://local.wifi/login?username=${newLoginCode}&password=${newLoginCode}`;
+                                window.location.href = loginUrl;
+                            }
+                        } else if (res.status === "FAILED") {
+                            toast.error(res.message);
+                            clearInterval(intervalId);
+                            localStorage.removeItem("transactionId")
+                        }
+                    } catch (error) {
+                        console.log("Error fetching payment:", error);
+                        toast.error("Failed to fetch payment");
+                    }
+                });
+
+                checkPayment();
+            }, intervalTime);
+
+            return () => clearInterval(intervalId);
         }
-    }, [socket]);
+    }, [transactionId]);
+
 
     useEffect(() => {
         if (!socket || !isConnected) return;
@@ -44,6 +83,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
             setMessage(newMessage);
             setLoginCode(newLoginCode);
             if (newStatus === "COMPLETE") {
+                localStorage.removeItem("transactionId")
                 toast.success(newMessage);
                 if (newLoginCode) {
                     const loginUrl = `http://local.wifi/login?username=${newLoginCode}&password=${newLoginCode}`;
@@ -60,6 +100,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
             setMessage(newMessage);
             setLoginCode(null);
             if (newStatus === "FAILED") {
+                localStorage.removeItem("transactionId")
                 toast.error(newMessage);
             }
         };

@@ -3,12 +3,13 @@
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { generatePlatformUrl, generatePlatformId, getCurrentAdminId } from "@/utils/FUnstions";
 import { Eye, EyeClosed } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function Login() {
     const router = useRouter();
+    const params = useParams();
     const [isCreateMode, setIsCreateMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showpassword, SetShowPassword] = useState(false);
@@ -29,6 +30,19 @@ export default function Login() {
     useEffect(() => {
         setSubdomain(generatePlatformUrl(platformName))
     }, [platformName])
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const action = urlParams.get('action');
+        const tutorial = urlParams.get('tutorial');
+        if (action && tutorial) {
+            sessionStorage.setItem("action", action);
+            sessionStorage.setItem("tutorial", tutorial)
+        } else {
+            sessionStorage.setItem("action", "login");
+            sessionStorage.setItem("tutorial", "false")
+        }
+    }, [])
 
     const handleLogin = async () => {
         setLoading(true);
@@ -85,7 +99,7 @@ export default function Login() {
                 const res = await response.json();
 
                 if (res.success) {
-                    window.location.href = `https://${subdomain}.novawifi.online/admin/login`;
+                    window.location.href = `https://${subdomain}.novawifi.online/admin/login?action=register&tutorial=true`;
                     // login({ token: res.token, userData: res.user });
                     toast.success(res.message);
                 } else if (!res.success) {

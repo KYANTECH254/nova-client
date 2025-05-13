@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import Sidebar from "./Sidebar";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { toast } from "sonner";
+import { useTutorial } from "@/contexts/TutorialProvider";
 
 export default function AdminHeader() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -12,6 +13,13 @@ export default function AdminHeader() {
     const [isOpen, setIsOpen] = useState(false);
     const { adminUser, isAuthenticated, token } = useAdminAuth();
     const [name, setName] = useState("");
+    const { next, skip, step } = useTutorial();
+
+    useEffect(() => {
+        if (step > 0 && !isOpen) {
+            setIsOpen(true);
+        }
+    }, [isOpen, next, skip])
 
     useEffect(() => {
         const handleScroll = () => {

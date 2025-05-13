@@ -15,6 +15,7 @@ type TableProps = {
     handleAdd?: () => void;
     handleAddPool?: () => void;
     handleAddDDNS?: () => void;
+    handleAddPPPoE?: () => void;
     onAdd?: () => void;
     onAddP?: () => void;
     title?: string;
@@ -30,6 +31,7 @@ export default function Table({
     handleAdd,
     handleAddPool,
     handleAddDDNS,
+    handleAddPPPoE,
     onAdd,
     onAddP,
     title = "Table",
@@ -111,6 +113,15 @@ export default function Table({
                     >
                         <Plus size={18} className="mr-2" />
                         Add DDNS
+                    </button>
+                )}
+                {handleAddPPPoE && (
+                    <button
+                        onClick={handleAddPPPoE}
+                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                        <Plus size={18} className="mr-2" />
+                        Add PPPoE
                     </button>
                 )}
             </div>

@@ -35,7 +35,7 @@ export default function Dashboard() {
                 const res = await response.json();
                 if (res.success) {
                     setPackages(res.packages)
-                }  else {
+                } else {
                     console.log("Error fetching stats:", res.message);
                 }
             } catch (error) {
@@ -202,8 +202,8 @@ export default function Dashboard() {
                 </div>
             </div>
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-md">
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
                         <h2 className="text-xl font-bold mb-4">Add New User</h2>
                         <form onSubmit={handleSave} className="space-y-4">
                             <input type="text" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2 border rounded-md bg-black text-white" required />
