@@ -174,7 +174,7 @@ export default function Login() {
 
     return (
         <div className="flex flex-col p-6 mt-14 justify-center items-center min-h-[90vh]">
-            <div className="bg-gray-900 rounded-xl border border-gray-800/30 p-5 min-w-[340px] mb-5">
+            <div className="bg-gray-300 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md mx-auto">
 
                 {isRegister && (
                     <>
@@ -182,6 +182,7 @@ export default function Login() {
                         <div className="mt-3 flex flex-col gap-2">
                             <label>Platform Name</label>
                             <input
+                                required
                                 type="text"
                                 placeholder="My Platform"
                                 value={platformName}
@@ -191,13 +192,15 @@ export default function Login() {
                         </div>
                         <div className="mt-5 flex flex-col gap-2">
                             <label>WiFi DNS</label>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 overflow-x-auto">
                                 <span className="text-gray-500">https://</span>
                                 <input
+                                    required
+                                    placeholder="mywifidns"
                                     type="text"
                                     value={subdomain}
                                     onChange={(e) => setSubdomain(e.target.value)}
-                                    className="flex-1 bg-black text-white px-3 py-3 border border-gray-300 rounded-lg text-lg"
+                                    className="flex-1 bg-black text-white px-1 py-1 border border-gray-300 rounded-lg text-lg"
                                 />
                                 <span className="text-gray-500">.novawifi.online</span>
                             </div>

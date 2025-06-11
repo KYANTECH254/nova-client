@@ -18,7 +18,11 @@ export function getNextAvailableIP(existingHosts: string[], base: string = "10.1
 
 
 export const generatePlatformUrl = (name: string) => {
-    return `${name.toLowerCase().replace(/\s+/g, '-')}`;
+  return name
+    .toLowerCase()
+    .replace(/[^a-z\s]/g, '')   
+    .replace(/\s+/g, '-')       
+    .replace(/^-+|-+$/g, '');  
 };
 
 export const generatePlatformId = () => {
