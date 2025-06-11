@@ -10,7 +10,7 @@ export default function Files() {
                 <h1 className="text-2xl font-bold mb-6">Files</h1>
                 <form className="space-y-6">
                     {/* Platform Section */}
-                    <div className="bg-gray-900 rounded-lg shadow p-6">
+                    <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
                         <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">Hotspot folder
                             <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">Configure WiFi DNS and Hotspot server profile to use hotspot folder. Update your login.html with the file below.</p>
                         </h2>

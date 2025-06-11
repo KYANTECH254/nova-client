@@ -1,13 +1,14 @@
 "use client";
 
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
-import { Copy, Eye, EyeClosed } from "lucide-react";
+import { Copy, Eye, EyeClosed, Info } from "lucide-react";
 import { cache, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function Settings() {
     const [name, setName] = useState("");
     const [platurl, setplaturl] = useState("");
+    const [platid, setplatid] = useState("");
     const [settings, setSettings] = useState({
         mpesaConsumerKey: "",
         mpesaConsumerSecret: "",
@@ -58,6 +59,7 @@ export default function Settings() {
                     }
                     setName(res.name);
                     setplaturl(res.url);
+                    setplatid(res.platform_id);
                 } else {
                     toast.error(res.message);
                 }
@@ -145,12 +147,46 @@ export default function Settings() {
         return `${name.toLowerCase().replace(/\s+/g, '-')}`;
     };
 
+    const handleDelete = async () => {
+        setIsLoading(true);
+        if (!platid) {
+            return toast.error("Missing Platform information!")
+        }
+        try {
+            const data = {
+                id: platid,
+                token
+            }
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deletePlatform`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            const res = await response.json();
+
+            if (res.success) {
+                toast.success(res.message);
+            } else if (!res.success) {
+                toast.error(res.message);
+            }
+
+        } catch (error) {
+            console.log("Error deleting platform:", error);
+            toast.error("Failed to delete platform");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="p-6 max-w-4xl mx-auto mt-14">
             <h1 className="text-2xl font-bold mb-6">Platform Settings</h1>
 
             <form className="space-y-6">
-                <div className="bg-gray-900 rounded-lg shadow p-6">
+                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
                     <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">Platform Configuration <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">Configure platform name & WiFi DNS</p></h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
@@ -218,7 +254,7 @@ export default function Settings() {
                     </div>
                 </div>
 
-                <div className="bg-gray-900 rounded-lg shadow p-6 ">
+                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
                     <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">MPESA Configuration <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">Configure how you receive payments from customers</p></h2>
 
                     <div className="mb-4">
@@ -247,6 +283,14 @@ export default function Settings() {
                             </button>
                         </div>
                     </div>
+
+                    <h3 className="text-sm text-green-500 font-semibold mb-2 flex flex-row items-center gap-1">
+                        <Info size={14} />
+                        {settings.IsB2B && ("Your Clients Pay directly to us then we Pay you.")}
+                        {settings.IsC2B && ("Receive funds directly from your clients.")}
+                        {settings.IsAPI && ("Receive funds directly from your clients. Get your API Keys from MPESA Portal.")}
+                    </h3>
+
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {settings.IsB2B && (
@@ -442,6 +486,23 @@ export default function Settings() {
                             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                         >
                             {isLoading ? "Updating..." : "Update Mpesa"}
+                        </button>
+                    </div>
+                </div>
+
+                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
+                    <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">Delete {name} Platform
+                        <p className="text-xs font-semibold text-red-600 italic p-1 bg-black/30 rounded-md">Delete all {name} platform information stored on our site, note that all information will be deleted and can not be recovered!</p></h2>
+
+                    <div
+                        onClick={handleDelete}
+                        className="flex justify-start mt-3">
+                        <button
+                            type="button"
+                            disabled={isChangingName}
+                            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                            {isChangingName ? "Deleting..." : "Delete Platform"}
                         </button>
                     </div>
                 </div>

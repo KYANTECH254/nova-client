@@ -24,7 +24,7 @@ export default function Funds() {
                 },
                 body: JSON.stringify({
                     token,
-                    amount: Number(amount) // Make sure it's a number
+                    amount: Number(amount) 
                 }),
             });
             const res = await response.json();
@@ -46,7 +46,7 @@ export default function Funds() {
             <h1 className="text-2xl font-bold mb-6">Funds</h1>
             <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Platform Section */}
-                <div className="bg-gray-900 rounded-lg shadow p-6">
+                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
                     <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">
                         Withdraw Funds
                         <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">

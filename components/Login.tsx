@@ -174,7 +174,7 @@ export default function Login() {
 
     return (
         <div className="flex flex-col p-6 mt-14 justify-center items-center min-h-[90vh]">
-            <div className="bg-gray-300 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md mx-auto">
+            <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md mx-auto">
 
                 {isRegister && (
                     <>
@@ -288,7 +288,7 @@ export default function Login() {
                     >
                         {loading
                             ? isRegister
-                                ? "Creating..."
+                                ? "Creating..., Please wait!"
                                 : isLogin
                                     ? "Logging in..."
                                     : isUpdatePassword

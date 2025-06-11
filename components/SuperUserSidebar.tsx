@@ -4,6 +4,7 @@ import {
     LayoutDashboard,
     Users,
     LogOut,
+    LayoutTemplate,
 } from "lucide-react";
 import { useManagerAuth } from "@/contexts/AdminSessionProvider";
 
@@ -28,6 +29,7 @@ export default function SuperUserSidebar({ isOpen, setIsOpen }: any) {
                         <ul className="space-y-2">
                             <SidebarLink href="/manager" icon={<LayoutDashboard className="w-5 h-5" />} title="Dashboard" />
                             <SidebarLink href="/manager/platforms" icon={<Users className="w-5 h-5" />} title="Platforms" />
+                            <SidebarLink href="/manager/templates" icon={<LayoutTemplate className="w-5 h-5" />} title="Templates" />
                         </ul>
                     </nav>
                     <div className="mt-auto p-4 border-t border-gray-900">

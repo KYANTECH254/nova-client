@@ -291,7 +291,7 @@ export default function Stations() {
             )}
 
             {showForm && (
-                <div className="bg-gray-900 rounded-lg shadow p-6 mb-6">
+                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full mb-6">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-lg font-semibold">{editingStation ? "Edit Router" : "Add Router"}</h2>
                         <button onClick={() => setShowForm(false)} className="text-gray-500 hover:text-gray-700">
@@ -467,7 +467,7 @@ export default function Stations() {
                     const status = connectionStatus[station.id] || "Connecting";
                     const message = connectionStatus[station.id] || "Waiting for connection...";
                     return (
-                        <div key={station.id} className="bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all p-6">
+                        <div key={station.id} className="bg-gray-800 border border-gray-700 rounded-lg shadow-md hover:shadow-xl transition-all p-6">
 
                             <div className="flex flex-row items-center justify-between">
                                 <h3 className="text-lg font-semibold flex flex-row items-center gap-2">{station.name} </h3>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Download, Plus } from "lucide-react";
+import { Template } from "./Manager/Templates";
 
 type Column = {
     header: string;
@@ -18,6 +19,7 @@ type TableProps = {
     handleAddPPPoE?: () => void;
     onAdd?: () => void;
     onAddP?: () => void;
+    onAddT?: () => void;
     title?: string;
     showSearch?: boolean;
     searchValue?: string;
@@ -34,6 +36,7 @@ export default function Table({
     handleAddPPPoE,
     onAdd,
     onAddP,
+    onAddT,
     title = "Table",
     showSearch = true,
     searchValue = "",
@@ -104,6 +107,15 @@ export default function Table({
                     >
                         <Plus size={18} className="mr-2" />
                         Add Platform
+                    </button>
+                )}
+                {onAddT && (
+                    <button
+                        onClick={onAddT}
+                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                        <Plus size={18} className="mr-2" />
+                        Add Template
                     </button>
                 )}
                 {handleAddDDNS && (

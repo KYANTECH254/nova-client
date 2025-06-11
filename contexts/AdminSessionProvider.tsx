@@ -97,6 +97,7 @@ export const ManagerAuthProvider = ({ children }: any) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [managerUser, setManagerUser] = useState(null);
+    const [token, setToken] = useState("");
     const [Error, setError] = useState("");
     const router = useRouter();
     const pathname = usePathname();
@@ -104,7 +105,8 @@ export const ManagerAuthProvider = ({ children }: any) => {
     useEffect(() => {
         const checkManagerAuth = cache(async () => {
             setIsLoading(true);
-            const specialToken = sessionStorage.getItem("specialToken");
+            const specialToken = sessionStorage.getItem("specialToken") || "";
+            setToken(specialToken);
 
             if (pathname.startsWith("/manager")) {
                 if (!specialToken) {
@@ -158,7 +160,7 @@ export const ManagerAuthProvider = ({ children }: any) => {
     }
 
     return (
-        <ManagerAuthContext.Provider value={{ isAuthenticated, isLoading, managerUser, login, logout }}>
+        <ManagerAuthContext.Provider value={{ isAuthenticated, isLoading, managerUser, login, token, logout }}>
             {children}
         </ManagerAuthContext.Provider>
     );

@@ -10,7 +10,7 @@ export default function Scripts() {
                 <h1 className="text-2xl font-bold mb-6">Scripts</h1>
                 <form className="space-y-6">
                     {/* Platform Section */}
-                    <div className="bg-gray-900 rounded-lg shadow p-6">
+                    <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
                         <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">Public IP DDNS Update Script
                             <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">Configure this Script on Winbox on the Scripts section and add scheduler time for it to run.</p>
                         </h2>

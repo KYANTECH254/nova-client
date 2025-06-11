@@ -73,7 +73,7 @@ export default function AdminHeader() {
     return (
         <>
             <header
-                className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${isScrolled ? "bg-[var(--background)] shadow-lg" : "bg-purple-700"
+                className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${isScrolled ? "bg-[var(--background)] shadow-lg" : "bg-slate-800"
                     }`}
             >
                 <div className="flex flex-row gap-2 justify-items-start items-center">
