@@ -25,7 +25,7 @@ export default function Settings() {
     const [isChangingName, setIsChangingName] = useState(false);
     const [showconsumer, setShowConsumer] = useState(false);
     const [showpasskey, setShowpasskey] = useState(false);
-    const { adminUser, token } = useAdminAuth();
+    const { adminUser, token, logout } = useAdminAuth();
 
     useEffect(() => {
         const fetchsettings = async () => {
@@ -169,6 +169,7 @@ export default function Settings() {
 
             if (res.success) {
                 toast.success(res.message);
+                logout()
             } else if (!res.success) {
                 toast.error(res.message);
             }

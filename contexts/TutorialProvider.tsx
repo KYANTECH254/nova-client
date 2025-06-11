@@ -40,12 +40,15 @@ export function TutorialProvider({ children }: TutorialProviderProps) {
         if (step >= 6) {
             sessionStorage.setItem("action", "login");
             sessionStorage.setItem("tutorial", "false")
+        } else if (step > 6) {
+            window.location.reload()
         }
     };
     const skip = () => {
         sessionStorage.setItem("action", "login");
         sessionStorage.setItem("tutorial", "false")
         setStep(0)
+        window.location.reload()
     };
 
     return (
