@@ -32,9 +32,13 @@ export default function Templates() {
         });
         const res = await response.json();
         if (res.success) {
-          const temps = res.templates;
-          const defaulttemplate = temps.find((temp: Template) => temp.name === res.default)
-          setSelectedId(defaulttemplate.id)
+          const temps = res.templates.map((temp: Template) => ({
+            ...temp,
+            url: `${window.location.origin}${temp.url.startsWith("/") ? "" : "/"}${temp.url}`
+          }));
+
+          const defaulttemplate = temps.find((temp: Template) => temp.name === res.default);
+          setSelectedId(defaulttemplate?.id);
           setTemplates(temps.reverse());
         } else {
           toast.error(res.message);

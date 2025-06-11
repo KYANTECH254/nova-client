@@ -421,7 +421,7 @@ export default function PPPoE() {
             header: "Period",
             accessor: "period",
         },
-             {
+        {
             header: "Payment Link",
             accessor: "paymentLink",
         },
