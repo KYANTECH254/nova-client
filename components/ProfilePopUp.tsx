@@ -9,7 +9,7 @@ export default function ProfilePopup({ isOpenUser }: any) {
         <div className="fixed right-4 top-15 inline-block z-50">
             {/* Popup Menu */}
             {isOpenUser && (
-                <div className="right-10 mt-1 w-56 bg-black border border-gray-800 rounded-md shadow-lg z-50 overflow-hidden">
+                <div className="right-10 mt-1 w-56 bg-gray-900 border border-gray-700 rounded-md shadow-lg z-50 overflow-hidden">
                     <div className="py-1">
                         <Link
                             href="/admin/profile"

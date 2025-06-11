@@ -41,7 +41,7 @@ export default function DashFooter() {
       {/* Modal */}
       {showModal && versions.length > 0 && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+          <div className="flex flex-col bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md max-h-full overflow-y-auto space-y-6">
             <button
               onClick={() => setShowModal(false)}
               className="self-end text-gray-400 hover:text-white transition"

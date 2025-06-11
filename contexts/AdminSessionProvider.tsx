@@ -79,7 +79,7 @@ export const AdminAuthProvider = ({ children }: any) => {
         sessionStorage.removeItem("authToken");
         setIsAuthenticated(false);
         setAdminUser(null);
-        router.push("/admin/login");
+        window.location.href = "/admin/login";
     };
 
     if (Error) {

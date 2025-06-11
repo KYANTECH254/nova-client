@@ -99,7 +99,7 @@ export default function Templates() {
           return (
             <div
               key={t.id}
-              className={`relative rounded-xl overflow-hidden aspect-square transition-shadow cursor-pointer bg-gray-800 hover:shadow-lg ${isSelected ? 'border-2 border-blue-600' : ''
+              className={`relative rounded-xl overflow-hidden aspect-square transition-shadow cursor-pointer bg-gray-800 hover:shadow-lg ${isSelected ? 'border-2 border-blue-600' : 'border border-gray-700'
                 }`}
               onClick={() => setSelectedId(t.id)}
             >

@@ -1,5 +1,16 @@
 [
   {
+    "version": "1.0.4",
+    "build": "2025-06-11T17:00:00Z",
+    "description": "UI updates and authentication bug fixes.",
+    "features": [
+      "UI Updates",
+      "Authentication bug fixes"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  },
+  {
     "version": "1.0.3",
     "build": "2025-06-10T20:00:00Z",
     "description": "Major UI updates and bug fixes.",
