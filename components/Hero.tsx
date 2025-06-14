@@ -109,7 +109,7 @@ export default function Hero() {
                                             {isLoading ? (
                                                 <>
                                                     <Loader2 className="animate-spin w-5 h-5 mr-2" />
-                                                    Logging in...
+                                                    Checking...
                                                 </>
                                             ) : (
                                                 <>
@@ -178,7 +178,7 @@ export default function Hero() {
                                         {isLoading ? (
                                             <>
                                                 <Loader2 className="animate-spin w-5 h-5 mr-2" />
-                                                Logging in...
+                                                Checking...
                                             </>
                                         ) : (
                                             <>

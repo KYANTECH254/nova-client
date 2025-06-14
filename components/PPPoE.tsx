@@ -142,10 +142,11 @@ export default function PPPoE() {
                 if (res.success) {
                     const profilesData = res.profiles
                         .map((profileGroup: any) =>
-                            profileGroup.data.profiles.map((p: any) => ({
-                                ...p,
+                            (profileGroup.data?.interfaces || []).map((intf: any) => ({
+                                ...intf,
                                 host: profileGroup.host,
                                 username: profileGroup.username,
+                                profileId: profileGroup.id,
                             }))
                         )
                         .flat();
@@ -171,17 +172,21 @@ export default function PPPoE() {
                     },
                     body: JSON.stringify({ token })
                 });
+
                 const res = await response.json();
+
                 if (res.success) {
-                    const interfacesData = res.interfaces
+                    const interfacesData = res.profiles
                         .map((interfaceGroup: any) =>
-                            interfaceGroup.data.interfaces.map((i: any) => ({
-                                ...i,
+                            (interfaceGroup.data?.interfaces || []).map((intf: any) => ({
+                                ...intf,
                                 host: interfaceGroup.host,
                                 username: interfaceGroup.username,
+                                profileId: interfaceGroup.id,
                             }))
                         )
                         .flat();
+
                     setRouterInterfaces(interfacesData);
                 } else {
                     toast.error(res.message);
@@ -191,6 +196,7 @@ export default function PPPoE() {
                 toast.error("Failed to fetch interfaces");
             }
         });
+
         fetchInterfaces();
     }, [token]);
 
@@ -329,6 +335,7 @@ export default function PPPoE() {
         const profile = filteredPppProfiles.find(p => p.name === profileName);
         setSelectedProfile(profile);
         setProfile(profileName);
+        setName(profileName);
     };
 
     const handleInterfaceChange = (interfaceName: string) => {
@@ -512,7 +519,6 @@ export default function PPPoE() {
                                     <label className="block text-sm font-medium mb-1">PPP Profile</label>
                                     <select
                                         className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
                                         value={selectedProfile?.name || profile}
                                         onChange={(e) => handleProfileChange(e.target.value)}
                                     >
@@ -598,7 +604,7 @@ export default function PPPoE() {
                                         value={selectedInterface?.name || ""}
                                         onChange={(e) => handleInterfaceChange(e.target.value)}
                                     >
-                                        <option value="">Select Interface</option>
+                                        <option value="bridge">Select Interface</option>
                                         {filteredInterfaces.map((intf) => (
                                             <option key={intf.name} value={intf.name}>
                                                 {intf.name}

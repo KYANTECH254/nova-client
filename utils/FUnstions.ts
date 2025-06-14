@@ -18,11 +18,11 @@ export function getNextAvailableIP(existingHosts: string[], base: string = "10.1
 
 
 export const generatePlatformUrl = (name: string) => {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z\s]/g, '')   
-    .replace(/\s+/g, '-')       
-    .replace(/^-+|-+$/g, '');  
+    return name
+        .toLowerCase()
+        .replace(/[^a-z\s]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/^-+|-+$/g, '');
 };
 
 export const generatePlatformId = () => {
@@ -39,18 +39,18 @@ export const isValidIP = (ip: string): boolean => {
 };
 
 export const isValidPublicKey = (key: string): boolean => {
-  // Remove surrounding whitespace
-  const trimmedKey = key.trim();
+    // Remove surrounding whitespace
+    const trimmedKey = key.trim();
 
-  // Check length exactly 44 characters (standard WireGuard public key length)
-  if (trimmedKey.length !== 44) {
-    return false;
-  }
+    // Check length exactly 44 characters (standard WireGuard public key length)
+    if (trimmedKey.length !== 44) {
+        return false;
+    }
 
-  // Validate base64 charset (allowing '=' padding at end)
-  const base64Regex = /^[A-Za-z0-9+/]{43}=$/;
+    // Validate base64 charset (allowing '=' padding at end)
+    const base64Regex = /^[A-Za-z0-9+/]{43}=$/;
 
-  return base64Regex.test(trimmedKey);
+    return base64Regex.test(trimmedKey);
 };
 
 export interface ValidateAmountOptions {
@@ -102,19 +102,28 @@ export function validateAmount(
 }
 
 export const getMappedPort = (internalIP: string): number | null => {
-  const match = internalIP.match(/^10\.10\.10\.(\d{1,3})$/);
-  if (!match) return null;
+    const match = internalIP.match(/^10\.10\.10\.(\d{1,3})$/);
+    if (!match) return null;
 
-  const lastOctet = parseInt(match[1], 10);
-  if (lastOctet < 2 || lastOctet > 254) return null; 
+    const lastOctet = parseInt(match[1], 10);
+    if (lastOctet < 2 || lastOctet > 254) return null;
 
-  return 8290 + lastOctet;
+    return 8290 + lastOctet;
 };
 
 export const getInternalIP = (publicPort: number): string | null => {
-  if (publicPort <= 8290 || publicPort > 8544) return null;
-  const lastOctet = publicPort - 8290;
-  return `10.10.10.${lastOctet}`;
+    if (publicPort <= 8290 || publicPort > 8544) return null;
+    const lastOctet = publicPort - 8290;
+    return `10.10.10.${lastOctet}`;
 };
 
 export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export function validateDdnsHost(host: string): boolean {
+    if (typeof host !== 'string' || host.trim() === '') return false;
+
+    // Matches domain-like strings: sub.domain.tld (e.g., myrouter.mynetname.net)
+    const ddnsRegex = /^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+
+    return ddnsRegex.test(host);
+}

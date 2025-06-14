@@ -60,6 +60,8 @@ export default function Settings() {
                     setName(res.name);
                     setplaturl(res.url);
                     setplatid(res.platform_id);
+                    console.log(res.platform_id);
+
                 } else {
                     toast.error(res.message);
                 }
@@ -150,6 +152,7 @@ export default function Settings() {
     const handleDelete = async () => {
         setIsLoading(true);
         if (!platid) {
+            setIsLoading(false);
             return toast.error("Missing Platform information!")
         }
         try {
@@ -500,10 +503,10 @@ export default function Settings() {
                         className="flex justify-start mt-3">
                         <button
                             type="button"
-                            disabled={isChangingName}
+                            disabled={isLoading}
                             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                         >
-                            {isChangingName ? "Deleting..." : "Delete Platform"}
+                            {isLoading ? "Deleting..." : "Delete Platform"}
                         </button>
                     </div>
                 </div>

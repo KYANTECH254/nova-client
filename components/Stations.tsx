@@ -5,7 +5,7 @@ import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { useState, useEffect, cache } from "react";
 import { toast } from "sonner";
 import { useSocket } from "@/contexts/SocketProvider";
-import { getMappedPort, getNextAvailableIP, isValidIP, isValidPublicKey } from "@/utils/FUnstions";
+import { getMappedPort, getNextAvailableIP, isValidIP, isValidPublicKey, validateDdnsHost } from "@/utils/FUnstions";
 import Link from "next/link";
 import { DDNS } from "./DDNS";
 
@@ -209,8 +209,12 @@ export default function Stations() {
             return;
         }
 
-        if (formData.mikrotikPublicHost && !isValidIP(formData.mikrotikPublicHost)) {
-            toast.error("Invalid public host IP address");
+        if (
+            formData.mikrotikPublicHost &&
+            !validateDdnsHost(formData.mikrotikPublicHost) &&
+            !isValidIP(formData.mikrotikPublicHost)
+        ) {
+            toast.error("Invalid public host. Must be a valid IP address or domain name.");
             return;
         }
 
@@ -221,6 +225,12 @@ export default function Stations() {
 
         setIsLoading(true);
         formData.token = token;
+        if (formData.mikrotikPublicHost) {
+            formData.mikrotikDDNS = "";
+        } else if (formData.mikrotikDDNS) {
+            formData.mikrotikPublicHost = "";
+        }
+        
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/updateStation`, {
                 method: "POST",
@@ -410,7 +420,7 @@ export default function Stations() {
                             ) : (
                                 <div className="space-y-2">
                                     <label className="block text-sm font-medium text-gray-300">
-                                        Public IP Host (Use <a target="_blank" rel="noopener noreferrer" className="text-blue-600 underline" href="https://whatismyipaddress.com/">WhatIsMyIp</a> or check on WinBox IP/Cloud)
+                                        Public IP Host or DDNS Url (Use <a target="_blank" rel="noopener noreferrer" className="text-blue-600 underline" href="https://whatismyipaddress.com/">WhatIsMyIp</a> or check on WinBox IP/Cloud)
                                     </label>
                                     <input
                                         required
