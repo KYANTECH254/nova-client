@@ -260,13 +260,17 @@ export default function PPPoE() {
         setPrice(pppoe.price);
         setDevices(pppoe.devices);
         if (pppoe.period) {
-            const days = parseInt(pppoe.period.match(/\d+/)?.[0] || "0");
-            setPeriod(days.toString());
+            const matched = pppoe.period.match(/(\d+)\s*(\w+)/);
+            if (matched) {
+                setPeriod(matched[1]);
+                setPeriodUnit(matched[2].toLowerCase());
+            }
         }
         setClientname(pppoe.clientname);
         setClientpassword(pppoe.clientpassword);
         setMaxsessions(pppoe.maxsessions);
         setEmail(pppoe.email)
+        setStatus(pppoe.status)
 
         // Find and set related station, pool, profile, and interface
         const station = stations.find(s => s.mikrotikHost === pppoe.station);

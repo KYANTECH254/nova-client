@@ -11,7 +11,7 @@ export type PPPoE = {
     price: string;
     usage?: string;
     period: string;
-    status?: string;
+    status: string;
     clientname: string;
     clientpassword: string;
     interface: string;
