@@ -145,7 +145,7 @@ export default function Dashboard() {
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
-                        <div key={index} className="bg-black rounded-lg shadow p-6">
+                        <div key={index} className="bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
                             <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
                             <p className="text-2xl font-bold mt-2 text-gray-300">{stat.value}</p>
                             {stat.title === "Revenue (Today)" && (
@@ -165,7 +165,7 @@ export default function Dashboard() {
                                 { title: "Total Balance", value: `KSH ${funds.balance}` },
                                 { title: "Total Withdrawals", value: `KSH ${funds.withdrawals}` },
                             ].map((stat, index) => (
-                                <div key={index} className="bg-black rounded-lg shadow p-6">
+                                <div key={index} className="bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
                                     <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
                                     <p className="text-2xl font-bold mt-2 text-gray-300">{stat.value}</p>
                                 </div>
@@ -175,7 +175,7 @@ export default function Dashboard() {
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="bg-black rounded-lg shadow p-6 lg:col-span-2">
+                    <div className="bg-black rounded-lg shadow p-6 lg:col-span-2 border-l-5 border-blue-500">
                         <h2 className="text-lg font-semiboldtext-gray-300 mb-4">Recent Activities</h2>
                         <ul className="space-y-4">
                             {recentActivities.map(activity => (
