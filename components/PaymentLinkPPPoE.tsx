@@ -186,7 +186,7 @@ export default function PaymentLinkPPPoE() {
                     </button>
                 </div>
             </div>
-            {pay && <SubscribePPPoE onClose={() => setPay(false)} paymentLink={pppoE.paymentLink} amount={pppoE.price}/>}
+            {pay && <SubscribePPPoE onClose={() => setPay(false)} paymentLink={pppoE.paymentLink} amount={pppoE.price} name={pppoE.name}/>}
         </>
     );
 }

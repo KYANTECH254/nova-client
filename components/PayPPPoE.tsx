@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, Smartphone } from "lucide-react";
+import { X, Smartphone, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
-export default function SubscribePPPoE({ paymentLink, amount, onClose }: any) {
+export default function SubscribePPPoE({ paymentLink, amount, name, onClose }: any) {
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -56,7 +56,7 @@ export default function SubscribePPPoE({ paymentLink, amount, onClose }: any) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="flex flex-col gap-3 bg-white/10 border-white/20 p-6 rounded-2xl shadow-2xl max-w-md w-full relative"
+                className="bg-white/10 border-white/20 p-6 rounded-2xl shadow-2xl max-w-md w-full relative"
             >
                 <button
                     className="absolute top-4 right-4 text-gray-500 bg-gray-200 transition rounded-full hover:bg-blue-200 w-10 h-10 flex items-center justify-center"
@@ -64,6 +64,10 @@ export default function SubscribePPPoE({ paymentLink, amount, onClose }: any) {
                 >
                     <X className="w-6 h-6" />
                 </button>
+
+                <h2 className="text-2xl md:text-3xl font-extrabold text-[#00AEEF] mb-4 flex items-center gap-2 break-words">
+                    <Zap className="w-6 h-6 text-[#00AEEF]" /> {name}
+                </h2>
 
                 <div className="relative mt-5">
                     <input
