@@ -172,6 +172,11 @@ export default function PaymentLinkPPPoE() {
                             </div>
 
                             <div>
+                                <p className="text-sm text-gray-400">Amount Due</p>
+                                <p className="text-2xl font-bold text-green-500">KES {pppoE.amount}</p>
+                            </div>
+
+                            <div>
                                 <p className="text-sm text-gray-400">Validity Period</p>
                                 <p className="font-medium">{pppoE.period}</p>
                             </div>
@@ -180,7 +185,7 @@ export default function PaymentLinkPPPoE() {
                         <button
                             onClick={() => setPay(true)}
                             disabled={pay}
-                            className={`w-full py-2 px-4 rounded-md font-medium disabled:opacity-50 ${parseFloat(pppoE.price) > 0
+                            className={`w-full py-2 px-4 rounded-md font-medium disabled:opacity-50 ${parseFloat(pppoE.amount) > 0
                                 ? "bg-blue-600 hover:bg-blue-700"
                                 : "bg-green-600 hover:bg-green-700"
                                 }`}
