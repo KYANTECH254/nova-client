@@ -412,7 +412,7 @@ export default function PPPoE() {
             if (res.success) {
                 toast.success(res.message);
                 if (currentPPPoE) {
-                    setPppoE(prev => prev.map(p => p.id === currentPPPoE.id ? { ...pppoeData, id: currentPPPoE.id } : p));
+                    setPppoE((prev:any) => prev.map((p: { id: string; }) => p.id === currentPPPoE.id ? { ...pppoeData, id: currentPPPoE.id } : p));
                 } else {
                     setPppoE(prev => [...prev, { ...res.pppoe, id: res.pppoe.id }]);
                 }
