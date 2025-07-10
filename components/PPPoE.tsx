@@ -259,7 +259,10 @@ export default function PPPoE() {
         setServicename(pppoe.servicename);
         setPrice(pppoe.price);
         setDevices(pppoe.devices);
-        setPeriod(pppoe.period);
+        if (pppoe.period) {
+            const days = parseInt(pppoe.period.match(/\d+/)?.[0] || "0");
+            setPeriod(days.toString());
+        }
         setClientname(pppoe.clientname);
         setClientpassword(pppoe.clientpassword);
         setMaxsessions(pppoe.maxsessions);
