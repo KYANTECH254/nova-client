@@ -7,6 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Loader from "./Loader";
 import ErrorComponent from "./Error";
 import { PPPoE } from "@/utils/types";
+import SubscribePPPoE from "./PayPPPoE";
 
 type TimeRemaining = {
     days: number;
@@ -20,6 +21,7 @@ export default function PaymentLinkPPPoE() {
     const [pppoE, setPppoE] = useState<PPPoE | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [pay, setPay] = useState<boolean>(false);
     const [paying, setIsPaying] = useState<boolean>(false);
     const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>({
         days: 0,
@@ -99,45 +101,6 @@ export default function PaymentLinkPPPoE() {
         fetchPppoeDetails();
     }, [pppoeId, router]);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        if (!pppoE || !pppoeId) return;
-
-        setIsPaying(true);
-
-        try {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/mpesa/payPPPoE`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        amount: pppoE.price,
-                        pppoeId,
-                    }),
-                }
-            );
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                toast.error(data.message);
-            } else {
-                if (data.data.authorization_url) {
-                    window.location.href = data.data.authorization_url;
-                }
-
-                localStorage.setItem("pppoe_transactionId", data.data.checkoutRequestId);
-                toast.success(data.message);
-            }
-        } catch (error) {
-            console.log("Error initiating payment:", error);
-            toast.error("Failed to initiate payment");
-        } finally {
-            setIsPaying(false);
-        }
-    };
-
     const copyToClipboard = (): void => {
         navigator.clipboard.writeText(window.location.href);
         toast.success("Payment link copied to clipboard!");
@@ -147,81 +110,84 @@ export default function PaymentLinkPPPoE() {
     if (!pppoE) return <ErrorComponent message="PPPoE details not found" />;
 
     return (
-        <div className="p-4 flex items-center justify-center min-h-[80vh]">
-            <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md space-y-6">
-                <h2 className="text-xl font-bold mb-4">
-                    PPPoE Details: {pppoE.name}
-                </h2>
+        <>
+            <div className="p-4 flex items-center justify-center min-h-[80vh]">
+                <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md space-y-6">
+                    <h2 className="text-xl font-bold mb-4">
+                        PPPoE Details: {pppoE.name}
+                    </h2>
 
-                <div className="space-y-4">
-                    <div>
-                        <p className="text-sm text-gray-400">PPPoE Link</p>
-                        <div className="flex items-center gap-2">
-                            <p className="font-medium truncate">{typeof window !== "undefined" ? window.location.href : ""}</p>
-                            <button
-                                onClick={copyToClipboard}
-                                className="text-blue-400 hover:text-blue-300"
-                                title="Copy link"
-                            >
-                                <Copy size={16} />
-                            </button>
+                    <div className="space-y-4">
+                        <div>
+                            <p className="text-sm text-gray-400">PPPoE Link</p>
+                            <div className="flex items-center gap-2">
+                                <p className="font-medium truncate">{typeof window !== "undefined" ? window.location.href : ""}</p>
+                                <button
+                                    onClick={copyToClipboard}
+                                    className="text-blue-400 hover:text-blue-300"
+                                    title="Copy link"
+                                >
+                                    <Copy size={16} />
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <p className="text-sm text-gray-400">Time Remaining</p>
-                        <p className="font-medium">
-                            {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m
-                        </p>
-                    </div>
-
-                    <div>
-                        <p className="text-sm text-gray-400">Service Name</p>
-                        <p className="font-medium">{pppoE.servicename}</p>
-                    </div>
-
-                    <div>
-                        <p className="text-sm text-gray-400">Client Name</p>
-                        <p className="font-medium">{pppoE.clientname}</p>
-                    </div>
-
-                    <div>
-                        <p className="text-sm text-gray-400">Password</p>
-                        <div className="flex items-center">
+                        <div>
+                            <p className="text-sm text-gray-400">Time Remaining</p>
                             <p className="font-medium">
-                                {showPassword ? pppoE.clientpassword : "••••••••"}
+                                {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m
                             </p>
-                            <button
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="ml-2 text-blue-400"
-                            >
-                                {showPassword ? <EyeClosed size={16} /> : <Eye size={16} />}
-                            </button>
+                        </div>
+
+                        <div>
+                            <p className="text-sm text-gray-400">Service Name</p>
+                            <p className="font-medium">{pppoE.servicename}</p>
+                        </div>
+
+                        <div>
+                            <p className="text-sm text-gray-400">Client Name</p>
+                            <p className="font-medium">{pppoE.clientname}</p>
+                        </div>
+
+                        <div>
+                            <p className="text-sm text-gray-400">Password</p>
+                            <div className="flex items-center">
+                                <p className="font-medium">
+                                    {showPassword ? pppoE.clientpassword : "••••••••"}
+                                </p>
+                                <button
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="ml-2 text-blue-400"
+                                >
+                                    {showPassword ? <EyeClosed size={16} /> : <Eye size={16} />}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p className="text-sm text-gray-400">Price</p>
+                            <p className="text-2xl font-bold text-green-500">KES {pppoE.price}</p>
+                        </div>
+
+                        <div>
+                            <p className="text-sm text-gray-400">Validity Period</p>
+                            <p className="font-medium">{pppoE.period}</p>
                         </div>
                     </div>
 
-                    <div>
-                        <p className="text-sm text-gray-400">Price</p>
-                        <p className="text-2xl font-bold text-green-500">KES {pppoE.price}</p>
-                    </div>
-
-                    <div>
-                        <p className="text-sm text-gray-400">Validity Period</p>
-                        <p className="font-medium">{pppoE.period}</p>
-                    </div>
+                    <button
+                        onClick={() => setPay(true)}
+                        disabled={paying}
+                        className={`w-full py-2 px-4 rounded-md font-medium disabled:opacity-50 ${parseFloat(pppoE.price) > 0
+                            ? "bg-blue-600 hover:bg-blue-700"
+                            : "bg-green-600 hover:bg-green-700"
+                            }`}
+                    >
+                        {paying ? "Processing..." : parseFloat(pppoE.price) > 0 ? "Make Payment" : "Make Next Payment"}
+                    </button>
                 </div>
-
-                <button
-                    onClick={handleSubmit}
-                    disabled={paying}
-                    className={`w-full py-2 px-4 rounded-md font-medium disabled:opacity-50 ${parseFloat(pppoE.price) > 0
-                        ? "bg-blue-600 hover:bg-blue-700"
-                        : "bg-green-600 hover:bg-green-700"
-                        }`}
-                >
-                    {paying ? "Processing..." : parseFloat(pppoE.price) > 0 ? "Make Payment" : "Make Next Payment"}
-                </button>
             </div>
-        </div>
+            {pay && <SubscribePPPoE onClose={() => setPay(false)} paymentLink={pppoE.paymentLink} amount={pppoE.price}/>}
+        </>
     );
 }
