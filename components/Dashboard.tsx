@@ -19,6 +19,9 @@ export default function Dashboard() {
     const [funds, setFunds] = useState({ balance: 0, withdrawals: 0 });
     const { adminUser, token } = useAdminAuth();
     const [recentActivities, setRecentActivities] = useState<any[]>([]);
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
+    const [selectedMonth, setSelectedMonth] = useState("");
 
     useEffect(() => {
         const fetchpackages = cache(async () => {
