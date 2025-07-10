@@ -129,3 +129,25 @@ export function validateDNSServer(ip: any) {
   const ipv4Regex = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
   return ipv4Regex.test(ip);
 }
+
+export function validateDdnsHost(input: string): boolean {
+  const ipv4Regex =
+    /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}$/;
+
+  const ipv6Regex =
+    /^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:)|::1)$/;
+
+  const hostnameRegex =
+    /^(?=.{1,253}$)(?!:\/\/)([a-zA-Z0-9-_]{1,63}\.)+[a-zA-Z]{2,}$/;
+
+  const urlRegex =
+    /^https?:\/\/([a-zA-Z0-9-._~%!$&'()*+,;=:@]+@)?([a-zA-Z0-9.-]+)(:\d+)?(\/.*)?$/;
+
+  return (
+    ipv4Regex.test(input) ||
+    ipv6Regex.test(input) ||
+    hostnameRegex.test(input) ||
+    urlRegex.test(input)
+  );
+}
+
