@@ -6,6 +6,7 @@ import { Trash2, Edit, Plus, Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { PPPoE as PPPoEType } from "@/utils/types";
+import { validateLocalAddress, validateDNSServer } from "@/utils/FUnstions";
 
 export default function PPPoE() {
     const [pppoE, setPppoE] = useState<PPPoEType[]>([]);
@@ -357,6 +358,16 @@ export default function PPPoE() {
         if (!selectedStation) {
             toast.error("Please select a station");
             setIsAdding(false);
+            return;
+        }
+
+        if (localaddress && !validateLocalAddress(localaddress)) {
+            toast.error("Invalid local address");
+            return;
+        }
+
+        if (DNSserver && !validateDNSServer(DNSserver)) {
+            toast.error("Invalid DNS server address");
             return;
         }
 
