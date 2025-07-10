@@ -604,7 +604,7 @@ export default function PPPoE() {
                                         value={selectedInterface?.name || ""}
                                         onChange={(e) => handleInterfaceChange(e.target.value)}
                                     >
-                                        <option value="bridge">Select Interface</option>
+                                        <option value="">Select Interface</option>
                                         {filteredInterfaces.map((intf) => (
                                             <option key={intf.name} value={intf.name}>
                                                 {intf.name}
@@ -705,7 +705,7 @@ export default function PPPoE() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">Client Email (Optional)</label>
+                                    <label className="block text-sm font-medium mb-1">Client Email</label>
                                     <input
                                         type="email"
                                         value={email}

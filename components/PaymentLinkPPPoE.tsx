@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { cache, useEffect, useState } from "react";
 import { Eye, EyeClosed, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter, usePathname } from "next/navigation";
@@ -28,8 +28,8 @@ export default function PaymentLinkPPPoE() {
     });
 
     const getPPPoEIdFromUrl = (): string | null => {
-        const parts = pathname.split("/pppoe/");
-        return parts.length > 1 ? parts[1] : null;
+        const params = new URLSearchParams(window.location.search);
+        return params.get("info");
     };
 
     const pppoeId = getPPPoEIdFromUrl();
@@ -62,10 +62,10 @@ export default function PaymentLinkPPPoE() {
     }, [pppoE]);
 
     useEffect(() => {
-        const fetchPppoeDetails = async () => {
+        const fetchPppoeDetails = cache(async () => {
             if (!pppoeId) {
                 toast.error("Invalid PPPoE link");
-                router.push("/dashboard");
+                router.push("/login");
                 return;
             }
 
@@ -81,19 +81,20 @@ export default function PaymentLinkPPPoE() {
                 );
 
                 const res = await response.json();
-
-                if (res.success && res.pppoe) {
-                    setPppoE(res.pppoe);
+                if (res.success) {
+                    if (res.pppoe) {
+                        setPppoE(res.pppoe);
+                    }
                 } else {
                     toast.error(res.message);
                 }
             } catch (error) {
-                console.error("Error fetching PPPoE details:", error);
+                console.log("Error fetching PPPoE details:", error);
                 toast.error("Failed to fetch PPPoE details");
             } finally {
                 setLoading(false);
             }
-        };
+        })
 
         fetchPppoeDetails();
     }, [pppoeId, router]);
@@ -130,7 +131,7 @@ export default function PaymentLinkPPPoE() {
                 toast.success(data.message);
             }
         } catch (error) {
-            console.error("Error initiating payment:", error);
+            console.log("Error initiating payment:", error);
             toast.error("Failed to initiate payment");
         } finally {
             setIsPaying(false);
