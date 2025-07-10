@@ -341,35 +341,44 @@ export default function Settings() {
                                 )}
                             </>
                         )}
-                        {settings.IsC2B && (
-                            <>
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Short Code</label>
-                                    <input
-                                        type="text"
-                                        name="mpesaShortCode"
-                                        value={settings.mpesaShortCode || ""}
-                                        onChange={handleChange}
-                                        placeholder="Enter MPESA Short Code"
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
-                                    />
-                                </div>
+                        <div className="relative">
+                            {/* Form Section */}
+                            {settings.IsC2B && (
+                                <>
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-gray-300">Short Code</label>
+                                        <input
+                                            type="text"
+                                            name="mpesaShortCode"
+                                            value={settings.mpesaShortCode || ""}
+                                            onChange={handleChange}
+                                            placeholder="Enter MPESA Short Code"
+                                            className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        />
+                                    </div>
 
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Short Code Type</label>
-                                    <select
-                                        name="mpesaShortCodeType"
-                                        value={settings.mpesaShortCodeType || "Phone"}
-                                        onChange={handleChange}
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
-                                    >
-                                        <option value="Phone">Phone Number</option>
-                                        <option value="Paybill">Paybill</option>
-                                        <option value="Till">Till</option>
-                                    </select>
-                                </div>
-                            </>
-                        )}
+                                    <div className="space-y-2 mt-4">
+                                        <label className="block text-sm font-medium text-gray-300">Short Code Type</label>
+                                        <select
+                                            name="mpesaShortCodeType"
+                                            value={settings.mpesaShortCodeType || "Phone"}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        >
+                                            <option value="Phone">Phone Number</option>
+                                            <option value="Paybill">Paybill</option>
+                                            <option value="Till">Till</option>
+                                        </select>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Blur Overlay */}
+                            <div className="absolute inset-0 bg-black/50 bg-opacity-60 backdrop-blur-md flex items-center justify-center rounded-md z-10">
+                                <p className="text-white text-lg font-semibold text-center">C2B is Under Maintenance</p>
+                            </div>
+                        </div>
+
                         {settings.IsAPI && (
                             <>
                                 <div className="space-y-2">
@@ -484,14 +493,19 @@ export default function Settings() {
                     </div>
 
                     <div className="flex justify-start mt-3 relative">
-                        <button
-                            onClick={handleSubmit}
-                            type="button"
-                            disabled={isLoading}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        >
-                            {isLoading ? "Updating..." : "Update Mpesa"}
-                        </button>
+                        {settings.IsC2B ? (
+                            <></>
+                        ) : (
+                            <button
+                                onClick={handleSubmit}
+                                type="button"
+                                disabled={isLoading}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                                {isLoading ? "Updating..." : "Update Mpesa"}
+                            </button>
+                        )}
+
                     </div>
                 </div>
 
