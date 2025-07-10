@@ -699,8 +699,8 @@ export default function PPPoE() {
                                             className="w-full px-3 py-2 border rounded-r-md bg-black text-gray-300"
                                             required
                                         >
-                                            <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
+                                            <option value="active">Active</option>
                                         </select>
                                     </div>
                                 </div>
