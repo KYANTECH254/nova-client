@@ -361,7 +361,7 @@ export default function PPPoE() {
             return;
         }
 
-        if (localaddress?.trim()) {
+        if (!profile && localaddress?.trim()) {
             if (!validateLocalAddress(localaddress)) {
                 toast.error("Invalid local address");
                 return;
@@ -741,7 +741,10 @@ export default function PPPoE() {
                             <div className="flex justify-end space-x-2 mt-6">
                                 <button
                                     type="button"
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => {
+                                        setShowModal(false)
+                                        setIsAdding(false)
+                                    }}
                                     className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700"
                                 >
                                     Cancel
