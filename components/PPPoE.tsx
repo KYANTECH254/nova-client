@@ -369,7 +369,7 @@ export default function PPPoE() {
             interface: selectedInterface?.name || "",
             maxsessions,
             DNSserver,
-            localaddress,
+            localaddress: profile ? "" : localaddress,
             speed,
             paymentLink: currentPPPoE?.paymentLink || "",
             email,
