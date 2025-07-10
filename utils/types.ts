@@ -18,8 +18,8 @@ export type PPPoE = {
     maxsessions: string;
     localaddress?: string;
     DNSserver?: string;
-    paymentLink?: string;
-    email?:string;
+    paymentLink: string;
+    email:string;
     createdAt?: string;
     updatedAt?: string;
     expiresAt?: string;

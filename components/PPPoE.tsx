@@ -259,11 +259,11 @@ export default function PPPoE() {
         setServicename(pppoe.servicename);
         setPrice(pppoe.price);
         setDevices(pppoe.devices);
-        // setUsage(pppoe.usage);
         setPeriod(pppoe.period);
         setClientname(pppoe.clientname);
         setClientpassword(pppoe.clientpassword);
         setMaxsessions(pppoe.maxsessions);
+        setEmail(pppoe.email)
 
         // Find and set related station, pool, profile, and interface
         const station = stations.find(s => s.mikrotikHost === pppoe.station);
