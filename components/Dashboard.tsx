@@ -15,6 +15,7 @@ export default function Dashboard() {
     const [isAdding, setIsAdding] = useState(false);
     const [packages, setPackages] = useState<Package[]>([]);
     const [codes, setcodes] = useState<any[]>([]);
+    const [months, setmonths] = useState<any[]>([]);
     const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, totalPackages: 0, routers: 0 });
     const [funds, setFunds] = useState({ balance: 0, withdrawals: 0 });
     const { adminUser, token } = useAdminAuth();
@@ -100,6 +101,7 @@ export default function Dashboard() {
                     setStats(res.stats);
                     setFunds(res.funds)
                     setIsB2B(res.IsB2B)
+                    setmonths(res.stats.months)
                 } else {
                     console.log("Error fetching stats:", res.message);
                 }
@@ -173,7 +175,7 @@ export default function Dashboard() {
 
     function RevenueMenu() {
         const [showMenu, setShowMenu] = useState(false);
-        const months = ["March", "April", "May", "June", "July"];
+        // const months = ["March", "April", "May", "June", "July"];
 
         return (
             <div className="relative ml-auto">
@@ -194,11 +196,11 @@ export default function Dashboard() {
                             {months.map((month, idx) => (
                                 <button
                                     key={idx}
-                                    onClick={() => setSelectedMonth(month)}
+                                    onClick={() => setSelectedMonth(month.month)}
                                     className={`w-full text-left px-2 py-1 rounded text-sm hover:bg-gray-700 ${selectedMonth === month ? "bg-blue-700 text-white" : "text-gray-300"
                                         }`}
                                 >
-                                    {month}
+                                    {month.month}
                                 </button>
                             ))}
                         </div>
