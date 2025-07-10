@@ -22,7 +22,6 @@ export default function PaymentLinkPPPoE() {
     const [loading, setLoading] = useState<boolean>(true);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [pay, setPay] = useState<boolean>(false);
-    const [paying, setIsPaying] = useState<boolean>(false);
     const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>({
         days: 0,
         hours: 0,
@@ -177,13 +176,13 @@ export default function PaymentLinkPPPoE() {
 
                     <button
                         onClick={() => setPay(true)}
-                        disabled={paying}
+                        disabled={pay}
                         className={`w-full py-2 px-4 rounded-md font-medium disabled:opacity-50 ${parseFloat(pppoE.price) > 0
                             ? "bg-blue-600 hover:bg-blue-700"
                             : "bg-green-600 hover:bg-green-700"
                             }`}
                     >
-                        {paying ? "Processing..." : parseFloat(pppoE.price) > 0 ? "Make Payment" : "Make Next Payment"}
+                        {parseFloat(pppoE.price) > 0 ? "Make Payment" : "Make Next Payment"}
                     </button>
                 </div>
             </div>

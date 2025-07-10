@@ -56,7 +56,7 @@ export default function SubscribePPPoE({ paymentLink, amount, onClose }: any) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="bg-white/10 border-white/20 p-6 rounded-2xl shadow-2xl max-w-md w-full relative"
+                className="flex flex-col gap-3 bg-white/10 border-white/20 p-6 rounded-2xl shadow-2xl max-w-md w-full relative"
             >
                 <button
                     className="absolute top-4 right-4 text-gray-500 bg-gray-200 transition rounded-full hover:bg-blue-200 w-10 h-10 flex items-center justify-center"
