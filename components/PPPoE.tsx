@@ -444,6 +444,20 @@ export default function PPPoE() {
             header: "Client",
             accessor: "clientname",
         },
+                {
+            header: "Status",
+            accessor: "status",
+            render: (value: string) => (
+                <span
+                    className={`px-2 py-1 rounded-full text-xs ${value === "inactive"
+                        ? "bg-red-900/20 text-red-800"
+                        : "bg-green-900/20 text-green-800"
+                        }`}
+                >
+                    {value.charAt(0).toUpperCase() + value.slice(1)}
+                </span>
+            ),
+        },
         {
             header: "Price (KES)",
             accessor: "price",
