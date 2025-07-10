@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, cache } from "react";
-import { ChevronUp, MoreVertical, Plus, Users } from "lucide-react";
+import { ChevronUp, MoreVertical, Plus, Users, X } from "lucide-react";
 import Link from "next/link";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { toast } from "sonner";
@@ -136,16 +136,22 @@ export default function Dashboard() {
 
     function RevenueMenu() {
         const [showMenu, setShowMenu] = useState(false);
-        const months = ["March", "April", "May", "June", "July"]; 
+        const months = ["March", "April", "May", "June", "July"];
 
         return (
             <div className="relative ml-auto">
                 <button onClick={() => setShowMenu(!showMenu)} className="text-gray-400 hover:text-gray-200">
-                    <MoreVertical className="w-5 h-5" />
+                    <MoreVertical size={24} className="w-5 h-5 bg-gray-200/10 p-1 font-bold rounded-full cursor-pointer" />
                 </button>
                 {showMenu && (
                     <div className="absolute right-0 mt-2 w-56 bg-gray-900 border border-gray-700 rounded-md shadow-lg z-10 p-4 space-y-2">
-                        <h4 className="text-sm text-gray-400">Select Month</h4>
+                        <div className="flex flex-row items-center justify-between">
+                            <h4 className="text-sm text-gray-400">Select Month</h4>
+                            <button onClick={() => setShowMenu(!showMenu)} className="text-gray-400 hover:text-gray-200">
+                                <X size={24} className="w-5 h-5 bg-gray-200/10 p-1 font-bold rounded-full cursor-pointer" />
+                            </button>
+                        </div>
+
                         {months.map((month, idx) => (
                             <button key={idx} className="w-full text-left px-2 py-1 hover:bg-gray-700 text-gray-300 rounded">
                                 {month}
@@ -173,24 +179,31 @@ export default function Dashboard() {
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
                         <div key={index} className="bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
-                           <div className="flex justify-between items-start">
-    <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
-    {stat.menu && <RevenueMenu />}
-</div>
+                            <div className="flex justify-between items-start">
+                                <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
+                                {stat.menu && <RevenueMenu />}
+                            </div>
 
                             <p className="text-2xl font-bold mt-2 text-gray-300">{stat.value}</p>
-                            {["Revenue (Today)", "Revenue (This Month)"].includes(stat.title) && (
+                            {["Revenue (Today)", "Revenue (This Month)", "Packages"].includes(stat.title) && (
                                 <div className="mt-4 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                        {stat.title === "Revenue (Today)" ? (
+                                        {stat.title === "Revenue (Today)" && (
                                             <>
                                                 <span className="text-xs text-gray-400">Yesterday:</span>
                                                 <span className="text-sm text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
                                             </>
-                                        ) : (
+                                        )}
+                                        {stat.title === "Revenue (This Month)" &&  (
                                             <>
                                                 <span className="text-xs text-gray-400">Last Month:</span>
                                                 <span className="text-sm text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
+                                            </>
+                                        )}
+                                           {stat.title === "Packages" &&  (
+                                            <>
+                                                <span className="text-xs text-gray-400">Most Purchased:</span>
+                                                <span className="text-sm text-gray-300 font-medium">1 Bob Offer 1 Bob Offer</span>
                                             </>
                                         )}
                                     </div>
@@ -198,11 +211,12 @@ export default function Dashboard() {
                                     {/* Percentage Change */}
                                     <div className="flex items-center gap-1">
                                         {/* You can calculate % change with logic below */}
-                                        {stat.title === "Revenue (Today)" ? (
+                                        {stat.title === "Revenue (Today)" && (
                                             <span className="text-green-500 flex items-center text-sm">
                                                 <Plus className="w-4 h-4" /> 12.4%
                                             </span>
-                                        ) : (
+                                        )}
+                                        {stat.title === "Revenue (This Month)" &&  (
                                             <span className="text-red-500 flex items-center text-sm">
                                                 <ChevronUp className="w-4 h-4 rotate-180" /> 4.8%
                                             </span>
@@ -231,7 +245,7 @@ export default function Dashboard() {
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="bg-black rounded-lg shadow p-6 lg:col-span-2 border-l-5 border-blue-500">
+                    <div className="bg-black rounded-lg shadow p-6 lg:col-span-2">
                         <h2 className="text-lg font-semiboldtext-gray-300 mb-4">Recent Activities</h2>
                         <ul className="space-y-4">
                             {recentActivities.map(activity => (
