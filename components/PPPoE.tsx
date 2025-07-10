@@ -202,7 +202,7 @@ export default function PPPoE() {
     }, [token]);
 
     const filteredPppoe = pppoE.filter((pppoe) =>
-        [pppoe.name, pppoe.profile, pppoe.servicename, pppoe.clientname, pppoe.paymentLink].some(
+        [pppoe.name, pppoe.profile, pppoe.servicename, pppoe.clientname, pppoe.paymentLink, pppoe.email].some(
             (value) =>
                 value &&
                 value.toString().toLowerCase().includes(searchValue.toLowerCase())
@@ -432,6 +432,10 @@ export default function PPPoE() {
             header: "Name",
             accessor: "name",
         },
+              {
+            header: "Email",
+            accessor: "email",
+        },
         {
             header: "Service",
             accessor: "servicename",
@@ -491,7 +495,7 @@ export default function PPPoE() {
                 handleAddPPPoE={handleAddPPPoE}
                 title="PPPoE Services"
                 showSearch={true}
-                searchValue={searchValue}
+                searchValue={searnamechValue}
                 onSearchChange={setSearchValue}
             />
 
