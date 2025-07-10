@@ -20,6 +20,8 @@ export default function PaymentLinkPPPoE() {
     const pathname = usePathname();
     const [pppoE, setPppoE] = useState<PPPoE | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [showEmailPrompt, setShowEmailPrompt] = useState(true);
+    const [enteredEmail, setEnteredEmail] = useState("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [pay, setPay] = useState<boolean>(false);
     const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>({
@@ -186,7 +188,34 @@ export default function PaymentLinkPPPoE() {
                     </button>
                 </div>
             </div>
-            {pay && <SubscribePPPoE onClose={() => setPay(false)} paymentLink={pppoE.paymentLink} amount={pppoE.price} name={pppoE.name}/>}
+            {showEmailPrompt && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white/10 border border-white/20 rounded-xl p-6 max-w-md w-full text-white space-y-4 shadow-lg">
+                        <h2 className="text-xl font-bold text-center">Confirm Your Email</h2>
+                        <p className="text-sm text-gray-300 text-center">To view PPPoE details, please enter the email used during registration by your Service Provider.</p>
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={enteredEmail}
+                            onChange={(e) => setEnteredEmail(e.target.value)}
+                            className="w-full p-3 rounded-md border bg-black/30 border-gray-500 focus:ring-2 focus:ring-blue-500 text-white"
+                        />
+                        <button
+                            onClick={() => {
+                                if (enteredEmail.trim().toLowerCase() === pppoE.email.toLowerCase()) {
+                                    setShowEmailPrompt(false);
+                                } else {
+                                    toast.error("Incorrect email. Please try again.");
+                                }
+                            }}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
+                        >
+                            Confirm Email
+                        </button>
+                    </div>
+                </div>
+            )}
+            {pay && <SubscribePPPoE onClose={() => setPay(false)} paymentLink={pppoE.paymentLink} amount={pppoE.price} name={pppoE.name} />}
         </>
     );
 }
