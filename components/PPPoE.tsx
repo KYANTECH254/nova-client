@@ -361,15 +361,19 @@ export default function PPPoE() {
             return;
         }
 
-        if (localaddress && !validateLocalAddress(localaddress)) {
-            toast.error("Invalid local address");
-            return;
-        }
+if (localaddress?.trim()) {
+    if (!validateLocalAddress(localaddress)) {
+        toast.error("Invalid local address");
+        return;
+    }
+}
 
-        if (DNSserver && !validateDNSServer(DNSserver)) {
-            toast.error("Invalid DNS server address");
-            return;
-        }
+if (DNSserver?.trim()) {
+    if (!validateDNSServer(DNSserver)) {
+        toast.error("Invalid DNS server address");
+        return;
+    }
+}
 
         const pppoeData = {
             id: currentPPPoE?.id || "",
