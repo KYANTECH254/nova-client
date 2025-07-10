@@ -480,7 +480,7 @@ export default function PPPoE() {
                         <h2 className="text-xl font-bold mb-4">
                             {currentPPPoE ? "Edit PPPoE" : "Add New PPPoE"}
                         </h2>
-                        <form onSubmit={handleSubmit}>
+                        <form autoComplete="off_dont_autofill" onSubmit={handleSubmit}>
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium mb-1">Station / Router</label>
@@ -550,7 +550,7 @@ export default function PPPoE() {
                                             <label className="block text-sm font-medium mb-1">Local Address (E.g 192.168.88.1)</label>
                                             <input
                                                 type="text"
-                                                name="localaddress"
+                                                name="local-address"
                                                 value={localaddress || currentPPPoE?.localaddress || ""}
                                                 onChange={(e) => setLocalAddress(e.target.value)}
                                                 className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
