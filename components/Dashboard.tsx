@@ -141,7 +141,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     {[
                         { title: "Total Users (Active)", value: stats.totalUsers },
-                        { title: "Revenue (Today)", value: `KSH ${stats.dailyRevenue}` },
+                        { title: "Revenue (Today)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}` },
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
@@ -151,7 +151,7 @@ export default function Dashboard() {
                             {stat.title === "Revenue (Today)" && (
                                 <div className="flex flex-row items-center gap-2">
                                     <h3 className="text-sm font-medium text-gray-500">Yesterday</h3>
-                                    <p className="text-sm font-bold text-gray-300">(KSH {stats.yesterdayRevenue})</p>
+                                    <p className="text-sm font-bold text-gray-300">(KSH {(stats.yesterdayRevenue).toFixed(2)})</p>
                                 </div>
                             )}
                         </div>
