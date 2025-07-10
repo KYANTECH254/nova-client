@@ -16,7 +16,7 @@ export default function Dashboard() {
     const [packages, setPackages] = useState<Package[]>([]);
     const [codes, setcodes] = useState<any[]>([]);
     const [months, setmonths] = useState<any[]>([]);
-    const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, totalPackages: 0, routers: 0 });
+    const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, thismonthRevenue: 0, lastmonthRevenue: 0, totalPackages: 0, routers: 0 });
     const [funds, setFunds] = useState({ balance: 0, withdrawals: 0 });
     const { adminUser, token } = useAdminAuth();
     const [recentActivities, setRecentActivities] = useState<any[]>([]);
@@ -196,7 +196,7 @@ export default function Dashboard() {
                             {months.map((month, idx) => (
                                 <button
                                     key={idx}
-                                    onClick={() => setSelectedMonth(month.month)}
+                                    onClick={() => setSelectedMonth(month)}
                                     className={`w-full text-left px-2 py-1 rounded text-sm hover:bg-gray-700 ${selectedMonth === month ? "bg-blue-700 text-white" : "text-gray-300"
                                         }`}
                                 >
@@ -249,7 +249,7 @@ export default function Dashboard() {
                     {[
                         { title: "Total Users (Active)", value: stats.totalUsers },
                         { title: "Revenue (Today)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}` },
-                        { title: "Revenue (This Month)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}`, menu: true },
+                        { title: "Revenue (This Month)", value: `KSH ${(stats.thismonthRevenue).toFixed(2)}`, menu: true },
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
@@ -272,7 +272,7 @@ export default function Dashboard() {
                                         {stat.title === "Revenue (This Month)" && (
                                             <>
                                                 <span className="text-xs text-gray-400">Last Month:</span>
-                                                <span className="text-sm text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
+                                                <span className="text-sm text-gray-300 font-medium">KSH {(stats.lastmonthRevenue).toFixed(2)}</span>
                                             </>
                                         )}
                                         {stat.title === "Packages" && (
