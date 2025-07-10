@@ -495,7 +495,7 @@ export default function PPPoE() {
                 handleAddPPPoE={handleAddPPPoE}
                 title="PPPoE Services"
                 showSearch={true}
-                searchValue={searnamechValue}
+                searchValue={searchValue}
                 onSearchChange={setSearchValue}
             />
 
