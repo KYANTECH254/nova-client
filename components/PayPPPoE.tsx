@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, Smartphone, Zap } from "lucide-react";
+import { X, Smartphone } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
@@ -11,17 +11,17 @@ export default function SubscribePPPoE({ paymentLink, amount, name, onClose }: a
 
     useEffect(() => {
         const savedphone = localStorage.getItem("phone");
-        if (savedphone) {
-            setPhone(savedphone)
-        }
-    }, [loading])
+        if (savedphone) setPhone(savedphone);
+    }, [loading]);
 
     if (!paymentLink) return null;
+
     const handlePayment = async () => {
         if (!phone || !/^(07|01)\d{8}$/.test(phone)) {
             toast.error("Please enter a valid phone number starting with 07 or 01.");
             return;
         }
+
         setLoading(true);
         try {
             localStorage.setItem("phone", phone);
@@ -30,6 +30,7 @@ export default function SubscribePPPoE({ paymentLink, amount, name, onClose }: a
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ phone, paymentLink }),
             });
+
             const data = await response.json();
             if (!response.ok) {
                 toast.error(data.message);
@@ -50,26 +51,27 @@ export default function SubscribePPPoE({ paymentLink, amount, name, onClose }: a
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-50 p-4">
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="bg-white/10 border-white/20 p-6 rounded-2xl shadow-2xl max-w-md w-full relative"
-            >
-                <button
-                    className="absolute top-4 right-4 text-gray-500 bg-gray-200 transition rounded-full hover:bg-blue-200 w-10 h-10 flex items-center justify-center"
-                    onClick={onClose}
-                >
-                    <X className="w-6 h-6" />
-                </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+<motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    exit={{ opacity: 0, scale: 0.9 }}
+    transition={{ duration: 0.3, ease: "easeOut" }}
+    className="bg-white/10 border border-white/20 p-6 pt-14 rounded-2xl shadow-2xl max-w-md w-full relative space-y-6"
+>
+    <button
+        className="absolute top-4 right-4 text-gray-500 bg-gray-200 hover:bg-blue-200 transition rounded-full w-10 h-10 flex items-center justify-center"
+        onClick={onClose}
+    >
+        <X className="w-6 h-6" />
+    </button>
 
-                <h2 className="text-2xl md:text-3xl font-extrabold text-[#00AEEF] mb-4 flex items-center gap-2 break-words">
-                    <Zap className="w-6 h-6 text-[#00AEEF]" /> {name}
-                </h2>
+    <h2 className="text-xl font-bold text-[#00AEEF] flex items-center gap-2 break-words">
+        Payment For {name}
+    </h2>
 
-                <div className="relative mt-5">
+
+                <div className="relative">
                     <input
                         type="tel"
                         placeholder="Enter Phone Number"
@@ -82,7 +84,7 @@ export default function SubscribePPPoE({ paymentLink, amount, name, onClose }: a
                 </div>
 
                 <button
-                    className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all shadow-lg text-lg"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all shadow-lg text-lg"
                     onClick={handlePayment}
                     disabled={loading}
                 >
