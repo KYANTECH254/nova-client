@@ -448,7 +448,7 @@ export default function PPPoE() {
         },
         {
             header: "Payment Link",
-            accessor: "paymentLink",
+            accessor: "link",
         },
         {
             header: "Created At",

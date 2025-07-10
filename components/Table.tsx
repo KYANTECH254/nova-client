@@ -1,7 +1,6 @@
 "use client";
 
 import { Download, Plus } from "lucide-react";
-import { Template } from "./Manager/Templates";
 
 type Column = {
     header: string;
@@ -155,11 +154,24 @@ export default function Table({
                     <tbody className="bg-black divide-y divide-gray-900">
                         {data.map((row, rowIndex) => (
                             <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
-                                {columns.map((column) => (
-                                    <td key={column.accessor} className="px-6 py-4 whitespace-nowrap">
-                                        {column.render ? column.render(row[column.accessor], row) : row[column.accessor]}
-                                    </td>
-                                ))}
+                                {columns.map((column) => {
+                                    const cellValue = row[column.accessor];
+                                    const isLink = typeof cellValue === "string" && cellValue.startsWith("http");
+
+                                    return (
+                                        <td key={column.accessor} className="px-6 py-4 whitespace-nowrap">
+                                            {column.render
+                                                ? column.render(cellValue, row)
+                                                : isLink
+                                                    ? (
+                                                        <a href={cellValue} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">
+                                                            {cellValue}
+                                                        </a>
+                                                    )
+                                                    : cellValue}
+                                        </td>
+                                    );
+                                })}
                             </tr>
                         ))}
                     </tbody>
