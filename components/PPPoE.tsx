@@ -227,7 +227,7 @@ export default function PPPoE() {
         setIsDeleting(true);
         try {
             setPppoE(prev => prev.filter(p => p.id !== pppoe.id));
-            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deletePppoE`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/deletePppoE`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
