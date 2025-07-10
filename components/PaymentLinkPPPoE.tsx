@@ -112,85 +112,86 @@ export default function PaymentLinkPPPoE() {
 
     return (
         <>
-            <div className="p-4 flex items-center justify-center min-h-[80vh]">
-                <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md space-y-6">
-                    <h2 className="text-xl font-bold mb-4">
-                        PPPoE Details: {pppoE.name}
-                    </h2>
+            {!showEmailPrompt ? (
+                <div className="p-4 flex items-center justify-center min-h-[80vh]">
+                    <div className="flex flex-col bg-gray-900 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md space-y-6">
+                        <h2 className="text-xl font-bold mb-4">
+                            PPPoE Details: {pppoE.name}
+                        </h2>
 
-                    <div className="space-y-4">
-                        <div>
-                            <p className="text-sm text-gray-400">PPPoE Link</p>
-                            <div className="flex items-center gap-2">
-                                <p className="font-medium truncate">{typeof window !== "undefined" ? window.location.href : ""}</p>
-                                <button
-                                    onClick={copyToClipboard}
-                                    className="text-blue-400 hover:text-blue-300"
-                                    title="Copy link"
-                                >
-                                    <Copy size={16} />
-                                </button>
+                        <div className="space-y-4">
+                            <div>
+                                <p className="text-sm text-gray-400">PPPoE Link</p>
+                                <div className="flex items-center gap-2">
+                                    <p className="font-medium truncate">{typeof window !== "undefined" ? window.location.href : ""}</p>
+                                    <button
+                                        onClick={copyToClipboard}
+                                        className="text-blue-400 hover:text-blue-300"
+                                        title="Copy link"
+                                    >
+                                        <Copy size={16} />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <p className="text-sm text-gray-400">Time Remaining</p>
-                            <p className="font-medium">
-                                {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m
-                            </p>
-                        </div>
-
-                        <div>
-                            <p className="text-sm text-gray-400">Service Name</p>
-                            <p className="font-medium">{pppoE.servicename}</p>
-                        </div>
-
-                        <div>
-                            <p className="text-sm text-gray-400">Client Name</p>
-                            <p className="font-medium">{pppoE.clientname}</p>
-                        </div>
-
-                        <div>
-                            <p className="text-sm text-gray-400">Password</p>
-                            <div className="flex items-center">
+                            <div>
+                                <p className="text-sm text-gray-400">Time Remaining</p>
                                 <p className="font-medium">
-                                    {showPassword ? pppoE.clientpassword : "••••••••"}
+                                    {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m
                                 </p>
-                                <button
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="ml-2 text-blue-400"
-                                >
-                                    {showPassword ? <EyeClosed size={16} /> : <Eye size={16} />}
-                                </button>
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-gray-400">Service Name</p>
+                                <p className="font-medium">{pppoE.servicename}</p>
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-gray-400">Client Name</p>
+                                <p className="font-medium">{pppoE.clientname}</p>
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-gray-400">Password</p>
+                                <div className="flex items-center">
+                                    <p className="font-medium">
+                                        {showPassword ? pppoE.clientpassword : "••••••••"}
+                                    </p>
+                                    <button
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="ml-2 text-blue-400"
+                                    >
+                                        {showPassword ? <EyeClosed size={16} /> : <Eye size={16} />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-gray-400">Price</p>
+                                <p className="text-2xl font-bold text-green-500">KES {pppoE.price}</p>
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-gray-400">Validity Period</p>
+                                <p className="font-medium">{pppoE.period}</p>
                             </div>
                         </div>
 
-                        <div>
-                            <p className="text-sm text-gray-400">Price</p>
-                            <p className="text-2xl font-bold text-green-500">KES {pppoE.price}</p>
-                        </div>
-
-                        <div>
-                            <p className="text-sm text-gray-400">Validity Period</p>
-                            <p className="font-medium">{pppoE.period}</p>
-                        </div>
+                        <button
+                            onClick={() => setPay(true)}
+                            disabled={pay}
+                            className={`w-full py-2 px-4 rounded-md font-medium disabled:opacity-50 ${parseFloat(pppoE.price) > 0
+                                ? "bg-blue-600 hover:bg-blue-700"
+                                : "bg-green-600 hover:bg-green-700"
+                                }`}
+                        >
+                            {parseFloat(pppoE.price) > 0 ? "Make Payment" : "Make Next Payment"}
+                        </button>
                     </div>
-
-                    <button
-                        onClick={() => setPay(true)}
-                        disabled={pay}
-                        className={`w-full py-2 px-4 rounded-md font-medium disabled:opacity-50 ${parseFloat(pppoE.price) > 0
-                            ? "bg-blue-600 hover:bg-blue-700"
-                            : "bg-green-600 hover:bg-green-700"
-                            }`}
-                    >
-                        {parseFloat(pppoE.price) > 0 ? "Make Payment" : "Make Next Payment"}
-                    </button>
                 </div>
-            </div>
-            {showEmailPrompt && (
+            ) : (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white/10 border border-white/20 rounded-xl p-6 max-w-md w-full text-white space-y-4 shadow-lg">
+                    <div className="bg-gray-900 border border-white/20 rounded-xl p-6 max-w-md w-full text-white space-y-4 shadow-lg">
                         <h2 className="text-xl font-bold text-center">Confirm Your Email</h2>
                         <p className="text-sm text-gray-300 text-center">To view PPPoE details, please enter the email used during registration by your Service Provider.</p>
                         <input
