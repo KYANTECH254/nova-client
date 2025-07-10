@@ -137,6 +137,40 @@ export default function Dashboard() {
         }
     };
 
+    const handleDateFilterSubmit = async () => {
+        if (!fromDate || !toDate) {
+            toast.error("Please select both From and To dates.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/filterRevenue`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    token,
+                    from: fromDate,
+                    to: toDate,
+                }),
+            });
+
+            const res = await response.json();
+
+            if (res.success) {
+                toast.success("Filter applied successfully.");
+                // Update stats or chart here if you wish
+                console.log("Filtered revenue result:", res.data);
+            } else {
+                toast.error(res.message || "Failed to filter revenue.");
+            }
+        } catch (err) {
+            console.error("Filter error:", err);
+            toast.error("Something went wrong while filtering.");
+        }
+    };
+
     function RevenueMenu() {
         const [showMenu, setShowMenu] = useState(false);
         const months = ["March", "April", "May", "June", "July"];
@@ -160,7 +194,9 @@ export default function Dashboard() {
                             {months.map((month, idx) => (
                                 <button
                                     key={idx}
-                                    className="w-full text-left px-2 py-1 hover:bg-gray-700 text-gray-300 rounded text-sm"
+                                    onClick={() => setSelectedMonth(month)}
+                                    className={`w-full text-left px-2 py-1 rounded text-sm hover:bg-gray-700 ${selectedMonth === month ? "bg-blue-700 text-white" : "text-gray-300"
+                                        }`}
                                 >
                                     {month}
                                 </button>
@@ -174,6 +210,8 @@ export default function Dashboard() {
                                 <input
                                     required
                                     type="date"
+                                    value={fromDate}
+                                    onChange={(e) => setFromDate(e.target.value)}
                                     className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
                                 />
                             </div>
@@ -182,10 +220,15 @@ export default function Dashboard() {
                                 <input
                                     required
                                     type="date"
+                                    value={toDate}
+                                    onChange={(e) => setToDate(e.target.value)}
                                     className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
                                 />
                             </div>
-                            <button className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-1.5 rounded">
+                            <button
+                                onClick={handleDateFilterSubmit}
+                                className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-1.5 rounded"
+                            >
                                 Apply Filter
                             </button>
                         </div>
