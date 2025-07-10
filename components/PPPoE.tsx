@@ -234,7 +234,6 @@ export default function PPPoE() {
                 },
                 body: JSON.stringify({
                     id: pppoe.id,
-                    platformID: adminUser.platformID,
                     token
                 }),
             });
