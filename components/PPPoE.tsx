@@ -202,7 +202,7 @@ export default function PPPoE() {
     }, [token]);
 
     const filteredPppoe = pppoE.filter((pppoe) =>
-        [pppoe.name, pppoe.profile, pppoe.servicename, pppoe.clientname].some(
+        [pppoe.name, pppoe.profile, pppoe.servicename, pppoe.clientname, pppoe.paymentLink].some(
             (value) =>
                 value &&
                 value.toString().toLowerCase().includes(searchValue.toLowerCase())
