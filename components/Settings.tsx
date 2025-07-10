@@ -340,10 +340,10 @@ export default function Settings() {
                                     </div>
                                 )}
                             </>
-                        )}
-                        <div className="relative">
-                            {/* Form Section */}
-                            {settings.IsC2B && (
+                        )}{/* Form Section */}
+                        {settings.IsC2B && (
+                            <div className="relative">
+
                                 <>
                                     <div className="space-y-2">
                                         <label className="block text-sm font-medium text-gray-300">Short Code</label>
@@ -370,15 +370,15 @@ export default function Settings() {
                                             <option value="Till">Till</option>
                                         </select>
                                     </div>
+
+                                    {/* Blur Overlay */}
+                                    <div className="absolute inset-0 bg-black/50 bg-opacity-60 backdrop-blur-md flex items-center justify-center rounded-md z-10">
+                                        <p className="text-white text-lg font-semibold text-center">C2B is Under Maintenance</p>
+                                    </div>
                                 </>
-                            )}
 
-                            {/* Blur Overlay */}
-                            <div className="absolute inset-0 bg-black/50 bg-opacity-60 backdrop-blur-md flex items-center justify-center rounded-md z-10">
-                                <p className="text-white text-lg font-semibold text-center">C2B is Under Maintenance</p>
                             </div>
-                        </div>
-
+                        )}
                         {settings.IsAPI && (
                             <>
                                 <div className="space-y-2">

@@ -12,6 +12,7 @@ export default function Dashboard() {
     const [phone, setPhone] = useState("");
     const [packageID, setPackageID] = useState("");
     const [IsB2B, setIsB2B] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
     const [packages, setPackages] = useState<Package[]>([]);
     const [codes, setcodes] = useState<any[]>([]);
     const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, totalPackages: 0, routers: 0 });
@@ -108,6 +109,7 @@ export default function Dashboard() {
     }, []);
 
     const handleSave = async (e: React.FormEvent) => {
+        setIsAdding(true)
         e.preventDefault();
         const newUser = { phone, packageID, platformID: adminUser.platformID, package: { connect: { id: packageID } } };
         try {
@@ -125,6 +127,7 @@ export default function Dashboard() {
             } else {
                 toast.error(res.message);
             }
+            setIsAdding(false)
         } catch (error) {
             console.log("Error creating user:", error);
             toast.error("Failed to create user.");
@@ -221,7 +224,7 @@ export default function Dashboard() {
                             </select>
                             <div className="flex justify-end space-x-2 mt-6">
                                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md">Cancel</button>
-                                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
+                                <button disabled={isAdding} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
                             </div>
                         </form>
                     </div>
