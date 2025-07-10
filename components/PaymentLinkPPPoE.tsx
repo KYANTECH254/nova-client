@@ -185,7 +185,7 @@ export default function PaymentLinkPPPoE() {
                                 : "bg-green-600 hover:bg-green-700"
                                 }`}
                         >
-                            {parseFloat(pppoE.price) > 0 ? "Make Payment" : "Make Next Payment"}
+                            {parseFloat(pppoE.amount) > 0 ? "Make Payment" : "Make Next Payment"}
                         </button>
                     </div>
                 </div>

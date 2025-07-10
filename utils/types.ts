@@ -20,6 +20,7 @@ export type PPPoE = {
     DNSserver?: string;
     paymentLink: string;
     email:string;
+    amount: string;
     createdAt?: string;
     updatedAt?: string;
     expiresAt?: string;
