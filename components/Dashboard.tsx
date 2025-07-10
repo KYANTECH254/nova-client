@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, cache } from "react";
-import { ChevronUp, Plus, Users } from "lucide-react";
+import { ChevronUp, MoreVertical, Plus, Users } from "lucide-react";
 import Link from "next/link";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { toast } from "sonner";
@@ -134,24 +134,80 @@ export default function Dashboard() {
         }
     };
 
+    function RevenueMenu() {
+        const [showMenu, setShowMenu] = useState(false);
+        const months = ["March", "April", "May", "June", "July"]; 
+
+        return (
+            <div className="relative ml-auto">
+                <button onClick={() => setShowMenu(!showMenu)} className="text-gray-400 hover:text-gray-200">
+                    <MoreVertical className="w-5 h-5" />
+                </button>
+                {showMenu && (
+                    <div className="absolute right-0 mt-2 w-56 bg-gray-900 border border-gray-700 rounded-md shadow-lg z-10 p-4 space-y-2">
+                        <h4 className="text-sm text-gray-400">Select Month</h4>
+                        {months.map((month, idx) => (
+                            <button key={idx} className="w-full text-left px-2 py-1 hover:bg-gray-700 text-gray-300 rounded">
+                                {month}
+                            </button>
+                        ))}
+                        <div className="mt-2">
+                            <input type="date" className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white" />
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="flex flex-col min-h-screen p-5 mt-20">
                 <h1 className="text-2xl font-semibold text-gray-200 mb-6">Dashboard Overview</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
                     {[
                         { title: "Total Users (Active)", value: stats.totalUsers },
                         { title: "Revenue (Today)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}` },
+                        { title: "Revenue (This Month)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}`, menu: true },
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
                         <div key={index} className="bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
-                            <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
+                           <div className="flex justify-between items-start">
+    <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
+    {stat.menu && <RevenueMenu />}
+</div>
+
                             <p className="text-2xl font-bold mt-2 text-gray-300">{stat.value}</p>
-                            {stat.title === "Revenue (Today)" && (
-                                <div className="flex flex-row items-center gap-2">
-                                    <h3 className="text-sm font-medium text-gray-500">Yesterday</h3>
-                                    <p className="text-sm font-bold text-gray-300">(KSH {(stats.yesterdayRevenue).toFixed(2)})</p>
+                            {["Revenue (Today)", "Revenue (This Month)"].includes(stat.title) && (
+                                <div className="mt-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        {stat.title === "Revenue (Today)" ? (
+                                            <>
+                                                <span className="text-xs text-gray-400">Yesterday:</span>
+                                                <span className="text-sm text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className="text-xs text-gray-400">Last Month:</span>
+                                                <span className="text-sm text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    {/* Percentage Change */}
+                                    <div className="flex items-center gap-1">
+                                        {/* You can calculate % change with logic below */}
+                                        {stat.title === "Revenue (Today)" ? (
+                                            <span className="text-green-500 flex items-center text-sm">
+                                                <Plus className="w-4 h-4" /> 12.4%
+                                            </span>
+                                        ) : (
+                                            <span className="text-red-500 flex items-center text-sm">
+                                                <ChevronUp className="w-4 h-4 rotate-180" /> 4.8%
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>
