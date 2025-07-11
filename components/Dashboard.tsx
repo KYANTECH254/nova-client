@@ -22,7 +22,8 @@ export default function Dashboard() {
     const [recentActivities, setRecentActivities] = useState<any[]>([]);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-    const [selectedMonth, setSelectedMonth] = useState("");
+    const [selectedMonth, setSelectedMonth] = useState<any>("");
+    const [customRevenue, setCustomRevenue] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchpackages = cache(async () => {
@@ -162,8 +163,7 @@ export default function Dashboard() {
 
             if (res.success) {
                 toast.success("Filter applied successfully.");
-                // Update stats or chart here if you wish
-                console.log("Filtered revenue result:", res.data);
+                setCustomRevenue(res.data.totalRevenue);
             } else {
                 toast.error(res.message || "Failed to filter revenue.");
             }
@@ -175,7 +175,6 @@ export default function Dashboard() {
 
     function RevenueMenu() {
         const [showMenu, setShowMenu] = useState(false);
-        // const months = ["March", "April", "May", "June", "July"];
 
         return (
             <div className="relative ml-auto">
@@ -196,7 +195,11 @@ export default function Dashboard() {
                             {months.map((month, idx) => (
                                 <button
                                     key={idx}
-                                    onClick={() => setSelectedMonth(month)}
+                                    onClick={() => {
+                                        setSelectedMonth(month);
+                                        setCustomRevenue(month.totalRevenue);
+                                    }}
+
                                     className={`w-full text-left px-2 py-1 rounded text-sm hover:bg-gray-700 ${selectedMonth === month ? "bg-blue-700 text-white" : "text-gray-300"
                                         }`}
                                 >
@@ -249,7 +252,18 @@ export default function Dashboard() {
                     {[
                         { title: "Total Users (Active)", value: stats.totalUsers },
                         { title: "Revenue (Today)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}` },
-                        { title: "Revenue (This Month)", value: `KSH ${(stats.thismonthRevenue).toFixed(2)}`, menu: true },
+{
+  title:
+    selectedMonth
+      ? `Revenue (${selectedMonth?.month})`
+      : fromDate && toDate
+        ? `Revenue (Custom)`
+        : "Revenue (This Month)",
+  value: `KSH ${(stats.thismonthRevenue).toFixed(2)}`,
+  menu: true
+},
+
+
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
@@ -259,7 +273,12 @@ export default function Dashboard() {
                                 {stat.menu && <RevenueMenu />}
                             </div>
 
-                            <p className="text-2xl font-bold mt-2 text-gray-300">{stat.value}</p>
+                            <p className="text-2xl font-bold mt-2 text-gray-300">
+                                {stat.title === "Revenue (This Month)"
+                                    ? `KSH ${(customRevenue !== null ? customRevenue : stats.thismonthRevenue).toFixed(2)}`
+                                    : stat.value}
+                            </p>
+
                             {["Revenue (Today)", "Revenue (This Month)", "Packages"].includes(stat.title) && (
                                 <div className="mt-4 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
@@ -272,7 +291,7 @@ export default function Dashboard() {
                                         {stat.title === "Revenue (This Month)" && (
                                             <>
                                                 <span className="text-xs text-gray-400">Last Month:</span>
-                                                <span className="text-sm text-gray-300 font-medium">KSH {(stats.lastmonthRevenue).toFixed(2)}</span>
+                                                <span className="text-sm text-gray-300 font-medium">KSH {stats.lastmonthRevenue.toFixed(2)}</span>
                                             </>
                                         )}
                                         {stat.title === "Packages" && (
