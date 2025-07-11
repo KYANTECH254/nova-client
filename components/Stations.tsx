@@ -90,7 +90,6 @@ export default function Stations() {
                 }
             } catch (error) {
                 console.log("Error fetching Stations:", error);
-                toast.error("Failed to fetch Stations");
             }
         });
         fetchStations();
@@ -132,7 +131,6 @@ export default function Stations() {
                 }
             } catch (error) {
                 console.log("Error fetching Stations:", error);
-                toast.error("Failed to fetch Stations");
             }
         };
 
@@ -169,7 +167,6 @@ export default function Stations() {
                 }
             } catch (error) {
                 console.log("Error fetching ddns:", error);
-                toast.error("Failed to fetch ddns");
             }
         });
         fetchddns();
