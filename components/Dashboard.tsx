@@ -187,7 +187,7 @@ export default function Dashboard() {
                     <MoreVertical size={24} className="w-5 h-5 bg-gray-200/10 p-1 font-bold rounded-full cursor-pointer" />
                 </button>
                 {showMenu && (
-                    <div className="absolute right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-md shadow-lg z-10 p-4 space-y-3">
+                    <div onClick={(e) => e.stopPropagation()} className="absolute right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-md shadow-lg z-10 p-4 space-y-3">
                         <div className="flex flex-row items-center justify-between">
                             <h4 className="text-sm text-gray-400 font-medium">Select Month or Range</h4>
                             <button onClick={() => setShowMenu(false)} className="text-gray-400 hover:text-gray-200">
@@ -221,7 +221,11 @@ export default function Dashboard() {
                                     required
                                     type="date"
                                     value={fromDate}
-                                    onChange={(e) => setFromDate(e.target.value)}
+                                    onChange={(e) => {
+                                        setSelectedMonth("");
+                                        setFromDate(e.target.value);
+                                    }}
+                                    onClick={(e) => e.stopPropagation()}
                                     className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
                                 />
                             </div>
@@ -231,15 +235,20 @@ export default function Dashboard() {
                                     required
                                     type="date"
                                     value={toDate}
-                                    onChange={(e) => setToDate(e.target.value)}
+                                    onChange={(e) => {
+                                        setSelectedMonth("");
+                                        setToDate(e.target.value);
+                                    }}
+                                    onClick={(e) => e.stopPropagation()}
                                     className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
                                 />
                             </div>
                             <button
+                                disabled={isApplying}
                                 onClick={handleDateFilterSubmit}
                                 className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-1.5 rounded"
                             >
-                                Apply Filter
+                                {isApplying ? "Applying" : "Apply Filter"}
                             </button>
                         </div>
                     </div>
@@ -258,14 +267,16 @@ export default function Dashboard() {
                         { title: "Total Users (Active)", value: stats.totalUsers },
                         { title: "Revenue (Today)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}` },
                         {
-                            title:
-                                selectedMonth
-                                    ? `Revenue (${selectedMonth?.month})`
-                                    : fromDate && toDate
-                                        ? `Revenue (Custom)`
-                                        : "Revenue (This Month)",
-                            value: `KSH ${(stats.thismonthRevenue).toFixed(2)}`,
-                            menu: true
+                            title: selectedMonth
+                                ? `Revenue (${selectedMonth.month})`
+                                : fromDate && toDate
+                                    ? "Revenue (Custom Range)"
+                                    : "Revenue (This Month)",
+                            value: `KSH ${customRevenue !== null
+                                ? Number(customRevenue).toFixed(2)
+                                : Number(stats.thismonthRevenue).toFixed(2)
+                                }`,
+                            menu: true,
                         },
 
                         { title: "Packages", value: stats.totalPackages },
@@ -289,36 +300,50 @@ export default function Dashboard() {
                                         {stat.title === "Revenue (Today)" && (
                                             <>
                                                 <span className="text-xs text-gray-400">Yesterday:</span>
-                                                <span className="text-sm text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
+                                                <span className="text-xs text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
                                             </>
                                         )}
                                         {stat.title === "Revenue (This Month)" && (
                                             <>
                                                 <span className="text-xs text-gray-400">Last Month:</span>
-                                                <span className="text-sm text-gray-300 font-medium">KSH {stats.lastmonthRevenue.toFixed(2)}</span>
+                                                <span className="text-xs text-gray-300 font-medium">KSH {stats.lastmonthRevenue.toFixed(2)}</span>
                                             </>
                                         )}
                                         {stat.title === "Packages" && (
                                             <>
                                                 <span className="text-xs text-gray-400">Most Purchased:</span>
-                                                <span className="text-sm text-gray-300 font-medium">1 Bob Offer 1 Bob Offer</span>
+                                                <span className="text-xs text-gray-300 font-medium">1 Bob Offer 1 Bob Offer</span>
                                             </>
                                         )}
                                     </div>
 
                                     {/* Percentage Change */}
                                     <div className="flex items-center gap-1">
-                                        {/* You can calculate % change with logic below */}
-                                        {stat.title === "Revenue (Today)" && (
-                                            <span className="text-green-500 flex items-center text-sm">
-                                                <Plus className="w-4 h-4" /> 12.4%
-                                            </span>
-                                        )}
-                                        {stat.title === "Revenue (This Month)" && (
-                                            <span className="text-red-500 flex items-center text-sm">
-                                                <ChevronUp className="w-4 h-4 rotate-180" /> 4.8%
-                                            </span>
-                                        )}
+                                        {stat.title === "Revenue (Today)" && (() => {
+                                            const diff = stats.dailyRevenue - stats.yesterdayRevenue;
+                                            const percent = ((diff) / Math.max(stats.yesterdayRevenue, 1)) * 100;
+                                            const isPositive = diff >= 0;
+
+                                            return (
+                                                <span className={`flex items-center text-xs ${isPositive ? "text-green-500" : "text-red-500"}`}>
+                                                    {isPositive ? <Plus className="w-3 h-3" /> : <ChevronUp className="w-3 h-3 rotate-180" />}
+                                                    {`${Math.abs(percent).toFixed(2)}%`}
+                                                </span>
+                                            );
+                                        })()}
+
+                                        {stat.title === "Revenue (This Month)" && (() => {
+                                            const diff = stats.thismonthRevenue - stats.lastmonthRevenue;
+                                            const percent = ((diff) / Math.max(stats.lastmonthRevenue, 1)) * 100;
+                                            const isPositive = diff >= 0;
+
+                                            return (
+                                                <span className={`flex items-center text-xs ${isPositive ? "text-green-500" : "text-red-500"}`}>
+                                                    {isPositive ? <Plus className="w-3 h-3" /> : <ChevronUp className="w-3 h-3 rotate-180" />}
+                                                    {`${Math.abs(percent).toFixed(2)}%`}
+                                                </span>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             )}
