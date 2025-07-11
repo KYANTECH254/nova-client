@@ -17,7 +17,7 @@ export default function Dashboard() {
     const [packages, setPackages] = useState<Package[]>([]);
     const [codes, setcodes] = useState<any[]>([]);
     const [months, setmonths] = useState<any[]>([]);
-    const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, thismonthRevenue: 0, lastmonthRevenue: 0, totalPackages: 0, routers: 0 });
+    const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, thismonthRevenue: 0, lastmonthRevenue: 0, totalPackages: 0, routers: 0, mostpurchased:"" });
     const [funds, setFunds] = useState({ balance: 0, withdrawals: 0 });
     const { adminUser, token } = useAdminAuth();
     const [recentActivities, setRecentActivities] = useState<any[]>([]);
@@ -312,7 +312,7 @@ export default function Dashboard() {
                                         {stat.title === "Packages" && (
                                             <>
                                                 <span className="text-xs text-gray-400">Most Purchased:</span>
-                                                <span className="text-xs text-gray-300 font-medium">1 Bob Offer 1 Bob Offer</span>
+                                                <span className="text-xs text-gray-300 font-medium">{stats.mostpurchased}</span>
                                             </>
                                         )}
                                     </div>
