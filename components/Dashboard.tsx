@@ -13,6 +13,7 @@ export default function Dashboard() {
     const [packageID, setPackageID] = useState("");
     const [IsB2B, setIsB2B] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
+    const [isApplying, setIsApplying] = useState(false);
     const [packages, setPackages] = useState<Package[]>([]);
     const [codes, setcodes] = useState<any[]>([]);
     const [months, setmonths] = useState<any[]>([]);
@@ -135,12 +136,14 @@ export default function Dashboard() {
             }
             setIsAdding(false)
         } catch (error) {
+            setIsAdding(false)
             console.log("Error creating user:", error);
             toast.error("Failed to create user.");
         }
     };
 
     const handleDateFilterSubmit = async () => {
+        setIsApplying(true)
         if (!fromDate || !toDate) {
             toast.error("Please select both From and To dates.");
             return;
@@ -163,11 +166,13 @@ export default function Dashboard() {
 
             if (res.success) {
                 toast.success("Filter applied successfully.");
-                setCustomRevenue(res.data.totalRevenue);
+                setCustomRevenue(res.totalRevenue);
             } else {
                 toast.error(res.message || "Failed to filter revenue.");
             }
+            setIsApplying(false)
         } catch (err) {
+            setIsApplying(false)
             console.error("Filter error:", err);
             toast.error("Something went wrong while filtering.");
         }
@@ -252,17 +257,16 @@ export default function Dashboard() {
                     {[
                         { title: "Total Users (Active)", value: stats.totalUsers },
                         { title: "Revenue (Today)", value: `KSH ${(stats.dailyRevenue).toFixed(2)}` },
-{
-  title:
-    selectedMonth
-      ? `Revenue (${selectedMonth?.month})`
-      : fromDate && toDate
-        ? `Revenue (Custom)`
-        : "Revenue (This Month)",
-  value: `KSH ${(stats.thismonthRevenue).toFixed(2)}`,
-  menu: true
-},
-
+                        {
+                            title:
+                                selectedMonth
+                                    ? `Revenue (${selectedMonth?.month})`
+                                    : fromDate && toDate
+                                        ? `Revenue (Custom)`
+                                        : "Revenue (This Month)",
+                            value: `KSH ${(stats.thismonthRevenue).toFixed(2)}`,
+                            menu: true
+                        },
 
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
