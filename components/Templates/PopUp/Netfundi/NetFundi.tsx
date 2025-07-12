@@ -29,29 +29,30 @@ export default function NetFundiPopup({
                     payment:
                 </p>
                 <input
-                className="text-black"
+                    className="text-black"
                     type="text"
                     placeholder="Enter Phone Number or Mpesa Voucher"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                 />
-                <button onClick={fetchCode}>
+                <button disabled={loading} onClick={fetchCode}>
                     {loading ? <ClipLoader size={20} color="#fff" /> : " Get Voucher"}
                 </button>
 
                 {!loading && codes.length > 0 && (
                     <div className={styles.voucherDetails}>
-                        <h3>{codes.length} Voucher{codes.length > 1 ? "s" : ""}</h3>
+                        <h3 className="text-xl font-bold text-black m-5">{codes.length} Voucher{codes.length > 1 ? "s" : ""} found</h3>
                         {codes.map((c: any, index: any) => (
-                            <div className={styles.voucherBox}>
+                            <div key={index} className={styles.voucherBox}>
                                 <p className={styles.voucherStatus}>{c.status}</p>
-                                <input type="text" value={c.code} readOnly />
-                                <p>
-                                    This voucher was active from {c.startTime}.
+                                <input onClick={() => copyToClipboard(c.username)} className={styles.codeInput} type="text" value={c.username} readOnly />
+                                <p className="text-black">
+                                    This voucher was active from {c.activeFrom}.
                                     <br />
-                                    Remaining time: {c.remaining} remaining.
+                                    Remaining time: {c.timeLeft}.
                                 </p>
                                 <button
+                                disabled={loggingin}
                                     onClick={() => {
                                         if (!c.expired) {
                                             setLoggingIn(true);

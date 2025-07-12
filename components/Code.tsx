@@ -165,6 +165,7 @@ export default function GetCodePopup({ onClose }: { onClose: () => void }) {
                                                 Remaining time: {c.timeLeft}.
                                             </p>
                                             <button
+                                            disabled={loggingin}
                                                 onClick={() => {
                                                     if (!c.expired) {
                                                         setLoggingIn(true);
