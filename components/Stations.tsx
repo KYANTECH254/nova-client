@@ -355,11 +355,14 @@ export default function Stations() {
                                         <CommandInput command="/ip firewall filter add action=accept chain=input src-address=10.10.10.0/24" />
                                         <CommandInput command="/ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes" />
 
-                                        <h1 className="semibold  italic">9. Continue and add Router Login Username and password below</h1>
-                                        <h1 className="semibold  italic">10. After setting up and filling all details below try pinging our server wireguard internal ip on mikrotik to see if connection was successful</h1>
+                                        <h1 className="semibold  italic">9. Add Firewall Mangle Rule to Limit Packet Forwarding </h1>
+                                        <CommandInput command="/ip firewall mangle add chain=postrouting out-interface=bridge action=change-ttl new-ttl=set:1" />
+
+                                        <h1 className="semibold  italic">10. Continue and add Router Login Username and password below</h1>
+                                        <h1 className="semibold  italic">11. After setting up and filling all details below try pinging our server wireguard internal ip on mikrotik to see if connection was successful</h1>
                                         <CommandInput command="ping 10.10.10.1" />
 
-                                        <h1 className="semibold  italic">11. Lastly make sure to add <span className="text-green-600 font-bold">"local.wifi"</span> as your WiFi hotspot server profile DNS name. Remember to make sure you have /hotspot<Link className="font-semibold text-blue-600 underline" href="/admin/files">/login.html</Link> folder as well</h1>
+                                        <h1 className="semibold  italic">12. Lastly make sure to add <span className="text-green-600 font-bold">"local.wifi"</span> as your WiFi hotspot server profile DNS name. Remember to make sure you have /hotspot<Link className="font-semibold text-blue-600 underline" href="/admin/files">/login.html</Link> folder as well</h1>
 
                                     </div>
                                 </div>

@@ -57,6 +57,7 @@ export default function Hero() {
             const data = await response.json();
             if (!data.success) {
                 toast.error(data.message);
+                localStorage.removeItem("wifiLogin")
                 setIsLoading(false);
                 return;
             };
@@ -96,7 +97,6 @@ export default function Hero() {
                                             type="text"
                                             placeholder="Enter Code"
                                             value={code}
-                                            maxLength={6}
                                             onChange={(e) => setCode(e.target.value)}
                                             className="bg-transparent outline-none text-white w-full placeholder-gray-300 md:text-base font-semibold text-lg"
                                             disabled={isLoading}
@@ -165,7 +165,6 @@ export default function Hero() {
                                         type="text"
                                         placeholder="Enter Code"
                                         value={code}
-                                        maxLength={12}
                                         onChange={(e) => setCode(e.target.value)}
                                         className="bg-transparent outline-none text-white w-full placeholder-gray-300 md:text-base font-semibold text-lg"
                                         disabled={isLoading}
