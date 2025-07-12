@@ -13,18 +13,18 @@ export default function NetFUndiHero({ isLoading, code, handleLogin, setCode }: 
     return (
         <div className={styles.hero}>
             <div className={styles.voucherinputsection}>
-                <label className={styles.formlabel}>M-Pesa message or Voucher</label>
+                <label className={styles.formlabel}>Voucher</label>
                 <div className={styles.inputgroup}>
                     <input
                         type="text"
                         className={styles.voucherinput}
-                        placeholder="Enter M-Pesa message or Voucher"
+                        placeholder="Enter Voucher"
                     />
                     <button className={styles.connectbtn} onClick={handleLogin}>
                         Connect
                     </button>
                 </div>
-                <a href="tel:0724029553" className={styles.customercarelink}>
+                <a href={`tel:${phoneNumber}`} className={styles.customercarelink}>
                     Customer Care: {phoneNumber}
                 </a>
             </div>
