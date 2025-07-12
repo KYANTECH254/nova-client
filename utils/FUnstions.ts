@@ -1,41 +1,41 @@
 export function getNextAvailableIP(existingHosts: string[], base: string = "10.10.10.") {
-    const assigned = new Set(
-        existingHosts
-            .filter(ip => ip.startsWith(base))
-            .map(ip => ip.split("/")[0])
-            .map(ip => parseInt(ip.split(".")[3]))
-            .filter(val => !isNaN(val))
-    );
+  const assigned = new Set(
+    existingHosts
+      .filter(ip => ip.startsWith(base))
+      .map(ip => ip.split("/")[0])
+      .map(ip => parseInt(ip.split(".")[3]))
+      .filter(val => !isNaN(val))
+  );
 
-    for (let i = 2; i <= 254; i++) {
-        if (!assigned.has(i)) {
-            return `${base}${i}`;
-        }
+  for (let i = 2; i <= 254; i++) {
+    if (!assigned.has(i)) {
+      return `${base}${i}`;
     }
+  }
 
-    return "";
+  return "";
 }
 
 
 export const generatePlatformUrl = (name: string) => {
   return name
     .toLowerCase()
-    .replace(/[^a-z\s]/g, '')   
-    .replace(/\s+/g, '-')       
-    .replace(/^-+|-+$/g, '');  
+    .replace(/[^a-z\s]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/^-+|-+$/g, '');
 };
 
 export const generatePlatformId = () => {
-    return `PLT${Math.floor(1000 + Math.random() * 900000)}`;
+  return `PLT${Math.floor(1000 + Math.random() * 900000)}`;
 };
 
 export const getCurrentAdminId = () => {
-    return `ADM${Math.floor(1000 + Math.random() * 900000)}`;
+  return `ADM${Math.floor(1000 + Math.random() * 900000)}`;
 };
 
 export const isValidIP = (ip: string): boolean => {
-    const ipRegex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    return ipRegex.test(ip);
+  const ipRegex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  return ipRegex.test(ip);
 };
 
 export const isValidPublicKey = (key: string): boolean => {
@@ -54,51 +54,51 @@ export const isValidPublicKey = (key: string): boolean => {
 };
 
 export interface ValidateAmountOptions {
-    min?: number;
-    max?: number;
-    decimals?: number;
+  min?: number;
+  max?: number;
+  decimals?: number;
 }
 
 export interface ValidateAmountResult {
-    valid: boolean;
-    value?: number;
-    error?: string;
+  valid: boolean;
+  value?: number;
+  error?: string;
 }
 
 export function validateAmount(
-    amount: string | number | null | undefined,
-    options: ValidateAmountOptions = {}
+  amount: string | number | null | undefined,
+  options: ValidateAmountOptions = {}
 ): ValidateAmountResult {
-    const { min = 0.01, max = Infinity, decimals = 2 } = options;
+  const { min = 0.01, max = Infinity, decimals = 2 } = options;
 
-    if (amount === null || amount === undefined || amount === '') {
-        return { valid: false, error: 'Amount is required.' };
-    }
+  if (amount === null || amount === undefined || amount === '') {
+    return { valid: false, error: 'Amount is required.' };
+  }
 
-    const num = typeof amount === 'number' ? amount : parseFloat(amount.toString());
+  const num = typeof amount === 'number' ? amount : parseFloat(amount.toString());
 
-    if (isNaN(num)) {
-        return { valid: false, error: 'Amount must be a number.' };
-    }
+  if (isNaN(num)) {
+    return { valid: false, error: 'Amount must be a number.' };
+  }
 
-    if (num <= 0) {
-        return { valid: false, error: 'Amount must be greater than zero.' };
-    }
+  if (num <= 0) {
+    return { valid: false, error: 'Amount must be greater than zero.' };
+  }
 
-    if (num < min) {
-        return { valid: false, error: `Amount must be at least ${min}.` };
-    }
+  if (num < min) {
+    return { valid: false, error: `Amount must be at least ${min}.` };
+  }
 
-    if (num > max) {
-        return { valid: false, error: `Amount must not exceed ${max}.` };
-    }
+  if (num > max) {
+    return { valid: false, error: `Amount must not exceed ${max}.` };
+  }
 
-    const decimalPlaces = (num.toString().split('.')[1] || '').length;
-    if (decimalPlaces > decimals) {
-        return { valid: false, error: `Amount must have no more than ${decimals} decimal places.` };
-    }
+  const decimalPlaces = (num.toString().split('.')[1] || '').length;
+  if (decimalPlaces > decimals) {
+    return { valid: false, error: `Amount must have no more than ${decimals} decimal places.` };
+  }
 
-    return { valid: true, value: num };
+  return { valid: true, value: num };
 }
 
 export const getMappedPort = (internalIP: string): number | null => {
@@ -106,7 +106,7 @@ export const getMappedPort = (internalIP: string): number | null => {
   if (!match) return null;
 
   const lastOctet = parseInt(match[1], 10);
-  if (lastOctet < 2 || lastOctet > 254) return null; 
+  if (lastOctet < 2 || lastOctet > 254) return null;
 
   return 8290 + lastOctet;
 };
@@ -149,5 +149,26 @@ export function validateDdnsHost(input: string): boolean {
     hostnameRegex.test(input) ||
     urlRegex.test(input)
   );
+}
+
+export function hashInternalIP(ip: string) {
+  const parts = ip.split('.');
+  if (parts.length !== 4 || parts[0] !== '10' || parts[1] !== '10' || parts[2] !== '10') {
+    throw new Error('Invalid IP format. Expected format: 10.10.10.X');
+  }
+
+  const lastOctet = parseInt(parts[3]);
+  if (isNaN(lastOctet) || lastOctet < 0 || lastOctet > 255) {
+    throw new Error('Invalid last octet');
+  }
+
+  const buffer = Buffer.from([lastOctet]);
+  return buffer.toString('base64'); // or use 'hex' if preferred
+}
+
+export function decodeHashedIP(hash: string) {
+  const buffer = Buffer.from(hash, 'base64');
+  const lastOctet = buffer[0];
+  return `10.10.10.${lastOctet}`;
 }
 
