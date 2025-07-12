@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETFUNDI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="/">NETFUNDI</a>
+        <button style="width: fit-content;">GET VOUCHER</button>
+    </header>
+
+    <div class="main-content">
+        <div class="hero">
+            <div class="voucher-input-section">
+                <label class="form-label">M-Pesa message or Voucher</label>
+                <div class="input-group">
+                    <input type="text" class="voucher-input" placeholder="Enter M-Pesa message or Voucher" />
+                    <button class="connect-btn">Connect</button>
+                </div>
+                <a href="tel:0724029553" class="customer-care-link">Customer Care: 0724 029 553</a>
+            </div>
+        </div>
+
+        <!-- NetFundi Packages Section Start -->
+        <div class="netfundi-packages">
+            <div class="package-toggle-buttons">
+                <button class="package-toggle-btn active" data-target="daily">Daily</button>
+                <button class="package-toggle-btn" data-target="weekly">Weekly</button>
+                <button class="package-toggle-btn" data-target="monthly">Monthly</button>
+            </div>
+
+            <div class="package-content" id="daily" style="display: block;">
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">4</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Mchana Mchana</div>
+                        <div class="plan-specs">30 min • 1 Device • 5 Mbps</div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">6</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Poa Sawa</div>
+                        <div class="plan-specs">1 hr • 1 Device • 5 Mbps</div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">29</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Data Light</div>
+                        <div class="plan-specs">No Expiry • 1 Device • 5 Mbps • 3 GB</div>
+                        <div class="special-badges">
+                            <div class="special-badge no-expiry-badge">NO EXPIRY</div>
+                        </div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">98</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Data Wiki</div>
+                        <div class="plan-specs">No Expiry • 1 Device • 5 Mbps • 7 GB</div>
+                        <div class="special-badges">
+                            <div class="special-badge no-expiry-badge">NO EXPIRY</div>
+                        </div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="package-content" id="weekly">
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">158</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Week Kiplom</div>
+                        <div class="plan-specs">7 days • 1 Device • 5 Mbps</div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">255</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Week Duo Kiplom</div>
+                        <div class="plan-specs">7 days • 2 Devices • 5 Mbps</div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">268</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Stream Week</div>
+                        <div class="plan-specs">7 days • 1 Device • 8 Mbps</div>
+                        <div class="special-badges">
+                            <div class="special-badge streaming-badge">STREAMING</div>
+                        </div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="package-content" id="monthly">
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">550</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Mwezi Full</div>
+                        <div class="plan-specs">30 days • 1 Device • 5 Mbps</div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">880</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Mwezi Duo</div>
+                        <div class="plan-specs">30 days • 2 Devices • 5 Mbps</div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="price-section">
+                        <div class="currency">KES</div>
+                        <div class="price">1200</div>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-name">Mwezi Trio Kundi</div>
+                        <div class="plan-specs">30 days • 3 Devices • 5 Mbps</div>
+                        <button class="buy-button">BUY NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- NetFundi Packages Section End -->
+    </div>
+
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <img class="close-popup" onclick="closePopup()"
+                src="https://res.cloudinary.com/dlkqilyi0/image/upload/v1752351141/close_cyskal.png">
+            <h2>Get Your Login Voucher</h2>
+            <p>Enter Phone Number or Mpesa Voucher or Paste full Mpesa message after payment:</p>
+            <input type="text" placeholder="Enter Phone Number or Mpesa Voucher" id="phoneNumberInput">
+            <button onclick="getVoucher()">Get Voucher</button>
+            <div id="voucherDetails" style="display: none;">
+                <h3>1 Voucher Found</h3>
+                <div style="border: 1px solid var(--jungle-green); padding: 1rem; border-radius: 8px;">
+                    <p style="color: var(--jungle-green); font-weight: bold;">Active</p>
+                    <input type="text" value="YGQJDBL" readonly
+                        style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                    <p>This voucher was active from 2025-07-12 22:33:45.<br>Remaining time: 0 hours 29 minutes
+                        remaining.</p>
+                    <button
+                        style="background-color: var(--jungle-green); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px;">Log
+                        In</button>
+                </div>
+            </div>
+            <div id="errorMessage"
+                style="display: none; color: var(--tropical-red); font-weight: bold; margin-top: 1rem;">
+                No voucher found. Please try again.
+            </div>
+        </div>
+    </div>
+
+    <div class="buy-popup-overlay" id="buyPopupOverlay">
+        <div class="buy-popup">
+            <img class="close-popup" onclick="closeBuyPopup()"
+                src="https://res.cloudinary.com/dlkqilyi0/image/upload/v1752351141/close_cyskal.png">
+            <div class="package-details">
+                <h2 id="packageName">Package name</h2>
+                <p id="packageSpecs">Package details will appear here</p>
+            </div>
+            <label for="mpesaNumberInput">Enter Mpesa Number:</label>
+            <input type="text" id="mpesaNumberInput" placeholder="e.g., 0712345678">
+            <button onclick="confirmPayment()">Pay Now</button>
+        </div>
+    </div>
+
+    <footer>
+        <svg class="footer-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.2 14.9,11.3 15,11.3H16.2C16.6,11.3 17,11.7 17,12.1V16.2C17,16.6 16.6,17 16.2,17H7.8C7.4,17 7,16.6 7,16.2V12.1C7,11.7 7.4,11.3 7.8,11.3H9C9.1,11.3 9.2,11.2 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.4,8.7 10.4,10.1V11.1H13.6V10.1C13.6,8.7 12.8,8.2 12,8.2Z" />
+        </svg>
+        <span class="footer-text">Powered by <span class="footer-brand">NOVA</span></span>
+    </footer>
+
+    <script>
+        const buttons = document.querySelectorAll('.package-toggle-btn');
+        const contents = document.querySelectorAll('.package-content');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                contents.forEach(c => c.style.display = 'none');
+                btn.classList.add('active');
+                const target = btn.getAttribute('data-target');
+                document.getElementById(target).style.display = 'block';
+            });
+        });
+
+        const popupOverlay = document.getElementById('popupOverlay');
+        const getVoucherButton = document.querySelector('header button');
+
+        getVoucherButton.addEventListener('click', () => {
+            popupOverlay.style.display = 'flex';
+        });
+
+        function getVoucher() {
+            const input = document.getElementById('phoneNumberInput').value;
+            const voucherDetails = document.getElementById('voucherDetails');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Simulate an API call to check the voucher
+            setTimeout(() => {
+                if (input === '12345') { // Simulated valid voucher
+                    voucherDetails.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                } else {
+                    voucherDetails.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                }
+            }, 1000);
+        }
+
+        function submitPhoneNumber() {
+            const phoneNumber = document.getElementById('phoneNumberInput').value;
+            alert(`Phone number submitted: ${phoneNumber}`);
+            popupOverlay.style.display = 'none';
+        }
+
+        const voucherDetails = document.getElementById('voucherDetails');
+        const errorMessage = document.getElementById('errorMessage');
+
+        function getVoucher() {
+            const phoneNumber = document.getElementById('phoneNumberInput').value;
+
+            if (phoneNumber === '0796275911') { // Example condition for a valid voucher
+                voucherDetails.style.display = 'block';
+                errorMessage.style.display = 'none';
+            } else {
+                voucherDetails.style.display = 'none';
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        function closePopup() {
+            const popupOverlay = document.getElementById('popupOverlay');
+            popupOverlay.style.display = 'none';
+        }
+
+        const buyButtons = document.querySelectorAll('.buy-button');
+        const buyPopupOverlay = document.getElementById('buyPopupOverlay');
+        const packageDetails = document.getElementById('packageDetails');
+
+        buyButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const planCard = event.target.closest('.plan-card');
+                const planName = planCard.querySelector('.plan-name').textContent;
+                const planPrice = planCard.querySelector('.price').textContent;
+                const planSpecs = planCard.querySelector('.plan-specs').textContent;
+
+                const packageDetails = document.querySelector('.buy-popup .package-details');
+                packageDetails.innerHTML = `
+                    <h2>${planName} - KES ${planPrice}</h2>
+                    <p>${planSpecs}</p>
+                `;
+
+                buyPopupOverlay.style.display = 'flex';
+            });
+        });
+
+        function closeBuyPopup() {
+            buyPopupOverlay.style.display = 'none';
+        }
+
+        function confirmPayment() {
+            const mpesaNumber = document.getElementById('mpesaNumberInput').value;
+            alert(`Mpesa Number: ${mpesaNumber}\nPayment Confirmed!`);
+            buyPopupOverlay.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
