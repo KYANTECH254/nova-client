@@ -53,6 +53,8 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     const hostname = typeof window !== "undefined" ? window.location.hostname : "";
 
     const urlPlatform = searchParams.get("platform");
+    const hash = searchParams.get("hash");
+    localStorage.setItem("hash", hash || "");
 
     if (urlPlatform) {
       const sub = urlPlatform.split(".")[0];
@@ -105,7 +107,7 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [socket, isConnected, platform, ip, pathname]);
 
- useEffect(() => {
+  useEffect(() => {
     if (!socket) return;
     if (pathname.includes("/admin") || pathname.includes("/manager")) return;
     const temp = searchParams.get("template");
@@ -118,7 +120,7 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
       }
       localStorage.setItem("platform_id", data.platformID);
       if (temp) {
-        const {template, ...upddata} = data;
+        const { template, ...upddata } = data;
         upddata.template = temp;
         setPlatformData(upddata);
       } else {
@@ -147,11 +149,12 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     if (pathname.includes("/admin") || pathname.includes("/manager")) return;
 
     async function fetchPackages(platformID: string) {
+      const hash = localStorage.getItem("hash") || "";
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/packages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ platformID }),
+          body: JSON.stringify({ platformID, hash }),
         });
 
         if (!response.ok) {
