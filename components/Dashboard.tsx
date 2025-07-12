@@ -17,7 +17,7 @@ export default function Dashboard() {
     const [packages, setPackages] = useState<Package[]>([]);
     const [codes, setcodes] = useState<any[]>([]);
     const [months, setmonths] = useState<any[]>([]);
-    const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, thismonthRevenue: 0, lastmonthRevenue: 0, totalPackages: 0, routers: 0, mostpurchased:"" });
+    const [stats, setStats] = useState({ totalUsers: 0, yesterdayRevenue: 0, dailyRevenue: 0, thismonthRevenue: 0, lastmonthRevenue: 0, totalPackages: 0, routers: 0, mostpurchased: "" });
     const [funds, setFunds] = useState({ balance: 0, withdrawals: 0 });
     const { adminUser, token } = useAdminAuth();
     const [recentActivities, setRecentActivities] = useState<any[]>([]);
@@ -25,6 +25,7 @@ export default function Dashboard() {
     const [toDate, setToDate] = useState("");
     const [selectedMonth, setSelectedMonth] = useState<any>("");
     const [customRevenue, setCustomRevenue] = useState<number | null>(null);
+    const [showMenu, setShowMenu] = useState(false);
 
     useEffect(() => {
         const fetchpackages = cache(async () => {
@@ -145,6 +146,7 @@ export default function Dashboard() {
     const handleDateFilterSubmit = async () => {
         setIsApplying(true)
         if (!fromDate || !toDate) {
+            setIsApplying(false)
             toast.error("Please select both From and To dates.");
             return;
         }
@@ -178,86 +180,6 @@ export default function Dashboard() {
         }
     };
 
-    function RevenueMenu() {
-        const [showMenu, setShowMenu] = useState(false);
-
-        return (
-            <div className="relative ml-auto">
-                <button onClick={() => setShowMenu(!showMenu)} className="text-gray-400 hover:text-gray-200">
-                    <MoreVertical size={24} className="w-5 h-5 bg-gray-200/10 p-1 font-bold rounded-full cursor-pointer" />
-                </button>
-                {showMenu && (
-                    <div onClick={(e) => e.stopPropagation()} className="absolute right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-md shadow-lg z-10 p-4 space-y-3">
-                        <div className="flex flex-row items-center justify-between">
-                            <h4 className="text-sm text-gray-400 font-medium">Select Month or Range</h4>
-                            <button onClick={() => setShowMenu(false)} className="text-gray-400 hover:text-gray-200">
-                                <X size={20} className="w-5 h-5 bg-gray-200/10 p-1 rounded-full cursor-pointer" />
-                            </button>
-                        </div>
-
-                        {/* Last 5 Months */}
-                        <div className="space-y-1">
-                            {months.map((month, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => {
-                                        setSelectedMonth(month);
-                                        setCustomRevenue(month.totalRevenue);
-                                    }}
-
-                                    className={`w-full text-left px-2 py-1 rounded text-sm hover:bg-gray-700 ${selectedMonth === month ? "bg-blue-700 text-white" : "text-gray-300"
-                                        }`}
-                                >
-                                    {month.month}
-                                </button>
-                            ))}
-                        </div>
-
-                        {/* Date Range Inputs */}
-                        <div className="mt-2 space-y-2">
-                            <div>
-                                <label className="text-xs text-gray-400 block mb-1">From:</label>
-                                <input
-                                    required
-                                    type="date"
-                                    value={fromDate}
-                                    onChange={(e) => {
-                                        setSelectedMonth("");
-                                        setFromDate(e.target.value);
-                                    }}
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
-                                />
-                            </div>
-                            <div>
-                                <label className="text-xs text-gray-400 block mb-1">To:</label>
-                                <input
-                                    required
-                                    type="date"
-                                    value={toDate}
-                                    onChange={(e) => {
-                                        setSelectedMonth("");
-                                        setToDate(e.target.value);
-                                    }}
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
-                                />
-                            </div>
-                            <button
-                                disabled={isApplying}
-                                onClick={handleDateFilterSubmit}
-                                className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-1.5 rounded"
-                            >
-                                {isApplying ? "Applying" : "Apply Filter"}
-                            </button>
-                        </div>
-                    </div>
-
-                )}
-            </div>
-        );
-    }
-
     return (
         <>
             <div className="flex flex-col min-h-screen p-5 mt-20">
@@ -285,7 +207,81 @@ export default function Dashboard() {
                         <div key={index} className="bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
                             <div className="flex justify-between items-start">
                                 <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
-                                {stat.menu && <RevenueMenu />}
+                                {stat.menu && (
+                                    <div className="relative ml-auto">
+                                        <button onClick={() => setShowMenu(!showMenu)} className="text-gray-400 hover:text-gray-200">
+                                            <MoreVertical size={24} className="w-5 h-5 bg-gray-200/10 p-1 font-bold rounded-full cursor-pointer" />
+                                        </button>
+                                        {showMenu && (
+                                            <div onClick={(e) => e.stopPropagation()} className="absolute right-0 mt-2 w-72 bg-gray-900 border border-gray-700 rounded-md shadow-lg z-10 p-4 space-y-3">
+                                                <div className="flex flex-row items-center justify-between">
+                                                    <h4 className="text-sm text-gray-400 font-medium">Select Month or Range</h4>
+                                                    <button onClick={() => setShowMenu(false)} className="text-gray-400 hover:text-gray-200">
+                                                        <X size={20} className="w-5 h-5 bg-gray-200/10 p-1 rounded-full cursor-pointer" />
+                                                    </button>
+                                                </div>
+
+                                                {/* Last 5 Months */}
+                                                <div className="space-y-1">
+                                                    {months.map((month, idx) => (
+                                                        <button
+                                                            key={idx}
+                                                            onClick={() => {
+                                                                setSelectedMonth(month);
+                                                                setCustomRevenue(month.totalRevenue);
+                                                            }}
+
+                                                            className={`w-full text-left px-2 py-1 rounded text-sm hover:bg-gray-700 ${selectedMonth === month ? "bg-blue-700 text-white" : "text-gray-300"
+                                                                }`}
+                                                        >
+                                                            {month.month}
+                                                        </button>
+                                                    ))}
+                                                </div>
+
+                                                {/* Date Range Inputs */}
+                                                <div className="mt-2 space-y-2">
+                                                    <div>
+                                                        <label className="text-xs text-gray-400 block mb-1">From:</label>
+                                                        <input
+                                                            required
+                                                            type="date"
+                                                            value={fromDate}
+                                                            onChange={(e) => {
+                                                                setSelectedMonth("");
+                                                                setFromDate(e.target.value);
+                                                            }}
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="text-xs text-gray-400 block mb-1">To:</label>
+                                                        <input
+                                                            required
+                                                            type="date"
+                                                            value={toDate}
+                                                            onChange={(e) => {
+                                                                setSelectedMonth("");
+                                                                setToDate(e.target.value);
+                                                            }}
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className="w-full px-2 py-1 rounded bg-black border border-gray-700 text-white text-sm"
+                                                        />
+                                                    </div>
+                                                    <button
+                                                        disabled={isApplying}
+                                                        onClick={handleDateFilterSubmit}
+                                                        className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-1.5 rounded"
+                                                    >
+                                                        {isApplying ? "Applying" : "Apply Filter"}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        )}
+                                    </div>
+                                )}
                             </div>
 
                             <p className="text-2xl font-bold mt-2 text-gray-300">
