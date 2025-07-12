@@ -1,9 +1,37 @@
 "use client"
 
 import { Copy, Download } from "lucide-react";
+import { cache, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Station } from "./Stations";
+import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 
 export default function Files() {
+    const [stations, setStations] = useState<Station[]>([]);
+    const { adminUser, token } = useAdminAuth();
+
+        useEffect(() => {
+            const fetchStations = cache(async () => {
+                try {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/fetchStations`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ token }),
+                    });
+                    const res = await response.json();
+                    if (res.success) {
+                        setStations(res.stations);
+                    } else {
+                        toast.error(res.message);
+                    }
+                } catch (error) {
+                    console.log("Error fetching Stations:", error);
+                }
+            });
+            fetchStations();
+        }, []);
     return (
         <>
             <div className="p-6 max-w-4xl mx-auto mt-14">

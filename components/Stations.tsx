@@ -9,7 +9,7 @@ import { getMappedPort, getNextAvailableIP, isValidIP, isValidPublicKey, validat
 import Link from "next/link";
 import { DDNS } from "./DDNS";
 
-interface Station {
+export interface Station {
     id: string;
     name: string;
     mikrotikHost: string;
