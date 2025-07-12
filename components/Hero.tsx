@@ -6,6 +6,7 @@ import { usePlatform } from "@/contexts/PlatformProvider";
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
 import EldoHub from "./Templates/EldoHub";
+import NetFUndiHero from "./Templates/Hero/Netfundi/NetFundi";
 
 export default function Hero() {
     const [code, setCode] = useState("");
@@ -211,6 +212,9 @@ export default function Hero() {
                 <>
                     <EldoHub isLoading={isLoading} code={code} handleLogin={handleLogin} setCode={setCode} />
                 </>
+            )}
+            {platformData?.template === "NetFundi" && (
+                <NetFUndiHero isLoading={isLoading} code={code} handleLogin={handleLogin} setCode={setCode} />
             )}
         </>
     );

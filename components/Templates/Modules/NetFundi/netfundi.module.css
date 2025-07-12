@@ -60,7 +60,7 @@
   margin: 20px 0;
 }
 
-.voucher-input-section {
+.voucherinputsection {
   background-color: rgba(255, 255, 255, 0.95);
   padding: 0.5rem;
   border-radius: 8px;
@@ -70,7 +70,7 @@
   width: calc(100% - 1rem);
 }
 
-.form-label {
+.formlabel {
   color: #003b22;
   font-size: 0.9rem;
   font-weight: bold;
@@ -79,7 +79,7 @@
   text-align: center;
 }
 
-.input-group {
+.inputgroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -100,7 +100,7 @@
   font-weight: bold;
 }
 
-.voucher-input {
+.voucherinput {
   width: 100%;
   background-color: white;
   border: 2px solid #2b9d5d;
@@ -137,7 +137,7 @@
   justify-content: center;
 }
 
-.connect-btn {
+.connectbtn {
   background-color: #2b9d5d;
   color: white;
   border: none;
@@ -319,7 +319,7 @@
   transform: translateY(-1px);
 }
 
-.customer-care-link {
+.customercarelink {
   color: #2b9d5d;
   background-color: #ffe500;
   margin-top: 10px;
