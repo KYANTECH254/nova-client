@@ -1,8 +1,4 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import HelpButton from "@/components/Help";
-import Hero from "@/components/Hero";
-import PricingCards from "@/components/PricingCards";
+import MainContent from "@/components/MainContent";
 import { capitalize } from "@/utils/FUnstions";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
@@ -27,11 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Page() {
   return (
     <>
-      <Header />
-      <Hero />
-      <PricingCards />
-      <HelpButton />
-      <Footer />
+      <MainContent />
     </>
   );
 }
