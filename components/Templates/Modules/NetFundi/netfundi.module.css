@@ -3,7 +3,15 @@
   src: url('./centurygothic.ttf') format('truetype');
 }
 
-.main-content {
+.body {
+    margin: 0;
+    background-color: #2b9d5d;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.maincontent {
   max-width: 480px;
   margin: 0 auto;
   flex: 1;
