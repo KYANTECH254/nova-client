@@ -11,7 +11,7 @@
 }
 
 .header {
-   font-family: 'NetFundiFont';
+  font-family: 'NetFundiFont';
   background-color: #003b22;
   padding: 1rem;
   display: flex;
@@ -336,7 +336,7 @@
   font-weight: bold;
 }
 
-.popup-overlay,
+.overlay,
 .buy-popup-overlay {
   position: fixed;
   top: 0;
@@ -345,7 +345,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(5px);
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -353,6 +353,7 @@
 
 .popup,
 .buy-popup {
+  max-height: 80vh;
   background: white;
   padding: 2rem;
   border-radius: 12px;
@@ -362,6 +363,7 @@
   position: relative;
   text-align: center;
   font-family: 'NetFundiFont';
+  overflow-y: auto;
 }
 
 .popup input,
@@ -412,7 +414,7 @@
   display: block;
 }
 
-.close-popup {
+.close {
   position: absolute;
   top: 12px;
   right: 12px;
