@@ -39,18 +39,24 @@ export default function NetFundiPackages({
                                         : parseInt(pkg.devices) < 1
                                             ? 'Unlimited Devices'
                                             : `${pkg.devices} Devices`} • {pkg.speed}Mbps</div>
-                                    {pkg.badges && (
-                                        <div className={styles.badges}>
-                                            {pkg.badges.map((badge: any, j: any) => (
-                                                <div
-                                                    key={j}
-                                                    className={`${styles.badge} ${badge === 'NO EXPIRY' ? styles.noExpiry : styles.streaming}`}
-                                                >
-                                                    {badge}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+
+                                    <div className={styles.badges}>
+                                        {pkg.popular && (
+                                            <div
+                                                className={`${styles.badge} ${styles.streaming}`}
+                                            >
+                                                Popular
+                                            </div>
+                                        )}
+                                        {(pkg.period).trim() === "NoExpiry" && (
+                                            <div
+                                                className={`${styles.badge} ${styles.noExpiry}`}
+                                            >
+                                                NO EXPIRY
+                                            </div>
+                                        )}
+                                    </div>
+
                                     <button onClick={() => setSelectedPlan(pkg)} className={styles.buybutton}>BUY NOW</button>
                                 </div>
                             </div>
