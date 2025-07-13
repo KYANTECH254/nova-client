@@ -307,6 +307,7 @@ export default function Packages() {
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setIsAdding(true)
         e.preventDefault();
         const formData = new FormData(e.currentTarget as HTMLFormElement);
         const packageData = {
@@ -346,11 +347,13 @@ export default function Packages() {
             } else {
                 toast.error(res.message);
             }
+            setIsAdding(false)
         } catch (error) {
+            setIsAdding(false)
             console.log("Error submitting package:", error);
             toast.error("Failed to submit package");
         }
-
+        setIsAdding(false)
         setShowModal(false);
     };
 
