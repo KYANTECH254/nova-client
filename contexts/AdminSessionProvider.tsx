@@ -52,6 +52,7 @@ export const AdminAuthProvider = ({ children }: any) => {
                             }
                         }
                     } catch (error) {
+                        sessionStorage.removeItem("authToken");
                         setError("Failed to authenticate.");
                         console.log("Auth Error:", error);
                         toast.error("Failed to authenticate.");
@@ -131,6 +132,7 @@ export const ManagerAuthProvider = ({ children }: any) => {
                         }
                     } catch (error) {
                         setError("Failed to authenticate.");
+                        sessionStorage.removeItem("specialToken");
                         console.log("Auth Error:", error);
                         toast.error("Failed to authenticate.");
                     }
