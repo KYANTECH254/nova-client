@@ -22,9 +22,11 @@
             return false;
         }
 
-        function openLogin() {
+        function openLogin(event) {
+            if (event) event.preventDefault();
             const username = '$(username)';
-            return window.location.href = `http://local.wifi/login?username=${username}&password=${username}`;
+            const loginUrl = `/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(username)}`;
+            window.open(loginUrl, '_blank');
         }
     </script>
 </head>
@@ -91,9 +93,9 @@
         </div>
 
         <!-- Show Login button if not logged in -->
-        <form name="login">
+        <form name="login" onsubmit="return openLogin(event)">
             <div class="detail-item" style="justify-content: center;">
-                <input onclick="openLogin()" type="button" value="Log in" class="login-button">
+                <input type="submit" value="Log in" class="login-button">
             </div>
         </form>
 
