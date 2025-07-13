@@ -17,7 +17,8 @@ export type Package = {
     pool: string;
     routerHost?: string;
     routerName?: string;
-    category: "Daily" | "Weekly" | "Monthly";
+    category: "Daily" | "Weekly" | "Monthly" | "Data";
+    status: string;
     createdAt?: string;
     updatedAt?: string;
 };
@@ -37,6 +38,7 @@ export default function Packages() {
     const [usageValue, setUsageValue] = useState("");
     const [isUnlimited, setIsUnlimited] = useState(false);
     const [unlimitedDevices, setUnlimitedDevices] = useState(false);
+    const [unlimitedPeriod, setUnlimitedPeriod] = useState(false);
     const { adminUser, token } = useAdminAuth();
     const [selectedStation, setSelectedStation] = useState<any>();
     const [selectedHost, setSelectedHost] = useState<any>();
@@ -45,6 +47,8 @@ export default function Packages() {
     const [name, setName] = useState("");
     const [speed, setSpeed] = useState("");
     const [devices, setDevices] = useState("");
+    const [category, setCategory] = useState("Daily");
+    const [packagestatus, setPackageStatus] = useState("live");
 
     useEffect(() => {
         const fetchpackages = cache(async () => {
@@ -233,26 +237,30 @@ export default function Packages() {
         let periodValue = "";
         let periodUnit = "days";
 
-        if (pkg.period) {
+        if (pkg.period === "NoExpiry") {
+            setUnlimitedPeriod(true);
+            periodValue = "NoExpiry";
+            periodUnit = "";
+        } else if (pkg.period) {
             const periodParts = pkg.period.split(" ");
-            if (periodParts.length >= 2) {
-                periodValue = periodParts[0];
-                periodUnit = periodParts[1];
-            } else if (periodParts.length === 1) {
-                periodValue = periodParts[0];
-            }
+            periodValue = periodParts[0] || "";
+            periodUnit = periodParts[1] || "days";
+            setUnlimitedPeriod(false);
         }
+
         const matchingPool = filteredPools.find(pool => pool.name === pkg.pool);
+
         setSelectedPool(matchingPool || "");
         setPeriodValue(periodValue);
         setPeriodUnit(periodUnit);
         setIsUnlimited(pkg.usage === "Unlimited");
         setUnlimitedDevices(pkg.devices === "Unlimited");
+        setDevices(pkg.devices === "Unlimited" ? "" : pkg.devices);
         setName(pkg.name);
         setSpeed(pkg.speed);
-        setDevices(pkg.devices === "Unlimited" ? "" : pkg.devices);
         setCurrentPackage(pkg);
         setShowModal(true);
+        setPackageStatus(pkg.status);
     };
 
     const handleAdd = () => {
@@ -263,6 +271,7 @@ export default function Packages() {
         setUsageValue("");
         setIsUnlimited(false);
         setUnlimitedDevices(false);
+        setUnlimitedPeriod(false);
         setName("");
         setSpeed("");
         setDevices("");
@@ -310,11 +319,12 @@ export default function Packages() {
             speed: speed,
             devices: unlimitedDevices ? "Unlimited" : devices,
             usage: isUnlimited ? "Unlimited" : `${(formData.get("usage") as string)} ${(formData.get("usageUnit") as string)}`,
-            category: formData.get("category") as "Daily" | "Weekly" | "Monthly",
+            category: formData.get("category") as "Daily" | "Weekly" | "Monthly" | "Data",
             station: formData.get("station") as string,
             pool: selectedPool?.name || "",
             profile: selectedProfileId || "",
             host: selectedStation.mikrotikHost,
+            status: packagestatus
         };
 
         try {
@@ -501,37 +511,58 @@ export default function Packages() {
                                     <select
                                         name="category"
                                         defaultValue={currentPackage?.category || "Daily"}
+                                        onChange={(e) => setCategory(e.target.value)}
                                         className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         required
                                     >
                                         <option value="Daily">Daily</option>
                                         <option value="Weekly">Weekly</option>
                                         <option value="Monthly">Monthly</option>
+                                        <option value="Data">Data Plan</option>
                                     </select>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium mb-1">Period</label>
-                                    <div className="flex">
+                                    <div className="flex items-center mb-2">
                                         <input
-                                            type="number"
-                                            value={periodValue}
-                                            onChange={(e) => setPeriodValue(e.target.value)}
-                                            className="w-1/2 px-3 py-2 border rounded-l-md bg-black text-gray-300"
-                                            placeholder="Value"
-                                            required
+                                            type="checkbox"
+                                            id="unlimitedPeriod"
+                                            checked={unlimitedPeriod}
+                                            onChange={(e) => {
+                                                setUnlimitedPeriod(e.target.checked);
+                                                if (e.target.checked) {
+                                                    setPeriodValue("NoExpiry");
+                                                    setPeriodUnit("")
+                                                }
+                                            }}
+                                            className="mr-2"
                                         />
-                                        <select
-                                            value={periodUnit}
-                                            onChange={(e) => setPeriodUnit(e.target.value)}
-                                            className="w-1/2 px-3 py-2 border rounded-r-md bg-black text-gray-300"
-                                            required
-                                        >
-                                            <option value="minutes">Minutes</option>
-                                            <option value="hours">Hours</option>
-                                            <option value="days">Days</option>
-                                        </select>
+                                        <label htmlFor="unlimitedPeriod">{category === "Data" ? "No Expiry" : "Unlimited"}</label>
                                     </div>
+
+                                    {!unlimitedPeriod && (
+                                        <div className="flex">
+                                            <input
+                                                type="number"
+                                                value={periodValue}
+                                                onChange={(e) => setPeriodValue(e.target.value)}
+                                                className="w-1/2 px-3 py-2 border rounded-l-md bg-black text-gray-300"
+                                                placeholder="Value"
+                                                required
+                                            />
+                                            <select
+                                                value={periodUnit}
+                                                onChange={(e) => setPeriodUnit(e.target.value)}
+                                                className="w-1/2 px-3 py-2 border rounded-r-md bg-black text-gray-300"
+                                                required
+                                            >
+                                                <option value="minutes">Minutes</option>
+                                                <option value="hours">Hours</option>
+                                                <option value="days">Days</option>
+                                            </select>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div>
@@ -632,6 +663,20 @@ export default function Packages() {
                                     )}
                                 </div>
 
+                                <div>
+                                    <label className="block text-sm font-medium mb-1">Package Visibility</label>
+                                    <select
+                                        name="packagestatus"
+                                        value={packagestatus}
+                                        onChange={(e) => setPackageStatus(e.target.value)}
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        required
+                                    >
+                                        <option value="live">Visible to Users</option>
+                                        <option value="hidden">Hidden</option>
+                                    </select>
+                                </div>
+
                             </div>
 
                             <div className="flex justify-end space-x-2 mt-6">
@@ -652,8 +697,9 @@ export default function Packages() {
                             </div>
                         </form>
                     </div>
-                </div>
-            )}
-        </div>
+                </div >
+            )
+            }
+        </div >
     );
 }
