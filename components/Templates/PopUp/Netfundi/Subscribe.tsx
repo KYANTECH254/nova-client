@@ -15,12 +15,12 @@ export default function NetFundiSubscribe({
                 <img
                     src="images/templates/netfundi/close_cyskal.png"
                     alt="Close"
-                    className={styles.closepopup}
+                    className={styles.close}
                     onClick={onClose}
                 />
 
                 <div className={styles.packagedetails}>
-                    <h2>{plan?.name || "Package name"}</h2>
+                    <h2 className="text-black">{plan?.name || "Package name"}</h2>
                     <p>{plan.period} •  {parseInt(plan.devices) === 1
                         ? `${plan.devices} Device`
                         : parseInt(plan.devices) < 1
