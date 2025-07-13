@@ -13,13 +13,13 @@ export default function NetFundiSubscribe({
         <div className={styles.buypopupoverlay}>
             <div className={styles.buypopup}>
                 <img
-                    src="/images/temaplates/netfundi/close_cyskal.png"
+                    src="images/templates/netfundi/close_cyskal.png"
                     alt="Close"
-                    className={styles.close}
+                    className={styles.closepopup}
                     onClick={onClose}
                 />
 
-                <div className={styles.packageDetails}>
+                <div className={styles.packagedetails}>
                     <h2>{plan?.name || "Package name"}</h2>
                     <p>{plan.period} •  {parseInt(plan.devices) === 1
                         ? `${plan.devices} Device`
