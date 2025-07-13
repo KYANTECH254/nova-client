@@ -56,13 +56,23 @@ export default function HelpButton() {
                         </motion.div>
                     )}
 
-                    {/* Floating Button */}
-                    <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="flex items-center justify-center w-14 h-14 bg-[#00AEEF] text-white rounded-full shadow-lg transition-all hover:bg-[#008ecc]"
-                    >
-                        {isOpen ? <X className="w-6 h-6" /> : <HelpCircle className="w-6 h-6" />}
-                    </button>
+                    {platformData?.template === "NetFundi" && (
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="flex items-center justify-center w-14 h-14 bg-[#ff5f2e] text-white rounded-full shadow-lg transition-all hover:bg-[#ff5f2e]"
+                        >
+                            {isOpen ? <X className="w-6 h-6" /> : <HelpCircle className="w-6 h-6" />}
+                        </button>
+                    )}
+
+                    {platformData?.template !== "NetFundi" && (
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="flex items-center justify-center w-14 h-14 bg-[#00AEEF] text-white rounded-full shadow-lg transition-all hover:bg-[#008ecc]"
+                        >
+                            {isOpen ? <X className="w-6 h-6" /> : <HelpCircle className="w-6 h-6" />}
+                        </button>
+                    )}
                 </div>
             )}
         </>
