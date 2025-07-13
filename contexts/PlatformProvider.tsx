@@ -55,7 +55,7 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     const urlPlatform = searchParams.get("platform");
     const hash = searchParams.get("hash");
     localStorage.setItem("hash", hash || "");
-    window.location.reload()
+
     if (urlPlatform) {
       const sub = urlPlatform.split(".")[0];
       const fullDomain = `${sub}.${baseDomain}`;
