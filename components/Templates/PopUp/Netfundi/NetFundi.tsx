@@ -42,57 +42,56 @@ export default function NetFundiPopup({
                 {!loading && codes.length > 0 && (
                     <div className={styles.voucherDetails}>
                         <h3 className="text-xl font-bold text-black m-5">{codes.length} Voucher{codes.length > 1 ? "s" : ""} found</h3>
-                       {codes.map((c: any, index: any) => (
-  <div key={index} className={styles.voucherBox}>
-    <p className={styles.voucherStatus}>{c.status}</p>
+                        {codes.map((c: any, index: any) => (
+                            <div key={index} className={styles.voucherBox}>
+                                <p className={styles.voucherStatus}>{c.status}</p>
 
-    <div className="relative w-full">
-      <input
-        onClick={() => copyToClipboard(c.username)}
-        className={`${styles.codeInput} ${c.expired ? "bg-red-500/20" : "bg-green-500/20"} pr-10`}
-        type="text"
-        value={c.username}
-        readOnly
-      />
-      <Copy
-        onClick={() => copyToClipboard(c.username)}
-        className={`absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 ${
-          c.expired ? "text-red-400" : "text-green-400"
-        } hover:text-white transition cursor-pointer`}
-      />
-    </div>
+                                <div className="relative w-full">
+                                    <input
+                                        onClick={() => copyToClipboard(c.username)}
+                                        className={`${styles.codeInput} ${c.expired ? "bg-red-500/20" : "bg-green-500/20"} pr-10`}
+                                        type="text"
+                                        value={c.username}
+                                        readOnly
+                                    />
+                                    <Copy
+                                        onClick={() => copyToClipboard(c.username)}
+                                        className={`absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 ${c.expired ? "text-red-400" : "text-green-400"
+                                            } hover:text-white transition cursor-pointer`}
+                                    />
+                                </div>
 
-    <p className="text-black">
-      This voucher was active from {c.activeFrom}.
-      <br />
-      Remaining time: {c.timeLeft}.
-    </p>
+                                <p className="text-black">
+                                    This voucher was active from {c.activeFrom}.
+                                    <br />
+                                    Remaining time: {c.timeLeft}.
+                                </p>
 
-    <button
-      disabled={loggingin}
-      onClick={() => {
-        if (!c.expired) {
-          setLoggingIn(true);
-          window.location.href = `http://local.wifi/login?username=${c.username}&password=${c.password}`;
-        } else {
-          window.location.href = `${window.location.origin}/login`;
-        }
-      }}
-      className={styles.loginButton}
-    >
-      {c.expired ? (
-        "Subscribe"
-      ) : loggingin ? (
-        <>
-          <Loader2 className="animate-spin w-5 h-5 mr-2" />
-          Logging in...
-        </>
-      ) : (
-        "Log In"
-      )}
-    </button>
-  </div>
-))}
+                                <button
+                                    disabled={loggingin}
+                                    onClick={() => {
+                                        if (!c.expired) {
+                                            setLoggingIn(true);
+                                            window.location.href = `http://local.wifi/login?username=${c.username}&password=${c.password}`;
+                                        } else {
+                                            window.location.href = `${window.location.origin}/login`;
+                                        }
+                                    }}
+                                    className={styles.loginButton}
+                                >
+                                    {c.expired ? (
+                                        "Subscribe"
+                                    ) : loggingin ? (
+                                        <>
+                                            <Loader2 className="animate-spin w-5 h-5 mr-2" />
+                                            Logging in...
+                                        </>
+                                    ) : (
+                                        "Log In"
+                                    )}
+                                </button>
+                            </div>
+                        ))}
 
                     </div>
                 )}

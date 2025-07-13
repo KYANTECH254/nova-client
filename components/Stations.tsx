@@ -47,6 +47,24 @@ export default function Stations() {
         mikrotikWebfigHost: "",
         token: token
     });
+    const [allCommands] = useState<string[]>([
+        `/interface/wireguard/add listen-port=13231 mtu=1420 name=wireguard`,
+        `/ip address add address=${formData.mikrotikHost}/24 interface=wireguard`,
+        `/interface wireguard peers add interface=wireguard name=novapeer public-key="wZsLOvBo5gfLp+2ixsHXfP3MjLD2uUqzvuXXQYv9EkM=" endpoint-address=16.170.70.95 endpoint-port=51820 allowed-address=10.10.10.1/32 persistent-keepalive=10`,
+        `/interface wireguard print`,
+        `/interface wireguard peers print`,
+        `/ip service set api address=10.10.10.0/24`,
+        `/ip firewall filter add chain=input src-address=10.10.10.0/24 protocol=tcp dst-port=8728 action=accept comment="Allow API from WireGuard"`,
+        `/interface list member add list=LAN interface=wireguard`,
+        `/ip hotspot walled-garden add dst-host=novawifi.online action=allow`,
+        `/ip hotspot walled-garden add dst-host=*.novawifi.online action=allow`,
+        `/ip hotspot walled-garden add dst-host=api64.ipify.org action=allow`,
+        `/ip firewall filter add action=accept chain=input dst-port=13231 protocol=udp`,
+        `/ip firewall filter add action=accept chain=input src-address=10.10.10.0/24`,
+        `/ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes`,
+        `/ip firewall mangle add chain=postrouting out-interface=bridge action=change-ttl new-ttl=set:1`,
+    ]);
+
     const { socket, isConnected } = useSocket();
     const [connectionStatus, setConnectionStatus] = useState<{ [id: string]: string }>({});
     const [connectionMessage, setConnectionMessage] = useState<{ [id: string]: string }>({});
@@ -227,7 +245,7 @@ export default function Stations() {
         } else if (formData.mikrotikDDNS) {
             formData.mikrotikPublicHost = "";
         }
-        
+
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/updateStation`, {
                 method: "POST",
@@ -283,6 +301,12 @@ export default function Stations() {
         }
     };
 
+    const copyAll = () => {
+        const fullCommand = allCommands.join("\r\n"); 
+        navigator.clipboard.writeText(fullCommand);
+        toast.success("All commands copied!");
+    };
+
     return (
         <div className="p-6 max-w-4xl mx-auto mt-14">
             <h1 className="text-2xl font-bold mb-6">Router Settings</h1>
@@ -323,7 +347,16 @@ export default function Stations() {
                                     </h1>
 
                                     <h1 className="bold flex flex-row items-center text-green-500"><ArrowRight size={15} /> Make sure your MikroTik RouterOS version 7.x and above.</h1>
-                                    <h1 className="bold underline pt-2">Open MikroTik terminal and Run these Commands</h1>
+                                    <div className="flex items-center justify-between">
+                                        <h1 className="bold underline pt-2">Open MikroTik terminal and Run these Commands</h1>
+                                        <button
+                                            onClick={copyAll}
+                                            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-sm"
+                                        >
+                                            <Copy className="w-4 h-4" />
+                                            Copy All
+                                        </button>
+                                    </div>
                                     <div className="mb-2 flex flex-col gap-1">
                                         <h1 className="semibold  italic">1. Add Wireguard interface</h1>
                                         <CommandInput command="/interface/wireguard/add listen-port=13231 mtu=1420 name=wireguard" />
