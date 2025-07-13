@@ -16,42 +16,51 @@ export default function NetFundiPackages({
                     <button
                         key={type}
                         className={`${styles.packagetogglebtn} ${filter === type ? styles.active : ''}`}
-                       onClick={() => setFilter(type as "Daily" | "Weekly" | "Monthly")}
+                        onClick={() => setFilter(type as "Daily" | "Weekly" | "Monthly")}
                     >
                         {type.charAt(0).toUpperCase() + type.slice(1)}
                     </button>
                 ))}
             </div>
-
-            <div className={styles.packagecontent}>
-                {filteredPlans
-                    .sort((a: any, b: any) => parseFloat(a.price) - parseFloat(b.price))
-                    .map((pkg: any, index: any) => (
-                        <div key={index} className={styles.plancard}>
-                            <div className={styles.pricesection}>
-                                <div className={styles.currency}>KES</div>
-                                <div className={styles.price}>{pkg.price}</div>
+            {filteredPlans.length > 0 ? (
+                <div className={styles.packagecontent}>
+                    {filteredPlans
+                        .sort((a: any, b: any) => parseFloat(a.price) - parseFloat(b.price))
+                        .map((pkg: any, index: any) => (
+                            <div key={index} className={styles.plancard}>
+                                <div className={styles.pricesection}>
+                                    <div className={styles.currency}>KES</div>
+                                    <div className={styles.price}>{pkg.price}</div>
+                                </div>
+                                <div className={styles.plandetails}>
+                                    <div className={styles.planname}>{pkg.name}</div>
+                                    <div className={styles.planspecs}>{pkg.period} •  {parseInt(pkg.devices) === 1
+                                        ? `${pkg.devices} Device`
+                                        : parseInt(pkg.devices) < 1
+                                            ? 'Unlimited Devices'
+                                            : `${pkg.devices} Devices`} • {pkg.speed}Mbps</div>
+                                    {pkg.badges && (
+                                        <div className={styles.badges}>
+                                            {pkg.badges.map((badge: any, j: any) => (
+                                                <div
+                                                    key={j}
+                                                    className={`${styles.badge} ${badge === 'NO EXPIRY' ? styles.noExpiry : styles.streaming}`}
+                                                >
+                                                    {badge}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <button className={styles.buybutton}>BUY NOW</button>
+                                </div>
                             </div>
-                            <div className={styles.plandetails}>
-                                <div className={styles.planname}>{pkg.name}</div>
-                                <div className={styles.planspecs}>{pkg.specs}</div>
-                                {pkg.badges && (
-                                    <div className={styles.badges}>
-                                        {pkg.badges.map((badge: any, j: any) => (
-                                            <div
-                                                key={j}
-                                                className={`${styles.badge} ${badge === 'NO EXPIRY' ? styles.noExpiry : styles.streaming}`}
-                                            >
-                                                {badge}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                                <button className={styles.buybutton}>BUY NOW</button>
-                            </div>
-                        </div>
-                    ))}
-            </div>
+                        ))}
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center text-center py-12">
+                    <h2 className="text-2xl font-bold text-gray-500">No Packages Available</h2>
+                </div>
+            )}
         </div>
     );
 }

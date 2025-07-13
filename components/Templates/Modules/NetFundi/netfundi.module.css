@@ -367,7 +367,7 @@
 }
 
 .overlay,
-.buy-popup-overlay {
+.buypopupoverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -381,7 +381,7 @@
   z-index: 1000;
 }
 .popup,
-.buy-popup {
+.buypopup {
   max-height: 80vh;
   background: white;
   padding: 2rem;

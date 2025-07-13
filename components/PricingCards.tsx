@@ -85,9 +85,6 @@ export default function PricingCards() {
                 </p>
               </div>
             )}
-
-            {/* Subscription Popup */}
-            {selectedPlan && <SubscribePopup plan={selectedPlan} onClose={() => setSelectedPlan(null)} />}
           </section>
         </>
       )}
@@ -157,23 +154,22 @@ export default function PricingCards() {
                 <h2 className="text-2xl font-bold text-gray-300">No Packages Available</h2>
               </div>
             )}
-
-            {/* Subscription Popup */}
-            {selectedPlan && <SubscribePopup plan={selectedPlan} onClose={() => setSelectedPlan(null)} />}
           </section>
         </>
       )}
 
       {platformData.template === "NetFundi" && (
         <NetFundiPackages
-        filter={filter}
-        setFilter={setFilter}
-        filteredPlans={filteredPlans}
-        selectedPlan={selectedPlan}
-        setSelectedPlan={setSelectedPlan}
-         />
+          filter={filter}
+          setFilter={setFilter}
+          filteredPlans={filteredPlans}
+          selectedPlan={selectedPlan}
+          setSelectedPlan={setSelectedPlan}
+        />
       )}
 
+      {/* Subscription Popup */}
+      {selectedPlan && <SubscribePopup plan={selectedPlan} onClose={() => setSelectedPlan(null)} />}
     </>
   );
 }
