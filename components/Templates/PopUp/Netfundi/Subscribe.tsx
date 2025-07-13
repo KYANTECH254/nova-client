@@ -28,7 +28,7 @@ export default function NetFundiSubscribe({
                             : `${plan.devices} Devices`} • {plan.speed}Mbps</p>
                 </div>
 
-                <label htmlFor="mpesaInput">Enter Mpesa Number:</label>
+                <label className={styles.label} htmlFor="mpesaInput">Enter Mpesa Number:</label>
                 <input
                     type="text"
                     id="mpesaInput"
