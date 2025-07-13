@@ -25,10 +25,13 @@ export interface Station {
 export default function Stations() {
     const [stations, setStations] = useState<Station[]>([]);
     const [allstations, setAllStations] = useState<Station[]>([]);
+    const [selectedStation, setselectedStation] = useState<any>();
     const [isLoading, setIsLoading] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showInstructions, setShowInstructions] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    const [showModal, setshowModal] = useState(false);
     const [useDDNS, setUseDDNS] = useState(false);
     const [ddns, setddns] = useState<DDNS[]>([]);
     const [url, seturl] = useState("")
@@ -280,6 +283,7 @@ export default function Stations() {
     };
 
     const handleDeleteStation = async (id: string) => {
+        setIsDeleting(true)
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deleteStation`, {
                 method: "POST",
@@ -298,13 +302,20 @@ export default function Stations() {
         } catch (error) {
             console.log("Error deleting station:", error);
             toast.error("Failed to delete station");
+        } finally {
+            setIsDeleting(false)
         }
     };
 
     const copyAll = () => {
-        const fullCommand = allCommands.join("\r\n"); 
+        const fullCommand = allCommands.join("\r\n");
         navigator.clipboard.writeText(fullCommand);
         toast.success("All commands copied!");
+    };
+
+    const confirmDeleteStation = async (station: any) => {
+        setshowModal(true)
+        setselectedStation(station)
     };
 
     return (
@@ -538,7 +549,7 @@ export default function Stations() {
                                         <Edit size={16} />
                                     </button>
                                 )}
-                                <button onClick={() => handleDeleteStation(station.id)} className="text-red-600 hover:text-red-800">
+                                <button onClick={() => confirmDeleteStation(station)} className="text-red-600 hover:text-red-800">
                                     <Trash size={16} />
                                 </button>
                             </div>
@@ -546,8 +557,56 @@ export default function Stations() {
                     );
                 })}
             </div>
-        </div>
+
+            {showModal && (
+                <DeleteRouter
+                    selectedStation={selectedStation}
+                    setshowModal={setshowModal}
+                    isDeleting={isDeleting}
+                    handleDeleteStation={handleDeleteStation}
+                />
+            )}
+        </div >
     );
+}
+
+export function DeleteRouter({ selectedStation, setshowModal, isDeleting, handleDeleteStation }: any) {
+    console.log(selectedStation);
+
+    return (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+                <h2 className="text-xl font-bold mb-2 flex items-center gap-x-1 flex-wrap">
+                    <span>Are you sure you want to delete</span>
+                    <span className="text-red-500">"{selectedStation.name}"</span>
+                    <span>Router</span>
+                </h2>
+
+                <p className="text-sm text-gray-400 mb-4">
+                    This action will permanently delete all associated hotspot users, PPPoE users, and packages linked to this router from our site.
+                </p>
+                <div className="flex justify-end space-x-2 mt-6">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setshowModal(false)
+                        }}
+                        className="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onClick={() => handleDeleteStation(selectedStation.id)}
+                        type="submit"
+                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                        disabled={isDeleting}
+                    >
+                        {isDeleting ? "Deleting..." : "Delete"}
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 
