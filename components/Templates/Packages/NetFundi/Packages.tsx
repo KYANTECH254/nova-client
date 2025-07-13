@@ -1,3 +1,4 @@
+import { formatPeriod } from '@/utils/FUnstions';
 import styles from '../../Modules/NetFundi/netfundi.module.css';
 
 
@@ -34,11 +35,14 @@ export default function NetFundiPackages({
                                 </div>
                                 <div className={styles.plandetails}>
                                     <div className={styles.planname}>{pkg.name}</div>
-                                    <div className={styles.planspecs}>{pkg.period} •  {parseInt(pkg.devices) === 1
-                                        ? `${pkg.devices} Device`
-                                        : parseInt(pkg.devices) < 1
-                                            ? 'Unlimited Devices'
-                                            : `${pkg.devices} Devices`} • {pkg.speed}Mbps</div>
+                                    <div className={styles.planspecs}>
+                                        {formatPeriod(pkg.period, pkg.usage)} •{" "}
+                                        {parseInt(pkg.devices) === 1
+                                            ? `${pkg.devices} Device`
+                                            : parseInt(pkg.devices) < 1
+                                                ? "Unlimited Devices"
+                                                : `${pkg.devices} Devices`} • {pkg.speed}Mbps
+                                    </div>
 
                                     {(pkg.popular || (pkg.period || "").trim() === "NoExpiry") && (
                                         <div className={styles.badges}>

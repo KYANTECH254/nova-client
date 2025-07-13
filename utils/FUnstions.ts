@@ -172,3 +172,18 @@ export function decodeHashedIP(hash: string) {
   return `10.10.10.${lastOctet}`;
 }
 
+export const formatPeriod = (period: string, usage: string) => {
+  const raw = period.trim();
+
+  if (raw === "NoExpiry") return usage;
+
+  const [num, unitRaw] = raw.split(" ");
+  const numVal = parseInt(num, 10);
+  const unit = unitRaw?.toLowerCase();
+
+  const singularized = (word: string) =>
+    word.endsWith("s") && numVal === 1 ? word.slice(0, -1) : word;
+
+  return `${numVal} ${singularized(unit)}`;
+};
+
