@@ -24,7 +24,7 @@
 
         function openLogin() {
             const username = '$(username)';
-            window.location.href = `local.wifi/login?username=${username}&password=${username}`;
+            return window.location.href = `http://local.wifi/login?username=${username}&password=${username}`;
         }
     </script>
 </head>
@@ -91,9 +91,9 @@
         </div>
 
         <!-- Show Login button if not logged in -->
-        <form action="$(link-login)" name="login" onsubmit="return openLogin()">
+        <form name="login">
             <div class="detail-item" style="justify-content: center;">
-                <input type="submit" value="Log in" class="login-button">
+                <input onclick="openLogin()" type="button" value="Log in" class="login-button">
             </div>
         </form>
 
