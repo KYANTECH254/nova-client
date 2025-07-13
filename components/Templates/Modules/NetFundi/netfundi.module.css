@@ -276,14 +276,14 @@
   line-height: 1.2;
 }
 
-.special-badges {
+.badges {
   display: flex;
   gap: 0.25rem;
   flex-wrap: wrap;
   margin: 0.25rem 0;
 }
 
-.special-badge {
+.badge {
   display: inline-block;
   font-size: 0.65rem;
   font-weight: bold;
@@ -295,12 +295,12 @@
   letter-spacing: 0.5px;
 }
 
-.no-expiry-badge {
+.noExpiry {
   background-color: #d3ff00;
   color: #003b22;
 }
 
-.streaming-badge {
+.streaming {
   background-color: #ff5f2e;
 }
 
