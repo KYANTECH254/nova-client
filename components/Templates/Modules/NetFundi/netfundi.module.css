@@ -380,8 +380,7 @@
   align-items: center;
   z-index: 1000;
 }
-.popup,
-.buypopup {
+.popup {
   max-height: 80vh;
   background: white;
   padding: 2rem;
@@ -391,6 +390,24 @@
   width: 90%;
   position: relative;
   text-align: center;
+  font-family: 'NetFundiFont';
+  overflow-y: auto;
+
+  /* Scrollbar Styling */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #2b9d5d #f0f0f0; /* Firefox */
+}
+
+.buypopup {
+  max-height: 80vh;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  /* text-align: center; */
   font-family: 'NetFundiFont';
   overflow-y: auto;
 

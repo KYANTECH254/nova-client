@@ -1,1 +1,0 @@
-# netfundi-template
