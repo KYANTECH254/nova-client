@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    $(if refresh-timeout)
+    <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+    $(endif)
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <title>NETFUNDI - Connection Status</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function openLogout() {
+            if (window.name != 'hotspot_status') return true;
+            open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+            window.close();
+            return false;
+        }
+        function openLogin() {
+            if (window.name != 'hotspot_logout') return true;
+            open('$(link-login)', '_blank', '');
+            window.close();
+            return false;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="status-container">
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="wifi-icon">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+                        <line x1="12" y1="20" x2="12.01" y2="20" />
+                    </svg>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-name">NETFUNDI</div>
+                    <div class="brand-tagline">Bei Poa, Speed Noma</div>
+                </div>
+            </div>
+            <div class="connection-indicator"></div>
+        </div>
+
+        <!-- Replace static chip -->
+        <div class="status-section">
+            <div class="status-chip">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Connected & Active
+            </div>
+            <h1 class="status-title">Connection Details</h1>
+        </div>
+
+        <!-- Replace the details grid with dynamic data -->
+        <div class="details-grid">
+            <div class="detail-item">
+                <span class="detail-label">Voucher Code</span>
+                <span class="detail-value highlight">$(username)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">IP Address</span>
+                <span class="detail-value">$(ip)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Upload / Download</span>
+                <span class="detail-value">$(bytes-in-nice) / $(bytes-out-nice)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Uptime</span>
+                <span class="detail-value">$(uptime)</span>
+            </div>
+            $(if session-time-left)
+            <div class="detail-item">
+                <span class="detail-label">Time Remaining</span>
+                <div>
+                    <span class="detail-value warning">$(session-time-left)</span>
+                </div>
+            </div>
+            $(endif)
+        </div>
+
+        <form action="$(link-logout)" name="logout" onsubmit="return openLogout()">
+            <div class="detail-item" style="justify-content: center;">
+                <input type="submit" value="Logout" class="logout-button">
+            </div>
+        </form>
+
+        <div class="footer">
+            <div class="footer-main">
+                <svg class="footer-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.2 14.9,11.3 15,11.3H16.2C16.6,11.3 17,11.7 17,12.1V16.2C17,16.6 16.6,17 16.2,17H7.8C7.4,17 7,16.6 7,16.2V12.1C7,11.7 7.4,11.3 7.8,11.3H9C9.1,11.3 9.2,11.2 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.4,8.7 10.4,10.1V11.1H13.6V10.1C13.6,8.7 12.8,8.2 12,8.2Z" />
+                </svg>
+                <span>Powered by <a href="https://novawifi.online" target="_blank" class="footer-brand">NOVA</a></span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
