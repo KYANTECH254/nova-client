@@ -206,7 +206,7 @@ header button:hover {
 }
 
 /* Mobile-First Plan Card Layout */
-.plan-card {
+.plancard {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -227,7 +227,7 @@ header button:hover {
 }
 
 /* Price Section - Left Side */
-.price-section {
+.pricesection {
     padding: 0.75rem 0.5rem;
     display: flex;
     flex-direction: column;
@@ -253,7 +253,7 @@ header button:hover {
 }
 
 /* Plan Details - Right Side */
-.plan-details {
+.plandetails {
     flex: 1;
     padding: 0.75rem 0.5rem;
     display: flex;

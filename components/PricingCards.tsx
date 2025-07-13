@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CheckCircle, Clock, PackageX, Zap } from "lucide-react";
 import SubscribePopup from "./Subscribe";
 import { Plan, usePlatform } from "@/contexts/PlatformProvider";
+import NetFundiPackages from "./Templates/Packages/NetFundi/Packages";
 
 export default function PricingCards() {
   const { platformData, packages, error, isConnected } = usePlatform();
@@ -162,6 +163,17 @@ export default function PricingCards() {
           </section>
         </>
       )}
+
+      {platformData.template === "NetFundi" && (
+        <NetFundiPackages
+        filter={filter}
+        setFilter={setFilter}
+        filteredPlans={filteredPlans}
+        selectedPlan={selectedPlan}
+        setSelectedPlan={setSelectedPlan}
+         />
+      )}
+
     </>
   );
 }
