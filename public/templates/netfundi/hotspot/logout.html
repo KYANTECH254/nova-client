@@ -21,6 +21,11 @@
             window.close();
             return false;
         }
+
+        function openLogin() {
+            const username = '$(username)';
+            window.location.href = `local.wifi/login?username=${username}&password=${username}`;
+        }
     </script>
 </head>
 
@@ -86,13 +91,8 @@
         </div>
 
         <!-- Show Login button if not logged in -->
-        <form action="$(link-login)" name="login">
+        <form action="$(link-login)" name="login" onsubmit="return openLogin()">
             <div class="detail-item" style="justify-content: center;">
-                <input type="hidden" name="username" value="$(username)">
-                <input type="hidden" name="password"
-                    value="<script>document.write(hexMD5('$(chap-id)' + '$(username)' + '$(chap-challenge)'));</script>">
-                <input type="hidden" name="dst" value="$(link-orig)">
-                <input type="hidden" name="popup" value="true">
                 <input type="submit" value="Log in" class="login-button">
             </div>
         </form>
