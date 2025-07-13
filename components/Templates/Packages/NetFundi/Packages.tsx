@@ -51,7 +51,7 @@ export default function NetFundiPackages({
                                             ))}
                                         </div>
                                     )}
-                                    <button className={styles.buybutton}>BUY NOW</button>
+                                    <button onClick={() => setSelectedPlan(pkg)} className={styles.buybutton}>BUY NOW</button>
                                 </div>
                             </div>
                         ))}

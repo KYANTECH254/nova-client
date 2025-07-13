@@ -54,6 +54,7 @@ export default function SubscribePopup({ plan, onClose }: any) {
 
     return (
         <>
+        {platformData.template !== "NetFundi" && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-50 p-4">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -113,6 +114,7 @@ export default function SubscribePopup({ plan, onClose }: any) {
                     </button>
                 </motion.div>
             </div>
+             )}
             {platformData.template === "NetFundi" && (
                 <NetFundiSubscribe
                     plan={plan}
