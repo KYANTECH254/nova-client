@@ -1,0 +1,513 @@
+:root {
+    /* NetFundi WiFi Brand Colors */
+    --jungle-green: #2b9d5d;
+    --deep-forest-green: #003b22;
+    --bright-lime-green: #d3ff00;
+    --sunset-orange: #ff5f2e;
+    --cyber-yellow: #ffe500;
+    --tropical-pink: #ff4081;
+    --tropical-red: #ff1744;
+    --sky-teal: #21d4c2;
+
+    /* UI Theme Colors */
+    --theme-background: var(--jungle-green);
+    --theme-primary-dark: var(--deep-forest-green);
+    --theme-primary-dark-transparent: #003b2280;
+    --theme-primary-dark-light: #003b224d;
+    --scrollbar-thumb: var(--sunset-orange);
+}
+
+@font-face {
+    font-family: 'NetFundiFont';
+    src: url(centurygothic.ttf);
+}
+
+* {
+    font-family: 'NetFundiFont';
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: var(--theme-background);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content container with max-width */
+.main-content {
+    max-width: 480px;
+    margin: 0 auto;
+    flex: 1;
+    width: 100%;
+}
+
+header {
+    background-color: var(--theme-primary-dark);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px var(--theme-primary-dark-light);
+}
+
+header a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+header a:hover {
+    color: var(--sky-teal);
+    transition: color 0.3s ease;
+}
+
+header button {
+    background-color: var(--sunset-orange);
+    color: white;
+    width: 100%;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+header button:hover {
+    background-color: var(--sunset-orange);
+    transition: background-color 0.3s ease;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.25rem 0.5rem;
+    margin: 20px 0;
+}
+
+.voucher-input-section {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 0 0.5rem;
+    width: calc(100% - 1rem);
+}
+
+.form-label {
+    color: var(--deep-forest-green);
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: center;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.voucher-input {
+    width: 100%;
+    background-color: white;
+    border: 2px solid var(--jungle-green);
+    border-radius: 12px;
+    padding: 1rem;
+    color: var(--deep-forest-green);
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.voucher-input::placeholder {
+    color: #888;
+}
+
+.voucher-input:focus {
+    outline: none;
+    border-color: var(--sunset-orange);
+    box-shadow: 0 0 0 4px rgba(255, 95, 46, 0.3);
+    transform: scale(1.03);
+}
+
+.connect-btn {
+    background-color: var(--jungle-green);
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.connect-btn:hover {
+    background-color: var(--deep-forest-green);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* NetFundi Packages Section Styling */
+.netfundi-packages {
+    margin: 0.25rem;
+    background: #fff;
+    padding: 0.5rem 0.25rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+}
+
+.package-toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.package-toggle-btn {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.65rem;
+    border: none;
+    border-radius: 6px;
+    background: #e0e0e0;
+    color: #003b22;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.package-toggle-btn.active {
+    background: var(--jungle-green);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(43, 157, 93, 0.15);
+}
+
+.package-content {
+    display: none;
+}
+
+.package-content[style*="display: block"] {
+    display: block;
+}
+
+/* Mobile-First Plan Card Layout */
+.plan-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 60px;
+    width: 100%;
+}
+
+.plan-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Price Section - Left Side */
+.price-section {
+    padding: 0.75rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    flex-shrink: 0;
+    border-right: 1px solid #e0e0e0;
+}
+
+.currency {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 0.1rem;
+}
+
+.price {
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--deep-forest-green);
+    line-height: 1;
+}
+
+/* Plan Details - Right Side */
+.plan-details {
+    flex: 1;
+    padding: 0.75rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    width: calc(100% - 60px);
+}
+
+.plan-name {
+    font-size: 0.95rem;
+    margin: 0;
+    color: var(--deep-forest-green);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.plan-specs {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.special-badges {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin: 0.25rem 0;
+}
+
+.special-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--tropical-pink);
+    padding: 0.15rem 0.4rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.no-expiry-badge {
+    background-color: var(--bright-lime-green);
+    color: var(--deep-forest-green);
+}
+
+.streaming-badge {
+    background-color: var(--sunset-orange);
+}
+
+.buy-button {
+    background-color: var(--jungle-green);
+    color: #fff;
+    border: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-start;
+    white-space: nowrap;
+    min-width: 70px;
+    width: auto;
+}
+
+.buy-button:hover {
+    background-color: var(--deep-forest-green);
+    transform: translateY(-1px);
+}
+
+.customer-care-link {
+    color: var(--jungle-green);
+    background-color: #ffe500;
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* Footer Styling */
+footer {
+    background-color: var(--theme-primary-dark);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.footer-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--jungle-green);
+}
+
+.footer-text {
+    font-size: 0.85rem;
+    color: #ccc;
+}
+
+.footer-brand {
+    color: var(--jungle-green);
+    font-weight: bold;
+}
+
+/* Popup styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+.popup input {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 1rem 0;
+    border: 2px solid var(--jungle-green);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.popup button {
+    background-color: var(--sunset-orange);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.popup button:hover {
+    background-color: var(--sunset-orange);
+}
+
+.buy-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.buy-popup {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    font-family: 'NetFundiFont';
+}
+
+.package-details p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--deep-forest-green);
+}
+
+.package-amount {
+    font-weight: bold;
+    color: var(--jungle-green);
+    font-size: 1.2rem;
+}
+
+label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: var(--deep-forest-green);
+    text-align: left;
+}
+
+.buy-popup input {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 1rem 0;
+    border: 2px solid var(--jungle-green);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.buy-popup button {
+    background-color: var(--sunset-orange);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 auto;
+    display: block;
+}
+
+.buy-popup button:hover {
+    background-color: var(--sunset-orange);
+}
+.close-popup {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    z-index: 1000;
+}
+
+.close-popup:hover {
+    transform: scale(1.1);
+    opacity: 0.85;
+}
