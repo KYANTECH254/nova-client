@@ -9,7 +9,7 @@ import NetFundiPackages from "./Templates/Packages/NetFundi/Packages";
 export default function PricingCards() {
   const { platformData, packages, error, isConnected } = usePlatform();
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const [filter, setFilter] = useState<"Daily" | "Weekly" | "Monthly">("Daily");
+  const [filter, setFilter] = useState<"Daily" | "Weekly" | "Monthly" | "Data">("Daily");
   const filteredPlans = packages.filter((plan) => plan.category === filter);
 
   return (
@@ -19,14 +19,14 @@ export default function PricingCards() {
           <section className="py-12 px-4 md:px-8">
             {/* Filter Buttons */}
             <div className="flex justify-center gap-4 mb-8">
-              {["Daily", "Weekly", "Monthly"].map((period) => (
+              {["Daily", "Weekly", "Monthly", "Data"].map((period) => (
                 <button
                   key={period}
                   className={`px-6 py-2 font-semibold rounded-lg transition-all ${filter === period
                     ? "bg-[#00AEEF] text-white shadow-lg"
                     : "bg-white/10 text-gray-200 border border-white/20 hover:bg-[#00AEEF] hover:text-white"
                     }`}
-                  onClick={() => setFilter(period as "Daily" | "Weekly" | "Monthly")}
+                  onClick={() => setFilter(period as "Daily" | "Weekly" | "Monthly" | "Data")}
                 >
                   {period}
                 </button>
@@ -52,8 +52,10 @@ export default function PricingCards() {
                           <CheckCircle className="w-4 h-4 text-green-400" /> Upto {plan.speed}Mbps Speed
                         </p>
                         <p className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-yellow-400" /> Valid for {plan.period}
+                          <Clock className="w-4 h-4 text-yellow-400" />
+                          {(plan.period || "").trim() === "NoExpiry" ? "NO EXPIRY" : plan.period}
                         </p>
+
                         <p className="flex items-center gap-2">
                           <CheckCircle className="w-4 h-4 text-green-400" /> {plan.usage} Usage
                         </p>
@@ -93,14 +95,14 @@ export default function PricingCards() {
           <section className="py-12 px-4 md:px-8 dark:bg-black bg-white dark:text-white text-black">
             {/* Filter Buttons */}
             <div className="flex justify-center gap-4 mb-8">
-              {["Daily", "Weekly", "Monthly"].map((period) => (
+              {["Daily", "Weekly", "Monthly", "Data"].map((period) => (
                 <button
                   key={period}
                   className={`px-6 py-2 font-semibold rounded-lg transition-all ${filter === period
                     ? "bg-blue-600 text-white shadow-lg"
                     : "bg-white/10 text-gray-200 border border-white/20 hover:bg-blue-600 hover:text-white"
                     }`}
-                  onClick={() => setFilter(period as "Daily" | "Weekly" | "Monthly")}
+                  onClick={() => setFilter(period as "Daily" | "Weekly" | "Monthly" | "Data")}
                 >
                   {period}
                 </button>
@@ -129,7 +131,8 @@ export default function PricingCards() {
                           <CheckCircle className="w-4 h-4 text-green-400" />{plan.speed}Mbps
                         </p>
                         <p className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-yellow-400" />{plan.period}
+                          <Clock className="w-4 h-4 text-yellow-400" />
+                          {(plan.period || "").trim() === "NoExpiry" ? "NO EXPIRY" : plan.period}
                         </p>
                         <p className="flex items-center gap-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
