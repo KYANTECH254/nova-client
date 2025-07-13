@@ -21,12 +21,6 @@
             window.close();
             return false;
         }
-
-        function openLogin() {
-            window.close();
-            return false;
-        }
-
     </script>
 </head>
 
@@ -92,7 +86,7 @@
         </div>
 
         <!-- Show Login button if not logged in -->
-        <form action="$(link-login)" name="login" onsubmit="return openLogin()">
+        <form action="$(link-login)" name="login">
             <div class="detail-item" style="justify-content: center;">
                 <input type="hidden" name="username" value="$(username)">
                 <input type="hidden" name="password"
