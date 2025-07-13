@@ -1,6 +1,7 @@
 import { usePlatform } from '@/contexts/PlatformProvider';
 import { useState, useEffect } from 'react';
 import styles from '../../Modules/NetFundi/netfundi.module.css';
+import { Loader2 } from 'lucide-react';
 
 export default function NetFUndiHero({ isLoading, code, handleLogin, setCode }: any) {
     const { platformData } = usePlatform();
@@ -17,11 +18,26 @@ export default function NetFUndiHero({ isLoading, code, handleLogin, setCode }: 
                 <div className={styles.inputgroup}>
                     <input
                         type="text"
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
                         className={styles.voucherinput}
                         placeholder="Enter Voucher"
                     />
-                    <button className={styles.connectbtn} onClick={handleLogin}>
-                        Connect
+                    <button
+                        className={styles.connectbtn}
+                        onClick={handleLogin}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? (
+                            <>
+                                <Loader2 className="animate-spin w-5 h-5 mr-2" />
+                                Checking...
+                            </>
+                        ) : (
+                            <>
+                                Connect
+                            </>
+                        )}
                     </button>
                 </div>
                 <a href={`tel:${phoneNumber}`} className={styles.customercarelink}>
