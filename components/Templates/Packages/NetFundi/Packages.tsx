@@ -12,11 +12,11 @@ export default function NetFundiPackages({
     return (
         <div className={styles.netfundipackages}>
             <div className={styles.packagetogglebuttons}>
-                {['Daily', 'Weekly', 'Monthly'].map((type) => (
+                {['Daily', 'Weekly', 'Monthly', 'Data'].map((type) => (
                     <button
                         key={type}
                         className={`${styles.packagetogglebtn} ${filter === type ? styles.active : ''}`}
-                        onClick={() => setFilter(type as "Daily" | "Weekly" | "Monthly")}
+                        onClick={() => setFilter(type as "Daily" | "Weekly" | "Monthly" | "Data")}
                     >
                         {type.charAt(0).toUpperCase() + type.slice(1)}
                     </button>
@@ -40,22 +40,20 @@ export default function NetFundiPackages({
                                             ? 'Unlimited Devices'
                                             : `${pkg.devices} Devices`} • {pkg.speed}Mbps</div>
 
-                                    <div className={styles.badges}>
-                                        {pkg.popular && (
-                                            <div
-                                                className={`${styles.badge} ${styles.streaming}`}
-                                            >
-                                                Popular
-                                            </div>
-                                        )}
-                                        {(pkg.period).trim() === "NoExpiry" && (
-                                            <div
-                                                className={`${styles.badge} ${styles.noExpiry}`}
-                                            >
-                                                NO EXPIRY
-                                            </div>
-                                        )}
-                                    </div>
+                                    {(pkg.popular || (pkg.period || "").trim() === "NoExpiry") && (
+                                        <div className={styles.badges}>
+                                            {pkg.popular && (
+                                                <div className={`${styles.badge} ${styles.streaming}`}>
+                                                    Popular
+                                                </div>
+                                            )}
+                                            {(pkg.period || "").trim() === "NoExpiry" && (
+                                                <div className={`${styles.badge} ${styles.noExpiry}`}>
+                                                    NO EXPIRY
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
 
                                     <button onClick={() => setSelectedPlan(pkg)} className={styles.buybutton}>BUY NOW</button>
                                 </div>
