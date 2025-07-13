@@ -90,6 +90,7 @@ export default function PricingCards() {
           </section>
         </>
       )}
+      
       {platformData.template === "Nova Simple" && (
         <>
           <section className="py-12 px-4 md:px-8 dark:bg-black bg-white dark:text-white text-black">

@@ -23,6 +23,7 @@ export default function Settings() {
     });
     const [isLoading, setIsLoading] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [showModal, setshowModal] = useState(false);
     const [isChangingName, setIsChangingName] = useState(false);
     const [showconsumer, setShowConsumer] = useState(false);
     const [showpasskey, setShowpasskey] = useState(false);
@@ -514,7 +515,9 @@ export default function Settings() {
                         <p className="text-xs font-semibold text-red-600 italic p-1 bg-black/30 rounded-md">Delete all {name} platform information stored on our site, note that all information will be deleted and can not be recovered!</p></h2>
 
                     <div
-                        onClick={handleDelete}
+                        onClick={() => {
+                            setshowModal(true)
+                        }}
                         className="flex justify-start mt-3">
                         <button
                             type="button"
@@ -526,6 +529,42 @@ export default function Settings() {
                     </div>
                 </div>
             </form>
+
+            {showModal && (
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+                        <h2 className="text-xl font-bold mb-2 flex items-center gap-x-1 flex-wrap">
+                            <span>Are you sure you want to delete</span>
+                            <span className="text-red-500">"{name}"</span>
+                            <span>Platform</span>
+                        </h2>
+
+                        <p className="text-sm text-gray-400 mb-4">
+                            This action will permanently delete all information stored on our site, note that all information will be deleted and can not be recovered!
+                        </p>
+                        <div className="flex justify-end space-x-2 mt-6">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setshowModal(false)
+                                }}
+                                className="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                type="submit"
+                                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                                disabled={isDeleting}
+                            >
+                                {isDeleting ? "Deleting..." : "Delete"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
