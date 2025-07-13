@@ -413,7 +413,7 @@ export default function Dashboard() {
                             </select>
                             <div className="flex justify-end space-x-2 mt-6">
                                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md">Cancel</button>
-                                <button disabled={isAdding} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
+                                <button disabled={isAdding} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">{isAdding ? "Saving" : "Save"}</button>
                             </div>
                         </form>
                     </div>
