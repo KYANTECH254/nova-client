@@ -155,6 +155,7 @@ export default function Settings() {
         setIsDeleting(true);
         if (!platid) {
             setIsDeleting(false);
+             setshowModal(false)
             return toast.error("Missing Platform information!")
         }
         try {
@@ -184,6 +185,7 @@ export default function Settings() {
             toast.error("Failed to delete platform");
         } finally {
             setIsDeleting(false);
+            setshowModal(false)
         }
     };
 
