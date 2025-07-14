@@ -50,24 +50,7 @@ export default function Stations() {
         mikrotikWebfigHost: "",
         token: token
     });
-    const [allCommands] = useState<string[]>([
-        `/interface/wireguard/add listen-port=13231 mtu=1420 name=wireguard`,
-        `/ip address add address=${formData.mikrotikHost}/24 interface=wireguard`,
-        `/interface wireguard peers add interface=wireguard name=novapeer public-key="wZsLOvBo5gfLp+2ixsHXfP3MjLD2uUqzvuXXQYv9EkM=" endpoint-address=16.170.70.95 endpoint-port=51820 allowed-address=10.10.10.1/32 persistent-keepalive=10`,
-        `/interface wireguard print`,
-        `/interface wireguard peers print`,
-        `/ip service set api address=10.10.10.0/24`,
-        `/ip firewall filter add chain=input src-address=10.10.10.0/24 protocol=tcp dst-port=8728 action=accept comment="Allow API from WireGuard"`,
-        `/interface list member add list=LAN interface=wireguard`,
-        `/ip hotspot walled-garden add dst-host=novawifi.online action=allow`,
-        `/ip hotspot walled-garden add dst-host=*.novawifi.online action=allow`,
-        `/ip hotspot walled-garden add dst-host=api64.ipify.org action=allow`,
-        `/ip firewall filter add action=accept chain=input dst-port=13231 protocol=udp`,
-        `/ip firewall filter add action=accept chain=input src-address=10.10.10.0/24`,
-        `/ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes`,
-        `/ip firewall mangle add chain=postrouting out-interface=bridge action=change-ttl new-ttl=set:1`,
-    ]);
-
+    const [allCommands, setAllCommands] = useState<string[]>([]);
     const { socket, isConnected } = useSocket();
     const [connectionStatus, setConnectionStatus] = useState<{ [id: string]: string }>({});
     const [connectionMessage, setConnectionMessage] = useState<{ [id: string]: string }>({});
@@ -145,8 +128,25 @@ export default function Stations() {
                             ...prev,
                             mikrotikHost: nextIP,
                         }));
-                    }
 
+                        setAllCommands([
+                            `/interface/wireguard/add listen-port=13231 mtu=1420 name=wireguard`,
+                            `/ip address add address=${nextIP}/24 interface=wireguard`,
+                            `/interface wireguard peers add interface=wireguard name=novapeer public-key="wZsLOvBo5gfLp+2ixsHXfP3MjLD2uUqzvuXXQYv9EkM=" endpoint-address=16.170.70.95 endpoint-port=51820 allowed-address=10.10.10.1/32 persistent-keepalive=10`,
+                            `/interface wireguard print`,
+                            `/interface wireguard peers print`,
+                            `/ip service set api address=10.10.10.0/24`,
+                            `/ip firewall filter add chain=input src-address=10.10.10.0/24 protocol=tcp dst-port=8728 action=accept comment="Allow API from WireGuard"`,
+                            `/interface list member add list=LAN interface=wireguard`,
+                            `/ip hotspot walled-garden add dst-host=novawifi.online action=allow`,
+                            `/ip hotspot walled-garden add dst-host=*.novawifi.online action=allow`,
+                            `/ip hotspot walled-garden add dst-host=api64.ipify.org action=allow`,
+                            `/ip firewall filter add action=accept chain=input dst-port=13231 protocol=udp`,
+                            `/ip firewall filter add action=accept chain=input src-address=10.10.10.0/24`,
+                            `/ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes`,
+                            `/ip firewall mangle add chain=postrouting out-interface=bridge action=change-ttl new-ttl=set:1`,
+                        ])
+                    }
                 } else {
                     toast.error(res.message || "Failed to fetch stations");
                 }
@@ -156,7 +156,7 @@ export default function Stations() {
         };
 
         fetchAllStations();
-    }, [showForm, editingStation]);
+    }, [socket, showForm, editingStation]);
 
     useEffect(() => {
         if (editingStation && editingStation.mikrotikDDNS) {
@@ -304,6 +304,7 @@ export default function Stations() {
             toast.error("Failed to delete station");
         } finally {
             setIsDeleting(false)
+            setshowModal(false)
         }
     };
 

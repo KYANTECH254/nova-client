@@ -22,6 +22,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     });
 
     socketInstance.on("connect", () => {
+      setError("");
       console.log("Connected to websocket");
       setIsConnected(true);
       setSocket(socketInstance);
