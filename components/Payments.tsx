@@ -64,6 +64,7 @@ export default function Payments() {
         try {
             setPayments(prev => prev.filter(payment => payment.id !== paymentId));
             const data = {
+                token,
                 id: paymentId
             }
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deletePayment`, {
