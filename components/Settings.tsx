@@ -155,7 +155,7 @@ export default function Settings() {
         setIsDeleting(true);
         if (!platid) {
             setIsDeleting(false);
-             setshowModal(false)
+            setshowModal(false)
             return toast.error("Missing Platform information!")
         }
         try {
@@ -176,6 +176,7 @@ export default function Settings() {
             if (res.success) {
                 toast.success(res.message);
                 logout()
+                window.location.href = "https://novawifi.online"
             } else if (!res.success) {
                 toast.error(res.message);
             }
