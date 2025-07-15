@@ -207,6 +207,7 @@ export default function Packages() {
         try {
             setPackages(prev => prev.filter(pkg => pkg.id !== selectedpackage.id));
             const data = {
+                token,
                 id: selectedpackage.id,
                 platformID: adminUser.platformID,
                 host: selectedpackage.routerHost
@@ -311,6 +312,7 @@ export default function Packages() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget as HTMLFormElement);
         const packageData = {
+            token,
             adminID: adminUser?.adminID,
             platformID: adminUser?.platformID,
             id: currentPackage?.id || "",
