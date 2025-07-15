@@ -103,6 +103,15 @@
   row-gap: 10px;
 }
 
+.expiredvoucherBox {
+  border: 2px solid #ff000080;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
 .voucherStatus {
   color: #2b9d5d;
   font-weight: bold;
@@ -135,6 +144,18 @@
 
 .loginButton {
   background-color: #2b9d5d;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.subscribeButton {
+  background-color: #ff000080;
   color: white;
   padding: 0.5rem 1rem;
   border: none;

@@ -43,7 +43,7 @@ export default function NetFundiPopup({
                     <div className={styles.voucherDetails}>
                         <h3 className="text-xl font-bold text-black m-5">{codes.length} Voucher{codes.length > 1 ? "s" : ""} found</h3>
                         {codes.map((c: any, index: any) => (
-                            <div key={index} className={styles.voucherBox}>
+                            <div key={index} className={c.expired ? styles.expiredvoucherBox : styles.voucherBox}>
                                 <p className={styles.voucherStatus}>{c.status}</p>
 
                                 <div className="relative w-full">
@@ -77,7 +77,7 @@ export default function NetFundiPopup({
                                             window.location.href = `${window.location.origin}/login`;
                                         }
                                     }}
-                                    className={styles.loginButton}
+                                    className={c.expired ? styles.subscribeButton : styles.loginButton}
                                 >
                                     {c.expired ? (
                                         "Subscribe"
