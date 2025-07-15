@@ -86,6 +86,7 @@ export default function Moderators() {
         try {
             setModerators(prev => prev.filter(mod => mod.id !== moderatorId));
             const data = {
+                token,
                 id: moderatorId
             }
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req//deleteModerator`, {
