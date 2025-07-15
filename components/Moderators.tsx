@@ -128,6 +128,7 @@ export default function Moderators() {
         const formData = new FormData(e.currentTarget as HTMLFormElement);
 
         const moderatorData = {
+            token,
             id: currentModerator?.id || "",
             adminID: adminUser?.adminID,
             platformID: adminUser?.platformID,
