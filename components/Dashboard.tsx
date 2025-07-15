@@ -126,7 +126,7 @@ export default function Dashboard() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ data: newUser }),
+                body: JSON.stringify({ token, data: newUser }),
             });
             const res = await response.json();
             if (res.success) {
