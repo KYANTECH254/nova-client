@@ -63,13 +63,13 @@ export default function Login() {
 
             const res = await response.json();
             if (res.success) {
-                if (res.domain !== window.location.origin.replace(/^https?:\/\//, '')) {
-                    toast.error(`Unauthorized! Go to https://${res.domain} to login.`);
-                    setTimeout(() => {
-                        window.location.href = `https://${res.domain}/admin/login`;
-                    }, 3000);
-                    return;
-                }
+                // if (res.domain !== window.location.origin.replace(/^https?:\/\//, '')) {
+                //     toast.error(`Unauthorized! Go to https://${res.domain} to login.`);
+                //     setTimeout(() => {
+                //         window.location.href = `https://${res.domain}/admin/login`;
+                //     }, 3000);
+                //     return;
+                // }
                 login({ token: res.token, userData: res.user });
                 toast.success("Login successful!");
                 window.location.href = `${window.location.origin}/admin`;

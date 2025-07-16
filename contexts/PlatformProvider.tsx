@@ -81,7 +81,7 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     }
 
     // setPlatform(dplatform);
-    setPlatform("netfundi.novawifi.online")
+    // setPlatform("netfundi.novawifi.online")
   }, [searchParams, pathname]);
 
 
