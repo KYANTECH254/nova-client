@@ -56,25 +56,59 @@ export default function Stations() {
     const [connectionMessage, setConnectionMessage] = useState<{ [id: string]: string }>({});
     const origin = window.location.origin.replace(/^https?:\/\//, '');
 
+    // useEffect(() => {
+    //     if (socket && isConnected) {
+    //         socket.emit("connect-mikrotik", { token: token });
+    //         socket.on("connection-status", (results: { id: string; status: string, message: string }[]) => {
+    // const updatedStatus: Record<string, string> = {};
+    // const updatedMessage: Record<string, string> = {};
+    //             if (!results) return;
+    //             results.forEach(({ id, status, message }) => {
+    //                 updatedStatus[id] = status;
+    //                 updatedMessage[id] = message;
+    //             });
+    //             setConnectionStatus(updatedStatus);
+    //             setConnectionMessage(updatedMessage);
+    //         });
+    //         return () => {
+    //             socket.off("connection-status");
+    //         };
+    //     }
+    // }, [socket, isConnected]);
+
     useEffect(() => {
-        if (socket && isConnected) {
-            socket.emit("connect-mikrotik", { token: token });
-            socket.on("connection-status", (results: { id: string; status: string, message: string }[]) => {
-                const updatedStatus: Record<string, string> = {};
-                const updatedMessage: Record<string, string> = {};
-                if (!results) return;
-                results.forEach(({ id, status, message }) => {
-                    updatedStatus[id] = status;
-                    updatedMessage[id] = message;
+        const fetchConnections = cache(async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/connections`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ token }),
                 });
-                setConnectionStatus(updatedStatus);
-                setConnectionMessage(updatedMessage);
-            });
-            return () => {
-                socket.off("connection-status");
-            };
-        }
-    }, [socket, isConnected]);
+                const res = await response.json();
+                if (res.success) {
+                    const results: { id: string; status: string; message: string }[] = res.results;
+
+                    const updatedStatus: Record<string, string> = {};
+                    const updatedMessage: Record<string, string> = {};
+
+                    results.forEach(({ id, status, message }) => {
+                        updatedStatus[id] = status;
+                        updatedMessage[id] = message;
+                    });
+
+                    setConnectionStatus(updatedStatus);
+                    setConnectionMessage(updatedMessage);
+                } else {
+                    toast.error(res.message);
+                }
+            } catch (error) {
+                console.log("Error fetching Connections:", error);
+            }
+        });
+        fetchConnections();
+    }, []);
 
     useEffect(() => {
         const fetchStations = cache(async () => {
