@@ -20,18 +20,18 @@ export const RoleGateProvider = ({ children }: any) => {
     useEffect(() => {
         const checkIfPathIsAllowed = () => {
             if (!adminUser) return;
+
             if (adminUser.role === "admin") {
-                const InAllowed = adminRoutes.find((path) => {
-                    path === pathname;
-                })
+                const InAllowed = adminRoutes.some((path) => path === pathname);
+
                 if (!InAllowed) {
                     setIsAllowed(false);
                     setError("Unauthorised route, request more permissions!");
                     toast.error("Unauthorised route, request more permissions!");
-                    setInterval(() => {
+                    setTimeout(() => {
                         router.push("/admin");
-                    }, 3000)
-                } else if (InAllowed) {
+                    }, 3000);
+                } else {
                     setIsAllowed(true);
                 }
             }
