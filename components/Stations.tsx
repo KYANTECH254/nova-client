@@ -88,7 +88,7 @@ export default function Stations() {
                 });
                 const res = await response.json();
                 if (res.success) {
-                    const results: { id: string; status: string; message: string }[] = res.results;
+                    const results: { id: string; status: string; message: string }[] = res.result;
 
                     const updatedStatus: Record<string, string> = {};
                     const updatedMessage: Record<string, string> = {};
