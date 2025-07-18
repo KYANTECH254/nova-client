@@ -15,7 +15,7 @@ export const RoleGateProvider = ({ children }: any) => {
     const pathname = usePathname();
     const { adminUser, token } = useAdminAuth();
 
-    const adminRoutes = ['/admin', '/admin/payments', '/admin/users'];
+    const adminRoutes = ['/admin', '/admin/payments', '/admin/users', '/admin/login'];
 
     useEffect(() => {
         const checkIfPathIsAllowed = () => {
