@@ -125,6 +125,7 @@ export default function Moderators() {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setIsAdding(true)
         e.preventDefault();
         const formData = new FormData(e.currentTarget as HTMLFormElement);
 
@@ -165,7 +166,7 @@ export default function Moderators() {
             console.log("Error submitting moderator:", error);
             toast.error("Failed to submit moderator");
         }
-
+        setIsAdding(false)
         setShowModal(false);
     };
 
