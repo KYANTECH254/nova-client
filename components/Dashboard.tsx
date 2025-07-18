@@ -346,7 +346,7 @@ export default function Dashboard() {
                         </div>
                     ))}
                 </div>
-                {IsB2B && (
+                {IsB2B && adminUser.role && (
                     <>
                         <h1 className="text-2xl font-semiboldtext-gray-200 mb-6">Funds Overview</h1>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -385,10 +385,12 @@ export default function Dashboard() {
                     <div className="bg-black rounded-lg shadow p-6">
                         <h2 className="text-lg font-semibold text-gray-300 mb-4">Quick Actions</h2>
                         <div className="flex flex-col space-y-3 gap-1">
-                            <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
-                                <span className="text-blue-700 font-medium">Add New User</span>
-                                <Plus className="w-5 h-5 text-blue-500" />
-                            </button>
+                            {adminUser.role === "superuser" && (
+                                <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
+                                    <span className="text-blue-700 font-medium">Add New User</span>
+                                    <Plus className="w-5 h-5 text-blue-500" />
+                                </button>
+                            )}
                             <Link href="/admin/users" >
                                 <button className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
                                     <span className="text-purple-700 font-medium">Manage Users</span>
