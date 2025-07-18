@@ -106,6 +106,9 @@ export default function Files() {
                     <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
                         <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">
                             Latest Backup
+                            <p className="text-xs font-semibold text-green-500 italic p-1 bg-black/30 rounded-md">
+                                Cloud backup runs automatically every 5 minutes. Latest configuration snapshot is available below.
+                            </p>
                         </h2>
 
                         {selectedbackup ? (
