@@ -25,3 +25,8 @@ export type PPPoE = {
     updatedAt?: string;
     expiresAt?: string;
 };
+
+export type TimeInterval = {
+  label: string;
+  seconds: number;
+};
