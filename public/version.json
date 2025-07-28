@@ -1,0 +1,65 @@
+[
+  {
+    "version": "1.0.4",
+    "build": "2025-06-11T17:00:00Z",
+    "description": "UI updates and authentication bug fixes.",
+    "features": [
+      "UI Updates",
+      "Authentication bug fixes"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  },
+  {
+    "version": "1.0.3",
+    "build": "2025-06-10T20:00:00Z",
+    "description": "Major UI updates and bug fixes.",
+    "features": [
+      "Added Profile page",
+      "Major payment bug fixes and authentication issues",
+      "Added security features"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  },
+  {
+    "version": "1.0.2",
+    "build": "2025-05-15T13:00:00Z",
+    "description": "Major UI components updates and payments bug fixes.",
+    "features": [
+      "Added PPPoE page and functionality",
+      "Intergration of C2B using paystack",
+      "Added Templates page, choose preffered templates"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  },
+  {
+    "version": "1.0.1",
+    "build": "2025-05-04T11:00:00Z",
+    "description": "UI components updates and bug fixes.",
+    "features": [
+      "Added pools page, add, edit and delete mikrotik pools",
+      "Intergration of DDNS feature to solve dynamic Public IP Address",
+      "Feature to Add router using DDNS instead of public IP",
+      "Added Scripts page for DDNS Update",
+      "Intergrated Webfig interface for routers"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  },
+  {
+    "version": "1.0.0",
+    "build": "2025-05-02T10:00:00Z",
+    "description": "Initial release with basic functionality and UI components.",
+    "features": [
+      "User authentication",
+      "Dashboard with analytics",
+      "API integration with external services",
+      "Added Hotspot packages, users, payments",
+      "Intergrated Daraja and Intasend payments for stk and B2B"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": false
+  }
+]
