@@ -471,7 +471,7 @@ export default function Settings() {
                             </>
                         )}
 
-                        {settings.IsAPI && (
+                        {/* {settings.IsAPI && (
                             <div className="space-y-2 md:col-span-2">
                                 <label className="block text-sm font-medium text-gray-300">Live API URL</label>
                                 <div className="relative flex items-center">
@@ -492,7 +492,7 @@ export default function Settings() {
                                     </div>
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
 
                     <div className="flex justify-start mt-3 relative">
