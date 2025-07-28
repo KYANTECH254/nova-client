@@ -55,6 +55,9 @@ export const PlatformProvider = ({ children }: { children: ReactNode }) => {
     const urlPlatform = searchParams.get("platform");
     const hash = searchParams.get("hash");
     localStorage.setItem("hash", hash || "");
+    if (!hash) {
+      window.location.href = "http://local.wifi/login";
+    }
 
     if (urlPlatform) {
       const sub = urlPlatform.split(".")[0];
