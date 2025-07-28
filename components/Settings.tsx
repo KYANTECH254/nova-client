@@ -471,7 +471,6 @@ export default function Settings() {
                             </>
                         )}
 
-
                         {/* {settings.IsAPI && (
                             <div className="space-y-2 md:col-span-2">
                                 <label className="block text-sm font-medium text-gray-300">Live API URL</label>
