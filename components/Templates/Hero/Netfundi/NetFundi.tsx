@@ -14,7 +14,7 @@ export default function NetFUndiHero({ isLoading, code, handleLogin, setCode }: 
     return (
         <div className={styles.hero}>
             <div className={styles.voucherinputsection}>
-                <label className={styles.formlabel}>Voucher or Mpesa Code</label>
+                <label className={styles.formlabel}>Voucher or Mpesa Code </label>
                 <div className={styles.inputgroup}>
                     <input
                         type="text"
