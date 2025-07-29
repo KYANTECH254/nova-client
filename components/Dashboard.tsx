@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, cache } from "react";
-import { ChevronUp, MoreVertical, Plus, Users, X } from "lucide-react";
+import { ArrowUpRightIcon, ChevronUp, MoreVertical, Plus, Users, X } from "lucide-react";
 import Link from "next/link";
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { toast } from "sonner";
@@ -395,6 +395,12 @@ export default function Dashboard() {
                                 <button className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
                                     <span className="text-purple-700 font-medium">Manage Users</span>
                                     <Users className="w-5 h-5 text-purple-500" />
+                                </button>
+                            </Link>
+                            <Link target="_blank"  href={`${window.location.origin}/login`} >
+                                <button className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-green-800/20 rounded-lg transition">
+                                    <span className="text-purple-700 font-medium">Hotspot Login</span>
+                                    <ArrowUpRightIcon className="w-5 h-5 text-green-500" />
                                 </button>
                             </Link>
                         </div>
