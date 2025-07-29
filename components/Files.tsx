@@ -76,7 +76,7 @@ export default function Files() {
             }
         }
     }, [selectedStation]);
-remote-hosts
+
     useEffect(() => {
         if (!selectedStation || !backup?.length) return;
 
