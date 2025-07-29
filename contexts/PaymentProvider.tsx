@@ -38,7 +38,7 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
                             headers: {
                                 "Content-Type": "application/json",
                             },
-                            body: JSON.stringify({ code:transactionId })
+                            body: JSON.stringify({ code: transactionId })
                         });
 
                         const res = await response.json();
@@ -70,54 +70,54 @@ export const PaymentProvider = ({ children }: { children: ReactNode }) => {
     }, [transactionId]);
 
 
-useEffect(() => {
-    if (!socket || !isConnected || !transactionId) return;
+    useEffect(() => {
+        if (!socket || !isConnected || !transactionId) return;
 
-    socket.emit("join-room", transactionId);
+        socket.emit("join-room", transactionId);
 
-    const handleDepositSuccess = (data: any) => {
-        if (data.checkoutRequestId !== transactionId) return;
+        const handleDepositSuccess = (data: any) => {
+            if (data.checkoutRequestId !== transactionId) return;
 
-        localStorage.setItem("wifiLogin", data.loginCode);
-        const newStatus = data.status || null;
-        const newMessage = data.message || null;
-        const newLoginCode = data.loginCode || null;
-        setStatus(newStatus);
-        setMessage(newMessage);
-        setLoginCode(newLoginCode);
-        if (newStatus === "COMPLETE") {
-            localStorage.removeItem("transactionId");
-            toast.success(newMessage);
-            if (newLoginCode) {
-                const loginUrl = `http://local.wifi/login?username=${newLoginCode}&password=${newLoginCode}`;
-                window.location.href = loginUrl;
+            localStorage.setItem("wifiLogin", data.loginCode);
+            const newStatus = data.status || null;
+            const newMessage = data.message || null;
+            const newLoginCode = data.loginCode || null;
+            setStatus(newStatus);
+            setMessage(newMessage);
+            setLoginCode(newLoginCode);
+            if (newStatus === "COMPLETE") {
+                localStorage.removeItem("transactionId");
+                toast.success(newMessage);
+                if (newLoginCode) {
+                    const loginUrl = `http://local.wifi/login?username=${newLoginCode}&password=${newLoginCode}`;
+                    window.location.href = loginUrl;
+                }
             }
-        }
-    };
+        };
 
-    const handleDepositStatus = (data: any) => {
-        if (data.checkoutRequestId !== transactionId) return;
+        const handleDepositStatus = (data: any) => {
+            if (data.checkoutRequestId !== transactionId) return;
 
-        const newStatus = data.status || null;
-        const newMessage = data.message || null;
-        setStatus(newStatus);
-        setMessage(newMessage);
-        setLoginCode(null);
-        if (newStatus === "FAILED") {
-            localStorage.removeItem("transactionId");
-            toast.error(newMessage);
-        }
-    };
+            const newStatus = data.status || null;
+            const newMessage = data.message || null;
+            setStatus(newStatus);
+            setMessage(newMessage);
+            setLoginCode(null);
+            if (newStatus === "FAILED") {
+                localStorage.removeItem("transactionId");
+                toast.error(newMessage);
+            }
+        };
 
-    socket.on("deposit-success", handleDepositSuccess);
-    socket.on("deposit-status", handleDepositStatus);
+        socket.on("deposit-success", handleDepositSuccess);
+        socket.on("deposit-status", handleDepositStatus);
 
-    return () => {
-        socket.off("deposit-success", handleDepositSuccess);
-        socket.off("deposit-status", handleDepositStatus);
-        socket.emit("leave-room", transactionId); 
-    };
-}, [socket, isConnected, transactionId]);
+        return () => {
+            socket.off("deposit-success", handleDepositSuccess);
+            socket.off("deposit-status", handleDepositStatus);
+            socket.emit("leave-room", transactionId);
+        };
+    }, [socket, isConnected, transactionId]);
 
     return (
         <PaymentContext.Provider
