@@ -111,6 +111,27 @@ export default function Files() {
                             </p>
                         </h2>
 
+                        <div className="mb-4">
+                            <h4 className="text-lg font-semibold text-gray-300 mb-2">
+                                Select Station / Router
+                            </h4>
+                            <div className="flex gap-4 flex-wrap">
+                                {stations.map((station) => (
+                                    <button
+                                        key={station.id}
+                                        type="button"
+                                        onClick={() => setSelectedStation(station)}
+                                        className={`px-4 py-2 rounded-md ${selectedStation?.id === station.id
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-gray-700 text-gray-300"
+                                            }`}
+                                    >
+                                        {station.name || "Unnamed Station"}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
                         {selectedbackup ? (
                             <>
                                 <div className="flex items-center justify-between">
@@ -125,7 +146,7 @@ export default function Files() {
                                 </div>
                                 {selectedbackup.createdAt && (
                                     <p className="text-sm text-gray-400 mt-2 italic">
-                                        Updated {getTimeAgo(selectedbackup.createdAt)}
+                                        Updated {getTimeAgo(selectedbackup.updatedAt)}
                                     </p>
                                 )}
                             </>
