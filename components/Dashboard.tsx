@@ -399,7 +399,7 @@ export default function Dashboard() {
                             </Link>
                             <Link target="_blank"  href={`${window.location.origin}/login`} >
                                 <button className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-green-800/20 rounded-lg transition">
-                                    <span className="text-purple-700 font-medium">Hotspot Login</span>
+                                    <span className="text-green-700 font-medium">Hotspot Login</span>
                                     <ArrowUpRightIcon className="w-5 h-5 text-green-500" />
                                 </button>
                             </Link>
