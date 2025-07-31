@@ -23,6 +23,7 @@ type TableProps = {
     showSearch?: boolean;
     searchValue?: string;
     onSearchChange?: (value: string) => void;
+    onDeleteSelected?: (rowsToDelete: any[]) => void;
 };
 
 export default function Table({
@@ -40,6 +41,7 @@ export default function Table({
     showSearch = true,
     searchValue = "",
     onSearchChange,
+    onDeleteSelected
 }: TableProps) {
 
     const [page, setPage] = useState(1);
@@ -120,7 +122,10 @@ export default function Table({
                         onClick={() => {
                             const selectedData = Array.from(selectedRows).map(index => data[index]);
                             console.log("Selected for delete:", selectedData);
-                            // trigger delete logic if needed
+                            if (onDeleteSelected) {
+                                onDeleteSelected(selectedData);
+                            }
+                            setSelectedRows(new Set());
                         }}
                         className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                     >
