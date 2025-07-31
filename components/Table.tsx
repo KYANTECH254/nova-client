@@ -1,5 +1,5 @@
 "use client";
-
+import React, { useState, useMemo } from "react";
 import { Download, Plus } from "lucide-react";
 
 type Column = {
@@ -41,6 +41,30 @@ export default function Table({
     searchValue = "",
     onSearchChange,
 }: TableProps) {
+
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+
+    const totalPages = Math.ceil(data.length / pageSize);
+
+    const paginatedData = useMemo(() => {
+        const start = (page - 1) * pageSize;
+        return data.slice(start, start + pageSize);
+    }, [data, page, pageSize]);
+
+    const handlePrev = () => {
+        if (page > 1) setPage((prev) => prev - 1);
+    };
+
+    const handleNext = () => {
+        if (page < totalPages) setPage((prev) => prev + 1);
+    };
+
+    const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setPageSize(parseInt(e.target.value));
+        setPage(1);
+    };
+
     return (
         <div className="p-6 ">
             <h1 className="mt-14 ml-2 text-2xl font-bold text-gray-200">{title}</h1>
@@ -152,7 +176,7 @@ export default function Table({
                         </tr>
                     </thead>
                     <tbody className="bg-black divide-y divide-gray-900">
-                        {data.map((row, rowIndex) => (
+                       {paginatedData.map((row, rowIndex) => (
                             <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
                                 {columns.map((column) => {
                                     const cellValue = row[column.accessor];
