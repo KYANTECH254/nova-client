@@ -176,7 +176,7 @@ export default function Table({
                         </tr>
                     </thead>
                     <tbody className="bg-black divide-y divide-gray-900">
-                       {paginatedData.map((row, rowIndex) => (
+                        {paginatedData.map((row, rowIndex) => (
                             <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
                                 {columns.map((column) => {
                                     const cellValue = row[column.accessor];
@@ -200,6 +200,41 @@ export default function Table({
                         ))}
                     </tbody>
                 </table>
+                <div className="mt-4 bg-gray-900 p-2 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <label htmlFor="pageSize" className="text-sm text-gray-500">Rows per page:</label>
+                        <select
+                            id="pageSize"
+                            value={pageSize}
+                            onChange={handlePageSizeChange}
+                            className="bg-gray-900 text-gray-300 border border-gray-700 outline-none rounded px-2 py-1"
+                        >
+                            {[10, 25, 50, 100].map(size => (
+                                <option key={size} value={size}>{size}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={handlePrev}
+                            disabled={page === 1}
+                            className="px-3 py-1 bg-gray-800 text-gray-300 rounded disabled:opacity-50"
+                        >
+                            Previous
+                        </button>
+                        <span className="text-sm text-gray-400">
+                            Page {page} of {totalPages}
+                        </span>
+                        <button
+                            onClick={handleNext}
+                            disabled={page === totalPages}
+                            className="px-3 py-1 bg-gray-800 text-gray-300 rounded disabled:opacity-50"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
