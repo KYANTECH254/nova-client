@@ -117,7 +117,7 @@ export default function Table({
                         </button>
                     )}
                 </div>
-                {selectedRows.size > 0 && (
+                {onDeleteSelected && selectedRows.size > 0 && (
                     <button
                         onClick={() => {
                             const selectedData = Array.from(selectedRows).map(index => data[index]);
@@ -208,25 +208,28 @@ export default function Table({
 
                     <thead className="bg-gray-900">
                         <tr>
-                            <th className="px-6 py-3 text-left">
-                                <label className="inline-flex items-center cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        checked={isAllSelected}
-                                        onChange={toggleSelectAll}
-                                        className="hidden"
-                                    />
-                                    <div className={`relative w-4 h-4 rounded-md border transition-colors duration-200 ${isAllSelected ? 'bg-green-600 border-green-600' : 'bg-gray-800/20 border-gray-600'
-                                        }`}>
-                                        {isAllSelected && (
-                                            <Check
-                                                className="absolute inset-0 m-auto w-3.5 h-3.5 text-white z-50 pointer-events-none"
-                                                strokeWidth={3}
-                                            />
-                                        )}
-                                    </div>
-                                </label>
-                            </th>
+                            {onDeleteSelected && (
+                                <th className="px-6 py-3 text-left">
+                                    <label className="inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={isAllSelected}
+                                            onChange={toggleSelectAll}
+                                            className="hidden"
+                                        />
+                                        <div className={`relative w-4 h-4 rounded-md border transition-colors duration-200 ${isAllSelected ? 'bg-green-600 border-green-600' : 'bg-gray-800/20 border-gray-600'
+                                            }`}>
+                                            {isAllSelected && (
+                                                <Check
+                                                    className="absolute inset-0 m-auto w-3.5 h-3.5 text-white z-50 pointer-events-none"
+                                                    strokeWidth={3}
+                                                />
+                                            )}
+                                        </div>
+                                    </label>
+                                </th>
+                            )}
+
 
                             {columns.map((column) => (
                                 <th
@@ -244,25 +247,28 @@ export default function Table({
                             const globalIndex = (page - 1) * pageSize + rowIndex;
                             return (
                                 <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
-                                    <td className="px-6 py-4">
-                                        <label className="inline-flex items-center cursor-pointer">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedRows.has(globalIndex)}
-                                                onChange={() => toggleRow(globalIndex)}
-                                                className="hidden"
-                                            />
-                                            <div className={`relative w-4 h-4 rounded-md border transition-colors duration-200 ${selectedRows.has(globalIndex) ? 'bg-blue-600 border-blue-600' : 'bg-gray-800/20 border-gray-600'
-                                                }`}>
-                                                {selectedRows.has(globalIndex) && (
-                                                    <Check
-                                                        className="absolute inset-0 m-auto w-3.5 h-3.5 text-white z-50 pointer-events-none"
-                                                        strokeWidth={3}
-                                                    />
-                                                )}
-                                            </div>
-                                        </label>
-                                    </td>
+                                    {onDeleteSelected && (
+                                        <td className="px-6 py-4">
+                                            <label className="inline-flex items-center cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedRows.has(globalIndex)}
+                                                    onChange={() => toggleRow(globalIndex)}
+                                                    className="hidden"
+                                                />
+                                                <div className={`relative w-4 h-4 rounded-md border transition-colors duration-200 ${selectedRows.has(globalIndex) ? 'bg-blue-600 border-blue-600' : 'bg-gray-800/20 border-gray-600'
+                                                    }`}>
+                                                    {selectedRows.has(globalIndex) && (
+                                                        <Check
+                                                            className="absolute inset-0 m-auto w-3.5 h-3.5 text-white z-50 pointer-events-none"
+                                                            strokeWidth={3}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </label>
+                                        </td>
+                                    )}
+
 
                                     {columns.map((column) => {
                                         const cellValue = row[column.accessor];
