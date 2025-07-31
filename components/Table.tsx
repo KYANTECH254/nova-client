@@ -44,6 +44,7 @@ export default function Table({
 
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
     const totalPages = Math.ceil(data.length / pageSize);
 
@@ -63,6 +64,29 @@ export default function Table({
     const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setPageSize(parseInt(e.target.value));
         setPage(1);
+    };
+
+    const toggleRow = (index: number) => {
+        setSelectedRows((prev) => {
+            const updated = new Set(prev);
+            if (updated.has(index)) updated.delete(index);
+            else updated.add(index);
+            return updated;
+        });
+    };
+
+    const isAllSelected = paginatedData.length > 0 && paginatedData.every((_, i) => selectedRows.has((page - 1) * pageSize + i));
+    const toggleSelectAll = () => {
+        const startIndex = (page - 1) * pageSize;
+        const newSelected = new Set(selectedRows);
+
+        if (isAllSelected) {
+            paginatedData.forEach((_, i) => newSelected.delete(startIndex + i));
+        } else {
+            paginatedData.forEach((_, i) => newSelected.add(startIndex + i));
+        }
+
+        setSelectedRows(newSelected);
     };
 
     return (
@@ -160,11 +184,34 @@ export default function Table({
                     </button>
                 )}
             </div>
-
+            {selectedRows.size > 0 && (
+                <div className="mb-4">
+                    <button
+                        onClick={() => {
+                            const selectedData = Array.from(selectedRows).map(index => data[index]);
+                            console.log("Selected for delete:", selectedData);
+                            // trigger delete logic if needed
+                        }}
+                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                        Delete Selected ({selectedRows.size})
+                    </button>
+                </div>
+            )}
             <div className="overflow-y-auto rounded-lg border border-gray-900">
                 <table className="min-w-full divide-y divide-gray-800">
+
                     <thead className="bg-gray-900">
+
                         <tr>
+                            <th className="ml-5 px-6 py-3">
+                                <input
+                                    type="checkbox"
+                                    checked={isAllSelected}
+                                    onChange={toggleSelectAll}
+                                    className="form-checkbox h-4 w-4 text-blue-600"
+                                />
+                            </th>
                             {columns.map((column) => (
                                 <th
                                     key={column.accessor}
@@ -174,33 +221,45 @@ export default function Table({
                                 </th>
                             ))}
                         </tr>
+
                     </thead>
                     <tbody className="bg-black divide-y divide-gray-900">
-                        {paginatedData.map((row, rowIndex) => (
-                            <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
-                                {columns.map((column) => {
-                                    const cellValue = row[column.accessor];
-                                    const isLink = typeof cellValue === "string" && cellValue.startsWith("http");
+                        {paginatedData.map((row, rowIndex) => {
+                            const globalIndex = (page - 1) * pageSize + rowIndex;
+                            return (
+                                <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
+                                    <td className="px-6 py-4">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.has(globalIndex)}
+                                            onChange={() => toggleRow(globalIndex)}
+                                            className="form-checkbox h-4 w-4 text-blue-600"
+                                        />
+                                    </td>
+                                    {columns.map((column) => {
+                                        const cellValue = row[column.accessor];
+                                        const isLink = typeof cellValue === "string" && cellValue.startsWith("http");
 
-                                    return (
-                                        <td key={column.accessor} className="px-6 py-4 whitespace-nowrap">
-                                            {column.render
-                                                ? column.render(cellValue, row)
-                                                : isLink
-                                                    ? (
-                                                        <a href={cellValue} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">
-                                                            {cellValue}
-                                                        </a>
-                                                    )
-                                                    : cellValue}
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        ))}
+                                        return (
+                                            <td key={column.accessor} className="px-6 py-4 whitespace-nowrap">
+                                                {column.render
+                                                    ? column.render(cellValue, row)
+                                                    : isLink
+                                                        ? (
+                                                            <a href={cellValue} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">
+                                                                {cellValue}
+                                                            </a>
+                                                        )
+                                                        : cellValue}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
-                <div className="mt-4 bg-gray-900 p-1 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div className="bg-gray-900 p-1 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <label htmlFor="pageSize" className="text-sm text-gray-500">Rows per page:</label>
                         <select
