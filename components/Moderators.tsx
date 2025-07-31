@@ -112,6 +112,45 @@ export default function Moderators() {
         }
     };
 
+    const handleDeleteSelectedModerators = async (selected: Admin[]) => {
+        if (!selected.length) return;
+        setIsDeleting(true);
+        try {
+            setModerators((prev) =>
+                prev.filter((mod) => !selected.some((sel) => sel.id === mod.id))
+            );
+            const deleteRequests = selected.map((mod) =>
+                fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deleteModerator`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        token,
+                        id: mod.id,
+                    }),
+                })
+            );
+
+            const results = await Promise.all(deleteRequests);
+            const jsonResults = await Promise.all(results.map((r) => r.json()));
+
+            const failed = jsonResults.filter((res) => !res.success);
+            if (failed.length > 0) {
+                toast.error(
+                    `Failed to delete ${failed.length} moderator(s). Some deletions may have succeeded.`
+                );
+            } else {
+                toast.success(`${selected.length} moderator(s) deleted.`);
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Error deleting moderators.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     const handleEdit = (mod: Admin) => {
         setCurrentModerator(mod);
         setShowPassword(false);
@@ -237,6 +276,7 @@ export default function Moderators() {
                 searchValue={searchValue}
                 onAdd={handleAdd}
                 onSearchChange={setSearchValue}
+                onDeleteSelected={handleDeleteSelectedModerators}
             />
 
             {showModal && (
