@@ -92,7 +92,7 @@ export default function Table({
     return (
         <div className="p-6 ">
             <h1 className="mt-14 ml-2 text-2xl font-bold text-gray-200">{title}</h1>
-            <div className="mt-5 flex flex-wrap justify-between items-center gap-2">
+            <div className="mt-5 relative flex flex-wrap justify-between items-center gap-2">
                 {showSearch && onSearchChange && (
                     <div className="relative mb-6">
                         <input
