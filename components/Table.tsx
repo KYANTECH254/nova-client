@@ -200,7 +200,7 @@ export default function Table({
                         ))}
                     </tbody>
                 </table>
-                <div className="mt-4 bg-gray-900 p-2 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div className="mt-4 bg-gray-900 p-1 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <label htmlFor="pageSize" className="text-sm text-gray-500">Rows per page:</label>
                         <select
