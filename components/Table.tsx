@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import { Download, Plus } from "lucide-react";
+import { Check, Download, Plus, Trash2 } from "lucide-react";
 
 type Column = {
     header: string;
@@ -115,11 +115,24 @@ export default function Table({
                         </button>
                     )}
                 </div>
+                {selectedRows.size > 0 && (
+                    <button
+                        onClick={() => {
+                            const selectedData = Array.from(selectedRows).map(index => data[index]);
+                            console.log("Selected for delete:", selectedData);
+                            // trigger delete logic if needed
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                        Delete Selected ({selectedRows.size})
+                    </button>
+                )}
                 {handleAdd && (
                     <div className="flex justify-between items-center mb-6 ">
                         <button
                             onClick={handleAdd}
-                            className="flex items-center px-4 py-2 ml- bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
                             <Plus size={18} className="mr-2" />
                             Add Package
@@ -131,7 +144,7 @@ export default function Table({
 
                         <button
                             onClick={handleAddPool}
-                            className="flex items-center px-4 py-2 ml- bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
                             <Plus size={18} className="mr-2" />
                             Add Pool
@@ -184,34 +197,32 @@ export default function Table({
                     </button>
                 )}
             </div>
-            {selectedRows.size > 0 && (
-                <div className="mb-4">
-                    <button
-                        onClick={() => {
-                            const selectedData = Array.from(selectedRows).map(index => data[index]);
-                            console.log("Selected for delete:", selectedData);
-                            // trigger delete logic if needed
-                        }}
-                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                    >
-                        Delete Selected ({selectedRows.size})
-                    </button>
-                </div>
-            )}
+
             <div className="overflow-y-auto rounded-lg border border-gray-900">
                 <table className="min-w-full divide-y divide-gray-800">
 
                     <thead className="bg-gray-900">
-
                         <tr>
-                            <th className="ml-5 px-6 py-3">
-                                <input
-                                    type="checkbox"
-                                    checked={isAllSelected}
-                                    onChange={toggleSelectAll}
-                                    className="form-checkbox h-4 w-4 text-blue-600"
-                                />
+                            <th className="px-6 py-3 text-left">
+                                <label className="inline-flex items-center cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={isAllSelected}
+                                        onChange={toggleSelectAll}
+                                        className="hidden"
+                                    />
+                                    <div className={`relative w-4 h-4 rounded-md border transition-colors duration-200 ${isAllSelected ? 'bg-green-600 border-green-600' : 'bg-gray-800/20 border-gray-600'
+                                        }`}>
+                                        {isAllSelected && (
+                                            <Check
+                                                className="absolute inset-0 m-auto w-3.5 h-3.5 text-white z-50 pointer-events-none"
+                                                strokeWidth={3}
+                                            />
+                                        )}
+                                    </div>
+                                </label>
                             </th>
+
                             {columns.map((column) => (
                                 <th
                                     key={column.accessor}
@@ -229,13 +240,25 @@ export default function Table({
                             return (
                                 <tr key={rowIndex} className="hover:bg-gray-900/20 cursor-pointer">
                                     <td className="px-6 py-4">
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedRows.has(globalIndex)}
-                                            onChange={() => toggleRow(globalIndex)}
-                                            className="form-checkbox h-4 w-4 text-blue-600"
-                                        />
+                                        <label className="inline-flex items-center cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedRows.has(globalIndex)}
+                                                onChange={() => toggleRow(globalIndex)}
+                                                className="hidden"
+                                            />
+                                            <div className={`relative w-4 h-4 rounded-md border transition-colors duration-200 ${selectedRows.has(globalIndex) ? 'bg-blue-600 border-blue-600' : 'bg-gray-800/20 border-gray-600'
+                                                }`}>
+                                                {selectedRows.has(globalIndex) && (
+                                                    <Check
+                                                        className="absolute inset-0 m-auto w-3.5 h-3.5 text-white z-50 pointer-events-none"
+                                                        strokeWidth={3}
+                                                    />
+                                                )}
+                                            </div>
+                                        </label>
                                     </td>
+
                                     {columns.map((column) => {
                                         const cellValue = row[column.accessor];
                                         const isLink = typeof cellValue === "string" && cellValue.startsWith("http");
@@ -259,7 +282,7 @@ export default function Table({
                         })}
                     </tbody>
                 </table>
-                <div className="bg-gray-900 p-1 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div className="min-w-full bg-gray-900 p-1 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <label htmlFor="pageSize" className="text-sm text-gray-500">Rows per page:</label>
                         <select
