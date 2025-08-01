@@ -109,6 +109,46 @@ export default function Users() {
     }
   })
 
+  const handleDeleteSelectedUsers = async (selected: User[]) => {
+    if (!selected.length) return;
+    setIsDeleting(true);
+    try {
+      setUsers((prev) =>
+        prev.filter((mod) => !selected.some((sel) => sel.id === mod.id))
+      );
+      const deleteRequests = selected.map((mod) =>
+        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deleteUser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token,
+            id: mod.id,
+            username: mod.username
+          }),
+        })
+      );
+
+      const results = await Promise.all(deleteRequests);
+      const jsonResults = await Promise.all(results.map((r) => r.json()));
+
+      const failed = jsonResults.filter((res) => !res.success);
+      if (failed.length > 0) {
+        toast.error(
+          `Failed to delete ${failed.length} user(s). Some deletions may have succeeded.`
+        );
+      } else {
+        toast.success(`${selected.length} user(s) deleted.`);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Error deleting users.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const columns = [
     {
       header: "Phone",
@@ -166,6 +206,7 @@ export default function Users() {
       showSearch={true}
       searchValue={searchValue}
       onSearchChange={setSearchValue}
+      onDeleteSelected={handleDeleteSelectedUsers}
     />
   );
 }
