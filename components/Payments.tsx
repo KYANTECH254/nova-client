@@ -88,6 +88,45 @@ export default function Payments() {
         }
     };
 
+    const handleDeleteSelectedPayments = async (selected: Payment[]) => {
+        if (!selected.length) return;
+        setIsDeleting(true);
+        try {
+            setPayments((prev) =>
+                prev.filter((mod) => !selected.some((sel) => sel.id === mod.id))
+            );
+            const deleteRequests = selected.map((mod) =>
+                fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deletePayment`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        token,
+                        id: mod.id,
+                    }),
+                })
+            );
+
+            const results = await Promise.all(deleteRequests);
+            const jsonResults = await Promise.all(results.map((r) => r.json()));
+
+            const failed = jsonResults.filter((res) => !res.success);
+            if (failed.length > 0) {
+                toast.error(
+                    `Failed to delete ${failed.length} payment(s). Some deletions may have succeeded.`
+                );
+            } else {
+                toast.success(`${selected.length} payment(s) deleted.`);
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Error deleting payments.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     const handleExport = () => {
         const csvContent = [
             ["Phone", "Code", "Amount", "Status", "Created At", "Last Updated"],
@@ -175,6 +214,7 @@ export default function Payments() {
             showSearch={true}
             searchValue={searchValue}
             onSearchChange={setSearchValue}
+            onDeleteSelected={handleDeleteSelectedPayments}
         />
     );
 }
