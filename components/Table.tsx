@@ -269,7 +269,6 @@ export default function Table({
                                         </td>
                                     )}
 
-
                                     {columns.map((column) => {
                                         const cellValue = row[column.accessor];
                                         const isLink = typeof cellValue === "string" && cellValue.startsWith("http");
