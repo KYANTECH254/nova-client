@@ -52,7 +52,7 @@ export default function Payments() {
     const filteredPayments = payments
         .reverse()
         .filter((payment) =>
-            [payment.phone, payment.code, payment.status, payment.amount.toString()].some(
+            [payment.phone, payment.code, payment.status, payment.amount.toString(), new Date(payment.createdAt).toLocaleString()].some(
                 (value) =>
                     value &&
                     value.toString().toLowerCase().includes(searchValue.toLowerCase())

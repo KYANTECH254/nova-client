@@ -50,7 +50,7 @@ export default function Users() {
 
   const filteredUsers = users
     .filter((user) =>
-      [user.phone, user.username, user.status, user.createdAt].some(
+      [user.phone, user.username, user.status, new Date(user.createdAt).toLocaleString()].some(
         (value) =>
           value &&
           value.toString().toLowerCase().includes(searchValue.toLowerCase())
