@@ -13,6 +13,7 @@ type User = {
   code: string;
   status: "active" | "inactive" | "expired";
   updatedAt: string;
+  createdAt: string;
 };
 
 export default function Users() {
@@ -49,7 +50,7 @@ export default function Users() {
 
   const filteredUsers = users
     .filter((user) =>
-      [user.phone, user.username, user.status].some(
+      [user.phone, user.username, user.status, user.createdAt].some(
         (value) =>
           value &&
           value.toString().toLowerCase().includes(searchValue.toLowerCase())
