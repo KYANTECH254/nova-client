@@ -212,7 +212,7 @@ export default function Packages() {
                 platformID: adminUser.platformID,
                 host: selectedpackage.routerHost
             }
-            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req//deletePackage`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deletePackage`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -229,6 +229,47 @@ export default function Packages() {
         } catch (error) {
             console.log("Error deleting package:", error);
             toast.error("Failed to delete package");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleDeleteSelectedPackages = async (selected: Package[]) => {
+        if (!selected.length) return;
+        setIsDeleting(true);
+        try {
+            setPackages((prev) =>
+                prev.filter((mod) => !selected.some((sel) => sel.id === mod.id))
+            );
+            const deleteRequests = selected.map((mod) =>
+                fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/deletePackage`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        token,
+                        id: mod.id,
+                        host: mod.routerHost,
+                        platformID: adminUser.platformID
+                    }),
+                })
+            );
+
+            const results = await Promise.all(deleteRequests);
+            const jsonResults = await Promise.all(results.map((r) => r.json()));
+
+            const failed = jsonResults.filter((res) => !res.success);
+            if (failed.length > 0) {
+                toast.error(
+                    `Failed to delete ${failed.length} moderator(s). Some deletions may have succeeded.`
+                );
+            } else {
+                toast.success(`${selected.length} moderator(s) deleted.`);
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Error deleting moderators.");
         } finally {
             setIsDeleting(false);
         }
@@ -429,6 +470,7 @@ export default function Packages() {
                 showSearch={true}
                 searchValue={searchValue}
                 onSearchChange={setSearchValue}
+                onDeleteSelected={handleDeleteSelectedPackages}
             />
 
             {showModal && (
