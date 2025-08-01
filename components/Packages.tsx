@@ -262,14 +262,14 @@ export default function Packages() {
             const failed = jsonResults.filter((res) => !res.success);
             if (failed.length > 0) {
                 toast.error(
-                    `Failed to delete ${failed.length} moderator(s). Some deletions may have succeeded.`
+                    `Failed to delete ${failed.length} package(s). Some deletions may have succeeded.`
                 );
             } else {
-                toast.success(`${selected.length} moderator(s) deleted.`);
+                toast.success(`${selected.length} package(s) deleted.`);
             }
         } catch (err) {
             console.error(err);
-            toast.error("Error deleting moderators.");
+            toast.error("Error deleting packages.");
         } finally {
             setIsDeleting(false);
         }

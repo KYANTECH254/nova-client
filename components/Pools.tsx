@@ -139,6 +139,49 @@ export default function Pools() {
         }
     };
 
+
+    const handleDeleteSelectedPools = async (selected: Pool[]) => {
+        if (!selected.length) return;
+        setIsDeleting(true);
+        try {
+            setPools((prev) =>
+                prev.filter((mod) => !selected.some((sel) => sel.name === mod.name))
+            );
+            const deleteRequests = selected.map((mod) =>
+                fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/deletePool`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        token,
+                        station: selectedHost || "",
+                        name: mod?.name || name,
+                        ranges: mod?.ranges || address,
+                        comment: mod?.comment || comment
+                    }),
+                })
+            );
+
+            const results = await Promise.all(deleteRequests);
+            const jsonResults = await Promise.all(results.map((r) => r.json()));
+
+            const failed = jsonResults.filter((res) => !res.success);
+            if (failed.length > 0) {
+                toast.error(
+                    `Failed to delete ${failed.length} pool(s). Some deletions may have succeeded.`
+                );
+            } else {
+                toast.success(`${selected.length} pool(s) deleted.`);
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Error deleting pools.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     const handleEdit = (pkg: Pool) => {
         const matchingPool = filteredPools.find(pool => pool.ranges === pkg.ranges);
         setSelectedPool(matchingPool || "");
@@ -236,6 +279,7 @@ export default function Pools() {
                 showSearch={true}
                 searchValue={searchValue}
                 onSearchChange={setSearchValue}
+                onDeleteSelected={handleDeleteSelectedPools}
             />
 
             {showModal && (
