@@ -252,6 +252,45 @@ export default function PPPoE() {
         }
     };
 
+    const handleDeleteSelectedPPPoEs = async (selected: PPPoEType[]) => {
+        if (!selected.length) return;
+        setIsDeleting(true);
+        try {
+            setPppoE((prev) =>
+                prev.filter((mod) => !selected.some((sel) => sel.id === mod.id))
+            );
+            const deleteRequests = selected.map((mod) =>
+                fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/deletePppoE`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        token,
+                        id: mod.id,
+                    }),
+                })
+            );
+
+            const results = await Promise.all(deleteRequests);
+            const jsonResults = await Promise.all(results.map((r) => r.json()));
+
+            const failed = jsonResults.filter((res) => !res.success);
+            if (failed.length > 0) {
+                toast.error(
+                    `Failed to delete ${failed.length} pppoe(s). Some deletions may have succeeded.`
+                );
+            } else {
+                toast.success(`${selected.length} pppoe(s) deleted.`);
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Error deleting pppoes.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     const handleEdit = (pppoe: PPPoEType) => {
         setCurrentPPPoE(pppoe);
         setName(pppoe.name);
@@ -411,7 +450,7 @@ export default function PPPoE() {
             if (res.success) {
                 toast.success(res.message);
                 if (currentPPPoE) {
-                    setPppoE((prev:any) => prev.map((p: { id: string; }) => p.id === currentPPPoE.id ? { ...pppoeData, id: currentPPPoE.id } : p));
+                    setPppoE((prev: any) => prev.map((p: { id: string; }) => p.id === currentPPPoE.id ? { ...pppoeData, id: currentPPPoE.id } : p));
                 } else {
                     setPppoE(prev => [...prev, { ...res.pppoe, id: res.pppoe.id }]);
                 }
@@ -432,7 +471,7 @@ export default function PPPoE() {
             header: "Name",
             accessor: "name",
         },
-              {
+        {
             header: "Email",
             accessor: "email",
         },
@@ -444,7 +483,7 @@ export default function PPPoE() {
             header: "Client",
             accessor: "clientname",
         },
-                {
+        {
             header: "Status",
             accessor: "status",
             render: (value: string) => (
@@ -511,6 +550,7 @@ export default function PPPoE() {
                 showSearch={true}
                 searchValue={searchValue}
                 onSearchChange={setSearchValue}
+                onDeleteSelected={handleDeleteSelectedPPPoEs}
             />
 
             {showModal && (
