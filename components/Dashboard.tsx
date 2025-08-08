@@ -73,14 +73,17 @@ export default function Dashboard() {
                 if (res.success) {
                     setcodes(res.codes)
                     const formattedActivities = res.codes
+                        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) // latest first
                         .map((code: any) => ({
                             id: code.id,
                             user: code.phone,
                             package: code.package,
+                            code: code.username,
                             action: `Bought package ${code.packageID || "Unknown Package"}`,
                             time: new Date(code.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                         }))
                         .slice(0, 5);
+
                     setRecentActivities(formattedActivities);
                 } else {
                     console.log("Error fetching stats:", res.message);
@@ -377,9 +380,9 @@ export default function Dashboard() {
                             {recentActivities.map(activity => (
                                 <li key={activity.id} className="flex items-start pb-4 border-b border-gray-100 last:border-0 last:pb-0">
                                     <div>
-                                        <p className="text-xs font-mediumtext-gray-400">{activity.user} bought {activity.package}</p>
+                                        <p className="text-xs font-mediumtext-gray-400">{activity.user ? activity.user : activity.code} bought {activity.package}</p>
                                     </div>
-                                    <span className="ml-auto text-sm text-gray-500">{activity.time}</span>       
+                                    <span className="ml-auto text-sm text-gray-500">{activity.time}</span>
                                 </li>
                             ))}
                         </ul>
