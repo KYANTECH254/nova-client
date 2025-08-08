@@ -13,6 +13,7 @@ export default function PPPoE() {
     const [pools, setPools] = useState<any[]>([]);
     const [stations, setStations] = useState<any[]>([]);
     const [pppProfiles, setPppProfiles] = useState<any[]>([]);
+    const [pppServers, setPppServers] = useState<any[]>([]);
     const [routerInterfaces, setRouterInterfaces] = useState<any[]>([]);
     const [searchValue, setSearchValue] = useState("");
     const [isDeleting, setIsDeleting] = useState(false);
@@ -23,6 +24,7 @@ export default function PPPoE() {
     const [selectedStation, setSelectedStation] = useState<any>();
     const [selectedPool, setSelectedPool] = useState<any>();
     const [selectedProfile, setSelectedProfile] = useState<any>();
+    const [selectedServer, setSelectedServer] = useState<any>();
     const [selectedInterface, setSelectedInterface] = useState<any>();
 
     // Form fields
@@ -137,30 +139,77 @@ export default function PPPoE() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ token })
+                    body: JSON.stringify({ token }),
                 });
+
                 const res = await response.json();
+
                 if (res.success) {
                     const profilesData = res.profiles
                         .map((profileGroup: any) =>
-                            (profileGroup.data?.interfaces || []).map((intf: any) => ({
-                                ...intf,
-                                host: profileGroup.host,
-                                username: profileGroup.username,
-                                profileId: profileGroup.id,
-                            }))
+                            // Use profileGroup.data.profiles and sort by name
+                            (profileGroup.data?.profiles || [])
+                                .sort((a: any, b: any) => a.name.localeCompare(b.name))
+                                .map((profile: any) => ({
+                                    ...profile,
+                                    host: profileGroup.host,
+                                    station: profileGroup.station,
+                                    profileId: profileGroup.id,
+                                }))
                         )
                         .flat();
+
                     setPppProfiles(profilesData);
                 } else {
                     toast.error(res.message);
                 }
             } catch (error) {
-                console.log("Error fetching PPP profiles:", error);
+                console.error("Error fetching PPP profiles:", error);
                 toast.error("Failed to fetch PPP profiles");
             }
         });
+
         fetchPppProfiles();
+    }, [token]);
+
+    useEffect(() => {
+        const fetchPppServers = cache(async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/ppp-servers`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ token }),
+                });
+
+                const res = await response.json();
+
+                if (res.success) {
+                    const serversData = res.servers
+                        .map((serverGroup: any) =>
+                            (serverGroup.data?.servers || [])
+                                .sort((a: any, b: any) => a.serviceName.localeCompare(b.serviceName))
+                                .map((server: any) => ({
+                                    ...server,
+                                    host: serverGroup.host,
+                                    station: serverGroup.station,
+                                    serverGroupId: serverGroup.id,
+                                }))
+                        )
+                        .flat();
+
+                    setPppServers(serversData);
+                } else {
+                    toast.error(res.message);
+                }
+            } catch (error) {
+                console.error("Error fetching PPP servers:", error);
+                toast.error("Failed to fetch PPP servers");
+            }
+        });
+
+        fetchPppServers();
     }, [token]);
 
     useEffect(() => {
@@ -215,6 +264,11 @@ export default function PPPoE() {
     );
 
     const filteredPppProfiles = pppProfiles.filter(
+        (profile) =>
+            profile.host === selectedStation?.mikrotikHost
+    );
+
+    const filteredPppServers = pppServers.filter(
         (profile) =>
             profile.host === selectedStation?.mikrotikHost
     );
@@ -329,6 +383,12 @@ export default function PPPoE() {
             );
             if (profile) setSelectedProfile(profile);
 
+            const server = pppServers.find(p =>
+                p.host === station.mikrotikHost &&
+                p.name === pppoe.servicename
+            );
+            if (server) setSelectedServer(server);
+
             const intf = routerInterfaces.find(i =>
                 i.host === station.mikrotikHost &&
                 i.name === pppoe.interface
@@ -358,6 +418,7 @@ export default function PPPoE() {
         setMaxsessions("");
         setSelectedPool(null);
         setSelectedProfile(null);
+        setSelectedServer(null);
         setSelectedInterface(null);
     };
 
@@ -368,6 +429,7 @@ export default function PPPoE() {
             // Reset dependent fields when station changes
             setSelectedPool(null);
             setSelectedProfile(null);
+            setSelectedServer(null);
             setSelectedInterface(null);
         }
     };
@@ -387,6 +449,11 @@ export default function PPPoE() {
     const handleInterfaceChange = (interfaceName: string) => {
         const intf = filteredInterfaces.find(i => i.name === interfaceName);
         setSelectedInterface(intf);
+    };
+
+    const handleServerChange = (serviceName: string) => {
+        const serv = filteredPppServers.find(i => i.serviceName === serviceName);
+        setSelectedServer(serv);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -610,6 +677,22 @@ export default function PPPoE() {
                                     </select>
                                 </div>
 
+                                <div>
+                                    <label className="block text-sm font-medium mb-1">PPP Server</label>
+                                    <select
+                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        value={selectedServer?.serviceName || servicename}
+                                        onChange={(e) => handleServerChange(e.target.value)}
+                                    >
+                                        <option value="">Select Server</option>
+                                        {filteredPppProfiles.map((server) => (
+                                            <option key={server.serviceName} value={server.serviceName}>
+                                                {server.serviceName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
                                 {!selectedProfile && (
                                     <>
                                         <h2 className="text-lg mt-2 mb-2">Create PPP Profile</h2>
@@ -662,46 +745,50 @@ export default function PPPoE() {
                                         </div>
                                     </>
                                 )}
-                                <h2 className="text-lg mt-2 mb-2">Create PPPoE Server</h2>
+                                {!selectedServer && (
+                                    <>
+                                        <h2 className="text-lg mt-2 mb-2">Create PPPoE Server</h2>
 
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Service Name</label>
-                                    <input
-                                        type="text"
-                                        value={servicename}
-                                        onChange={(e) => setServicename(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                    />
-                                </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Service Name</label>
+                                            <input
+                                                type="text"
+                                                value={servicename}
+                                                onChange={(e) => setServicename(e.target.value)}
+                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                required
+                                            />
+                                        </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Interface</label>
-                                    <select
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                        value={selectedInterface?.name || ""}
-                                        onChange={(e) => handleInterfaceChange(e.target.value)}
-                                    >
-                                        <option value="">Select Interface</option>
-                                        {filteredInterfaces.map((intf) => (
-                                            <option key={intf.name} value={intf.name}>
-                                                {intf.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Interface</label>
+                                            <select
+                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                required
+                                                value={selectedInterface?.name || ""}
+                                                onChange={(e) => handleInterfaceChange(e.target.value)}
+                                            >
+                                                <option value="">Select Interface</option>
+                                                {filteredInterfaces.map((intf) => (
+                                                    <option key={intf.name} value={intf.name}>
+                                                        {intf.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Max Sessions</label>
-                                    <input
-                                        type="number"
-                                        value={maxsessions}
-                                        onChange={(e) => setMaxsessions(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                    />
-                                </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Max Sessions</label>
+                                            <input
+                                                type="number"
+                                                value={maxsessions}
+                                                onChange={(e) => setMaxsessions(e.target.value)}
+                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                required
+                                            />
+                                        </div>
+                                    </>
+                                )}
 
                                 <h2 className="text-lg mt-2 mb-2">Create PPP Secret</h2>
 
