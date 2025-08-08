@@ -186,8 +186,11 @@ export default function Pools() {
     };
 
     const handleEdit = (pkg: Pool) => {
-        const matchingPool = filteredPools.find(pool => pool.ranges === pkg.ranges);
+        const matchingPool = filteredPools.find(pool => pool.name === pkg.name);
         setSelectedPool(matchingPool || "");
+        setName(pkg.name);
+        setAddress(pkg.ranges);
+        setComment(pkg.comment);
         setShowModal(true);
     };
 
@@ -201,9 +204,10 @@ export default function Pools() {
         e.preventDefault();
         const poolData = {
             station: selectedHost || "",
-            name: selectedPool?.name || name,
-            ranges: selectedPool?.ranges || address,
-            comment: selectedPool?.comment || comment
+            newName: name,
+            name: selectedPool?.name,
+            ranges: address,
+            comment: comment
         };
 
         try {
