@@ -170,6 +170,43 @@ export default function Users() {
     }
   };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+    setIsEditing(true);
+    e.preventDefault();
+    const userData = {
+      id: selectedUser.id,
+      username: username,
+      phone: phone,
+      profile: selectedUser?.package,
+      packageID: selectedUser?.packageID
+    };
+
+    try {
+      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/updateUser`;
+      const method = "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: token, userData }),
+      });
+      const res = await response.json();
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log("Error submitting user:", error);
+      toast.error("Failed to submit user");
+    } finally {
+      setIsEditing(false);
+    }
+    setShowModal(false);
+  };
+
   const columns = [
     {
       header: "Phone",
@@ -189,7 +226,7 @@ export default function Users() {
       render: (value: string) => (
         <span
           className={`px-2 py-1 rounded-full text-xs ${value === "active"
-            ? "bg-green-900/20 text-green-800"
+            ? "bg-blue-900/20 text-blue-800"
             : value === "expired"
               ? "bg-yellow-900/20 text-yellow-800"
               : "bg-red-900/20 text-red-800"
@@ -242,41 +279,6 @@ export default function Users() {
       ),
     },
   ];
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    setIsEditing(true);
-    e.preventDefault();
-    const userData = {
-      id: selectedUser.id,
-      username: username,
-      phone: phone
-    };
-
-    try {
-      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/updateUser`;
-      const method = "POST";
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token: token, userData }),
-      });
-      const res = await response.json();
-      if (res.success) {
-        toast.success(res.message);
-      } else {
-        toast.error(res.message);
-      }
-    } catch (error) {
-      console.log("Error submitting user:", error);
-      toast.error("Failed to submit user");
-    } finally {
-      setIsEditing(false);
-    }
-    setShowModal(false);
-  };
 
   return (
     <div className="p-4">
