@@ -1,0 +1,547 @@
+@font-face {
+  font-family: 'NetFundiFont';
+  src: url('./centurygothic.ttf') format('truetype');
+}
+
+.body {
+    margin: 0;
+    background-color: #2b9d5d;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.maincontent {
+  max-width: 480px;
+  margin: 0 auto;
+  flex: 1;
+  width: 100%;
+}
+
+.header {
+  font-family: 'NetFundiFont';
+  background-color: #003b22;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px #003b224d;
+}
+
+.brand{
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.header a:hover {
+  color: #21d4c2;
+  transition: color 0.3s ease;
+}
+
+.header>button {
+  background-color: #ff5f2e;
+  color: white;
+  /* width: 100%; */
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.header>button:hover {
+  background-color: #ff5f2e;
+  transition: background-color 0.3s ease;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.25rem 0.5rem;
+  margin: 20px 0;
+}
+
+.voucherinputsection {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 0 0.5rem;
+  width: calc(100% - 1rem);
+}
+
+.formlabel {
+  color: #003b22;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+  text-align: center;
+}
+
+.inputgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.voucherBox {
+  border: 2px solid #2b9d5d;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.expiredvoucherBox {
+  border: 2px solid #ff000080;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.voucherStatus {
+  color: #2b9d5d;
+  font-weight: bold;
+}
+
+.voucherinput {
+  width: 100%;
+  background-color: white;
+  border: 2px solid #2b9d5d;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #003b22;
+  font-size: 16px;
+  font-weight: normal;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.voucher-input::placeholder {
+  color: #888;
+}
+
+.voucher-input:focus {
+  outline: none;
+  border-color: #ff5f2e;
+  box-shadow: 0 0 0 4px rgba(255, 95, 46, 0.3);
+  transform: scale(1.03);
+}
+
+.loginButton {
+  background-color: #2b9d5d;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.subscribeButton {
+  background-color: #ff000080;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.connectbtn {
+  background-color: #2b9d5d;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.connect-btn:hover {
+  background-color: #003b22;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.netfundipackages {
+  margin: 0.25rem;
+  background: #fff;
+  padding: 0.5rem 0.25rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+}
+
+.packagetogglebuttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.packagetogglebtn {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.65rem;
+  border: none;
+  border-radius: 6px;
+  background: #e0e0e0;
+  color: #003b22;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.active {
+  background: #2b9d5d;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(43, 157, 93, 0.15);
+}
+
+.packagecontent {
+  display: block;
+}
+
+.plancard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 60px;
+  width: 100%;
+}
+
+.plancard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.pricesection {
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  flex-shrink: 0;
+  border-right: 1px solid #e0e0e0;
+}
+
+.currency {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 0.1rem;
+}
+
+.price {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: #003b22;
+  line-height: 1;
+}
+
+.plandetails {
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  width: calc(100% - 60px);
+}
+
+.planname {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #003b22;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.planspecs {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.badges {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  margin: 0.25rem 0;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff4081;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.noExpiry {
+  background-color: #d3ff00;
+  color: #003b22;
+}
+
+.streaming {
+  background-color: #ff5f2e;
+}
+
+.buybutton {
+  background-color: #2b9d5d;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  align-self: flex-start;
+  white-space: nowrap;
+  min-width: 70px;
+  width: auto;
+}
+
+.buybutton:hover {
+  background-color: #003b22;
+  transform: translateY(-1px);
+}
+
+.customercarelink {
+  color: #2b9d5d;
+  background-color: #ffe500;
+  margin-top: 10px;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.footer {
+  background-color: #003b22;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.footer-icon {
+  width: 20px;
+  height: 20px;
+  fill: #2b9d5d;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.footer-brand {
+  color: #2b9d5d;
+  font-weight: bold;
+}
+
+.overlay,
+.buypopupoverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.popup {
+  max-height: 80vh;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+  font-family: 'NetFundiFont';
+  overflow-y: auto;
+
+  /* Scrollbar Styling */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #2b9d5d #f0f0f0; /* Firefox */
+}
+
+.buypopup {
+  max-height: 80vh;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  /* text-align: center; */
+  font-family: 'NetFundiFont';
+  overflow-y: auto;
+
+  /* Scrollbar Styling */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #2b9d5d #f0f0f0; /* Firefox */
+}
+
+/* Webkit Browsers (Chrome, Safari, Edge) */
+.popup::-webkit-scrollbar,
+.buypopup::-webkit-scrollbar {
+  width: 8px;
+}
+
+.popup::-webkit-scrollbar-track,
+.buypopup::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+.popup::-webkit-scrollbar-thumb,
+.buypopup::-webkit-scrollbar-thumb {
+  background-color: #2b9d5d;
+  border-radius: 8px;
+}
+
+
+.popup>input,
+.buypopup input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 1rem 0;
+  border: 2px solid #2b9d5d;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: black;
+}
+
+.popup>button,
+.buypopup button {
+  background-color: #ff5f2e;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.packagedetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.packagedetails p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #003b22;
+}
+
+.packageamount {
+  font-weight: bold;
+  color: #2b9d5d;
+  font-size: 1.2rem;
+}
+
+.label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #003b22;
+  text-align: left;
+}
+
+.buypopup button {
+  margin: 0 auto;
+  display: block;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 1000;
+}
+
+.close:hover {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
+.codeInput {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+}
+
+.voucherDetails {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
