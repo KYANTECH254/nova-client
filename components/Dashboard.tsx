@@ -193,7 +193,9 @@ export default function Dashboard() {
     return (
         <>
             <div className="flex flex-col min-h-screen p-5 mt-20">
-                <h1 className="text-2xl font-semibold text-gray-200 mb-6">Dashboard Overview</h1>
+                <h1 className="text-2xl font-semibold mb-6 text-black dark:text-gray-200">
+                    Dashboard Overview
+                </h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
                     {[
                         { title: "Total Users (Active)", value: stats.totalUsers },
@@ -214,9 +216,12 @@ export default function Dashboard() {
                         { title: "Packages", value: stats.totalPackages },
                         { title: "Routers", value: stats.routers },
                     ].map((stat, index) => (
-                        <div key={index} className="bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
+                        <div
+                            key={index}
+                            className="bg-gray-200 dark:bg-[var(--background)] rounded-lg shadow p-6 border-l-5 border-blue-500"
+                        >
                             <div className="flex justify-between items-start">
-                                <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
+                                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.title}</h3>
                                 {stat.menu && (
                                     <div className="relative ml-auto">
                                         <button onClick={() => setShowMenu(!showMenu)} className="text-gray-400 hover:text-gray-200">
@@ -294,7 +299,7 @@ export default function Dashboard() {
                                 )}
                             </div>
 
-                            <p className="text-2xl font-bold mt-2 text-gray-300">
+                            <p className="text-2xl font-bold mt-2 text-black dark:text-gray-300">
                                 {stat.title === "Revenue (This Month)"
                                     ? `KSH ${(customRevenue !== null ? customRevenue : stats.thismonthRevenue).toFixed(2)}`
                                     : stat.value}
@@ -305,20 +310,20 @@ export default function Dashboard() {
                                     <div className="flex items-center gap-2">
                                         {stat.title === "Revenue (Today)" && (
                                             <>
-                                                <span className="text-xs text-gray-400">Yesterday:</span>
-                                                <span className="text-xs text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">Yesterday:</span>
+                                                <span className="text-xs text-black/80 dark:text-gray-300 font-medium">KSH {(stats.yesterdayRevenue).toFixed(2)}</span>
                                             </>
                                         )}
                                         {stat.title === "Revenue (This Month)" && (
                                             <>
-                                                <span className="text-xs text-gray-400">Last Month:</span>
-                                                <span className="text-xs text-gray-300 font-medium">KSH {stats.lastmonthRevenue.toFixed(2)}</span>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">Last Month:</span>
+                                                <span className="text-xs text-black/80 dark:text-gray-300 font-medium">KSH {stats.lastmonthRevenue.toFixed(2)}</span>
                                             </>
                                         )}
                                         {stat.title === "Packages" && (
                                             <>
-                                                <span className="text-xs text-gray-400">Most Purchased:</span>
-                                                <span className="text-xs text-gray-300 font-medium">{stats.mostpurchased}</span>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">Most Purchased:</span>
+                                                <span className="text-xs text-black/80 dark:text-gray-300 font-medium">{stats.mostpurchased}</span>
                                             </>
                                         )}
                                     </div>
@@ -358,7 +363,7 @@ export default function Dashboard() {
                 </div>
                 {IsB2B && adminUser?.role === "superuser" && (
                     <>
-                        <h1 className="text-2xl font-semiboldtext-gray-200 mb-6">Funds Overview</h1>
+                        <h1 className="text-2xl font-semibold text-black dark:text-gray-200 mb-6">Funds Overview</h1>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                             {[
                                 { title: "Total Balance", value: `KSH ${funds.balance}` },
@@ -374,15 +379,15 @@ export default function Dashboard() {
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="bg-black rounded-lg shadow p-6 lg:col-span-2">
-                        <h2 className="text-lg font-semiboldtext-gray-300 mb-4">Recent Activities</h2>
+                    <div className="bg-gray-200 dark:bg-black rounded-lg shadow p-6 lg:col-span-2">
+                        <h2 className="text-lg font-semibold text-black dark:text-gray-300 mb-4">Recent Activities</h2>
                         <ul className="space-y-4">
                             {recentActivities.map(activity => (
                                 <li key={activity.id} className="flex items-start pb-4 border-b border-gray-100 last:border-0 last:pb-0">
                                     <div>
-                                        <p className="text-xs font-mediumtext-gray-400">{activity.user ? activity.user : activity.code} bought {activity.package}</p>
+                                        <p className="text-xs font-medium text-black dark:text-gray-400">{activity.user ? activity.user : activity.code} bought {activity.package}</p>
                                     </div>
-                                    <span className="ml-auto text-sm text-gray-500">{activity.time}</span>
+                                    <span className="ml-auto text-sm text-black dark:text-gray-500">{activity.time}</span>
                                 </li>
                             ))}
                         </ul>
@@ -392,30 +397,30 @@ export default function Dashboard() {
                             </button>
                         </Link>
                     </div>
-                    <div className="bg-black rounded-lg shadow p-6">
-                        <h2 className="text-lg font-semibold text-gray-300 mb-4">Quick Actions</h2>
+                    <div className="bg-gray-200 dark:bg-black rounded-lg shadow p-6">
+                        <h2 className="text-lg font-semibold text-black dark:text-gray-300 mb-4">Quick Actions</h2>
                         <div className="flex flex-col space-y-3 gap-1">
 
                             {adminUser?.role === "superuser" && (
                                 <>
-                                    <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
+                                    <button onClick={() => setShowModal(true)} className="w-full flex items-center justify-between p-3 bg-gray-300 dark:bg-gray-900 hover:bg-blue-800/20 rounded-lg transition">
                                         <span className="text-blue-700 font-medium">Add New User</span>
                                         <Plus className="w-5 h-5 text-blue-500" />
                                     </button>
-                                    <button onClick={() => setShowCodeModal(true)} className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-yellow-800/20 rounded-lg transition">
+                                    <button onClick={() => setShowCodeModal(true)} className="w-full flex items-center justify-between p-3 bg-gray-300 dark:bg-gray-900 hover:bg-yellow-800/20 rounded-lg transition">
                                         <span className="text-yellow-700 font-medium">Add New Code</span>
                                         <Plus className="w-5 h-5 text-yellow-500" />
                                     </button>
                                 </>
                             )}
                             <Link href="/admin/users" >
-                                <button className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
+                                <button className="w-full flex items-center justify-between p-3 bg-gray-300 dark:bg-gray-900 hover:bg-purple-800/20 rounded-lg transition">
                                     <span className="text-purple-700 font-medium">Manage Users</span>
                                     <Users className="w-5 h-5 text-purple-500" />
                                 </button>
                             </Link>
                             <Link target="_blank" href={`${window.location.origin}/login`} >
-                                <button className="w-full flex items-center justify-between p-3 bg-gray-900 hover:bg-green-800/20 rounded-lg transition">
+                                <button className="w-full flex items-center justify-between p-3 bg-gray-300 dark:bg-gray-900 hover:bg-green-800/20 rounded-lg transition">
                                     <span className="text-green-700 font-medium">Hotspot Login</span>
                                     <ArrowUpRightIcon className="w-5 h-5 text-green-500" />
                                 </button>
