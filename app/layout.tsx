@@ -10,6 +10,7 @@ import { PaymentProvider } from "@/contexts/PaymentProvider";
 import { TutorialProvider } from "@/contexts/TutorialProvider";
 import { RoleGateProvider } from "@/contexts/RoleProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
+import { ReturnUrlProvider } from "@/contexts/ReturnUrlProvider";
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
@@ -45,19 +46,21 @@ export default function RootLayout({
         <ThemeProvider>
           <SocketProvider >
             <Suspense>
-              <ManagerAuthProvider>
-                <AdminAuthProvider>
-                  <RoleGateProvider>
-                    <PlatformProvider>
-                      <PaymentProvider>
-                        <TutorialProvider>
-                          {children}
-                        </TutorialProvider>
-                      </PaymentProvider>
-                    </PlatformProvider>
-                  </RoleGateProvider>
-                </AdminAuthProvider>
-              </ManagerAuthProvider>
+              <ReturnUrlProvider>
+                <ManagerAuthProvider>
+                  <AdminAuthProvider>
+                    <RoleGateProvider>
+                      <PlatformProvider>
+                        <PaymentProvider>
+                          <TutorialProvider>
+                            {children}
+                          </TutorialProvider>
+                        </PaymentProvider>
+                      </PlatformProvider>
+                    </RoleGateProvider>
+                  </AdminAuthProvider>
+                </ManagerAuthProvider>
+              </ReturnUrlProvider>
             </Suspense>
           </SocketProvider>
         </ThemeProvider>

@@ -2,6 +2,7 @@
 
 import { useAdminAuth } from "@/contexts/AdminSessionProvider";
 import { usePlatform } from "@/contexts/PlatformProvider";
+import { useReturnUrl } from "@/contexts/ReturnUrlProvider";
 import { generatePlatformUrl, generatePlatformId, getCurrentAdminId } from "@/utils/FUnstions";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -24,6 +25,7 @@ export default function Login() {
 
     const { login, isAuthenticated, isLoading } = useAdminAuth();
     const { platformData } = usePlatform();
+    const { returnUrl, clearReturnUrl } = useReturnUrl();
 
     useEffect(() => {
         if (!isLoading && isAuthenticated) {
@@ -79,7 +81,12 @@ export default function Login() {
                 // }
                 login({ token: res.token, userData: res.user });
                 toast.success("Login successful!");
-                window.location.href = `${window.location.origin}/admin`;
+                if (returnUrl) {
+                    router.push(returnUrl)
+                } else {
+                    window.location.href = `${window.location.origin}/admin`;
+                }
+                clearReturnUrl()
             } else {
                 toast.error(res.message);
             }
