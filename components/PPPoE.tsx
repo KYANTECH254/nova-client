@@ -456,7 +456,7 @@ export default function PPPoE() {
         const serv = filteredPppServers.find(i => i.serviceName === serviceName);
         setSelectedServer(serv);
         setServicename(serv.serviceName)
-        
+
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -625,7 +625,8 @@ export default function PPPoE() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+                    <div className="flex flex-col bg-gray-100 border border-gray-300 text-gray-900 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6
+                    dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100">
                         <h2 className="text-xl font-bold mb-4">
                             {currentPPPoE ? "Edit PPPoE" : "Add New PPPoE"}
                         </h2>
@@ -634,7 +635,9 @@ export default function PPPoE() {
                                 <div>
                                     <label className="block text-sm font-medium mb-1">Station / Router</label>
                                     <select
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required
                                         value={selectedStation?.id || ""}
                                         onChange={(e) => handleStationChange(e.target.value)}
@@ -650,7 +653,9 @@ export default function PPPoE() {
                                 <div>
                                     <label className="block text-sm font-medium mb-1">Pool</label>
                                     <select
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required
                                         value={selectedPool?.name || ""}
                                         onChange={(e) => handlePoolChange(e.target.value)}
@@ -667,7 +672,9 @@ export default function PPPoE() {
                                 <div>
                                     <label className="block text-sm font-medium mb-1">PPP Profile</label>
                                     <select
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         value={selectedProfile?.name || profile}
                                         onChange={(e) => handleProfileChange(e.target.value)}
                                     >
@@ -683,7 +690,9 @@ export default function PPPoE() {
                                 <div>
                                     <label className="block text-sm font-medium mb-1">PPP Server</label>
                                     <select
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         value={selectedServer?.serviceName || servicename}
                                         onChange={(e) => handleServerChange(e.target.value)}
                                     >
@@ -706,7 +715,9 @@ export default function PPPoE() {
                                                 name="name"
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
-                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                             dark:bg-black dark:text-gray-300 dark:border-gray-600
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                 required
                                             />
                                         </div>
@@ -718,7 +729,9 @@ export default function PPPoE() {
                                                 name="local-address"
                                                 value={localaddress || currentPPPoE?.localaddress || ""}
                                                 onChange={(e) => setLocalAddress(e.target.value)}
-                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                             dark:bg-black dark:text-gray-300 dark:border-gray-600
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                 required
                                             />
                                         </div>
@@ -730,7 +743,9 @@ export default function PPPoE() {
                                                 name="dnsserver"
                                                 value={DNSserver || currentPPPoE?.DNSserver || ""}
                                                 onChange={(e) => setDNSserver(e.target.value)}
-                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                             dark:bg-black dark:text-gray-300 dark:border-gray-600
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                 required
                                             />
                                         </div>
@@ -742,12 +757,15 @@ export default function PPPoE() {
                                                 name="speed"
                                                 value={speed}
                                                 onChange={(e) => setSpeed(e.target.value)}
-                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                             dark:bg-black dark:text-gray-300 dark:border-gray-600
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                 required
                                             />
                                         </div>
                                     </>
                                 )}
+
                                 {!selectedServer && (
                                     <>
                                         <h2 className="text-lg mt-2 mb-2">Create PPPoE Server</h2>
@@ -758,7 +776,9 @@ export default function PPPoE() {
                                                 type="text"
                                                 value={servicename}
                                                 onChange={(e) => setServicename(e.target.value)}
-                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                             dark:bg-black dark:text-gray-300 dark:border-gray-600
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                 required
                                             />
                                         </div>
@@ -766,7 +786,9 @@ export default function PPPoE() {
                                         <div>
                                             <label className="block text-sm font-medium mb-1">Interface</label>
                                             <select
-                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                             dark:bg-black dark:text-gray-300 dark:border-gray-600
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                 required
                                                 value={selectedInterface?.name || ""}
                                                 onChange={(e) => handleInterfaceChange(e.target.value)}
@@ -786,7 +808,9 @@ export default function PPPoE() {
                                                 type="number"
                                                 value={maxsessions}
                                                 onChange={(e) => setMaxsessions(e.target.value)}
-                                                className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                                className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                             dark:bg-black dark:text-gray-300 dark:border-gray-600
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                 required
                                             />
                                         </div>
@@ -801,7 +825,9 @@ export default function PPPoE() {
                                         type="text"
                                         value={clientname}
                                         onChange={(e) => setClientname(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required
                                     />
                                 </div>
@@ -813,11 +839,13 @@ export default function PPPoE() {
                                             type={showPassword ? "text" : "password"}
                                             value={clientpassword}
                                             onChange={(e) => setClientpassword(e.target.value)}
-                                            className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                            className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                           dark:bg-black dark:text-gray-300 dark:border-gray-600
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             required
                                         />
                                         <div
-                                            className="absolute fontbold right-5 text-gray-300 cursor-pointer"
+                                            className="absolute fontbold right-5 text-gray-700 dark:text-gray-300 cursor-pointer"
                                             onClick={() => setShowPassword((prev) => !prev)}
                                         >
                                             {showPassword ? <Eye /> : <EyeClosed />}
@@ -832,26 +860,31 @@ export default function PPPoE() {
                                         type="number"
                                         value={price}
                                         onChange={(e) => setPrice(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required
                                     />
                                 </div>
 
-                                {/* <div> */}
                                 <label className="block text-sm font-medium mb-1">Period</label>
                                 <div className="flex">
                                     <input
                                         type="number"
                                         value={period}
                                         onChange={(e) => setPeriod(e.target.value)}
-                                        className="w-1/2 px-3 py-2 border rounded-l-md bg-black text-gray-300"
+                                        className="w-1/2 px-3 py-2 border rounded-l-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Value"
                                         required
                                     />
                                     <select
                                         value={periodUnit}
                                         onChange={(e) => setPeriodUnit(e.target.value)}
-                                        className="w-1/2 px-3 py-2 border rounded-r-md bg-black text-gray-300"
+                                        className="w-1/2 px-3 py-2 border rounded-r-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required
                                     >
                                         <option value="minutes">Minutes</option>
@@ -859,13 +892,16 @@ export default function PPPoE() {
                                         <option value="days">Days</option>
                                     </select>
                                 </div>
+
                                 <div>
                                     <label className="block text-sm font-medium mb-1">Plan Status</label>
                                     <div className="flex">
                                         <select
                                             value={status}
                                             onChange={(e) => setStatus(e.target.value)}
-                                            className="w-full px-3 py-2 border rounded-r-md bg-black text-gray-300"
+                                            className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                           dark:bg-black dark:text-gray-300 dark:border-gray-600
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             required
                                         >
                                             <option value="inactive">Inactive</option>
@@ -873,13 +909,16 @@ export default function PPPoE() {
                                         </select>
                                     </div>
                                 </div>
+
                                 <div>
                                     <label className="block text-sm font-medium mb-1">Client Email</label>
                                     <input
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required
                                     />
                                 </div>
@@ -889,16 +928,16 @@ export default function PPPoE() {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        setShowModal(false)
-                                        setIsAdding(false)
+                                        setShowModal(false);
+                                        setIsAdding(false);
                                     }}
-                                    className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700"
+                                    className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                                     disabled={isAdding}
                                 >
                                     {isAdding ? "Processing..." : currentPPPoE ? "Update" : "Create"}

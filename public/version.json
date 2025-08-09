@@ -1,4 +1,15 @@
 [
+    {
+    "version": "1.0.4",
+    "build": "2025-08-09T17:00:00Z",
+    "description": "UI updates and authentication bug fixes.",
+    "features": [
+      "Major UI Updates",
+      "Mikrotik API and PPPoE bug fixes"
+    ],
+    "maintenance": false,
+    "mandatoryUpdate": true
+  },
   {
     "version": "1.0.4",
     "build": "2025-06-11T17:00:00Z",
