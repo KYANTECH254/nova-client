@@ -485,305 +485,316 @@ export default function Packages() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+                    <div className="flex flex-col bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
                         <h2 className="text-xl font-bold mb-4">
                             {currentPackage ? "Edit Package" : "Add New Package"}
                         </h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Select Station / Router</label>
-                                    <select
-                                        name="station"
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                        value={selectedStation?.id || ""}
-                                        onChange={(e) => handleStationChange(e.target.value)}
-                                    >
-                                        {stations.map((station) => (
-                                            <option key={station.id} value={station.id}>
-                                                {station.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Select Station / Router</label>
+                                <select
+                                    name="station"
+                                    value={selectedStation?.id || ""}
+                                    onChange={(e) => handleStationChange(e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    {stations.map((station) => (
+                                        <option key={station.id} value={station.id}>
+                                            {station.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Select Pool</label>
-                                    <select
-                                        name="pool"
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                        value={selectedPool?.name || ""}
-                                        onChange={(e) => handlePoolChange(e.target.value)}
-                                    >
-                                        <option value="">--- Pick pool ---</option>
-                                        {filteredPools.map((pool, index) => (
-                                            <option key={index} value={pool.name}>
-                                                {pool.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Select Profile</label>
-                                    <select
-                                        name="profile"
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        value={selectedProfileId}
-                                        onChange={(e) => {
-                                            const profileName = e.target.value;
-                                            setSelectedProfileId(profileName);
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Select Pool</label>
+                                <select
+                                    name="pool"
+                                    value={selectedPool?.name || ""}
+                                    onChange={(e) => handlePoolChange(e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    <option value="">--- Pick pool ---</option>
+                                    {filteredPools.map((pool, index) => (
+                                        <option key={index} value={pool.name}>
+                                            {pool.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                                            const selectedProfile = filteredProfiles.find(p => p.name === profileName);
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Select Profile</label>
+                                <select
+                                    name="profile"
+                                    value={selectedProfileId}
+                                    onChange={(e) => {
+                                        const profileName = e.target.value;
+                                        setSelectedProfileId(profileName);
 
-                                            if (selectedProfile) {
-                                                setName(selectedProfile.name);
-                                                const rateLimit = selectedProfile.rateLimit.split('/')[0].replace('M', '');
-                                                setSpeed(rateLimit);
-                                                setDevices(selectedProfile.sharedUsers.toString());
-                                                const sessionTimeout = selectedProfile.sessionTimeout || 'none';
+                                        const selectedProfile = filteredProfiles.find(p => p.name === profileName);
 
-                                                if (sessionTimeout === 'none' || sessionTimeout === '') {
-                                                    setUnlimitedPeriod(true);
-                                                    setPeriodValue('');
-                                                    setPeriodUnit('minutes');  
+                                        if (selectedProfile) {
+                                            setName(selectedProfile.name);
+                                            const rateLimit = selectedProfile.rateLimit.split('/')[0].replace('M', '');
+                                            setSpeed(rateLimit);
+                                            setDevices(selectedProfile.sharedUsers.toString());
+                                            const sessionTimeout = selectedProfile.sessionTimeout || 'none';
+
+                                            if (sessionTimeout === 'none' || sessionTimeout === '') {
+                                                setUnlimitedPeriod(true);
+                                                setPeriodValue('');
+                                                setPeriodUnit('minutes');
+                                            } else {
+                                                setUnlimitedPeriod(false);
+                                                const match = sessionTimeout.match(/^(\d+)([mhd])$/i);
+                                                if (match) {
+                                                    const value = match[1];
+                                                    const unitCode = match[2].toLowerCase();
+                                                    setPeriodValue(value);
+                                                    const unitMap = {
+                                                        m: 'minutes',
+                                                        h: 'hours',
+                                                        d: 'days',
+                                                    };
+                                                    setPeriodUnit(unitMap[unitCode as keyof typeof unitMap] || 'days');
                                                 } else {
-                                                    setUnlimitedPeriod(false);
-                                                    const match = sessionTimeout.match(/^(\d+)([mhd])$/i);
-                                                    if (match) {
-                                                        const value = match[1];
-                                                        const unitCode = match[2].toLowerCase();
-                                                        setPeriodValue(value);
-                                                        const unitMap = {
-                                                            m: 'minutes',
-                                                            h: 'hours',
-                                                            d: 'days',
-                                                        };
-                                                       setPeriodUnit(unitMap[unitCode as keyof typeof unitMap] || 'days');
-                                                    } else {
-                                                        setPeriodValue('');
-                                                        setPeriodUnit('minutes');
-                                                    }
+                                                    setPeriodValue('');
+                                                    setPeriodUnit('minutes');
                                                 }
                                             }
+                                        }
+                                    }}
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    <option value="">--- Pick profile ---</option>
+                                    {filteredProfiles.map((profile) => (
+                                        <option key={profile.name} value={profile.name}>{profile.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Name</label>
+                                <input
+                                    readOnly={selectedProfileId && !currentPackage || !selectedProfileId && currentPackage}
+                                    type="text"
+                                    name="name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Category</label>
+                                <select
+                                    name="category"
+                                    defaultValue={currentPackage?.category || "Daily"}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Data">Data Plan</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Period</label>
+                                <div className="flex items-center mb-2">
+                                    <input
+                                        type="checkbox"
+                                        id="unlimitedPeriod"
+                                        checked={unlimitedPeriod}
+                                        onChange={(e) => {
+                                            setUnlimitedPeriod(e.target.checked);
+                                            if (e.target.checked) {
+                                                setPeriodValue("NoExpiry");
+                                                setPeriodUnit("");
+                                            }
                                         }}
-
-                                    >
-                                        <option value="">--- Pick profile ---</option>
-                                        {filteredProfiles.map((profile) => (
-                                            <option key={profile.name} value={profile.name}>{profile.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Name</label>
-                                    <input
-                                        readOnly={selectedProfileId && !currentPackage || !selectedProfileId && currentPackage}
-                                        type="text"
-                                        name="name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
+                                        className="mr-2"
                                     />
+                                    <label htmlFor="unlimitedPeriod">{category === "Data" ? "No Expiry" : "Unlimited"}</label>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Category</label>
-                                    <select
-                                        name="category"
-                                        defaultValue={currentPackage?.category || "Daily"}
-                                        onChange={(e) => setCategory(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                    >
-                                        <option value="Daily">Daily</option>
-                                        <option value="Weekly">Weekly</option>
-                                        <option value="Monthly">Monthly</option>
-                                        <option value="Data">Data Plan</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Period</label>
-                                    <div className="flex items-center mb-2">
-                                        <input
-                                            type="checkbox"
-                                            id="unlimitedPeriod"
-                                            checked={unlimitedPeriod}
-                                            onChange={(e) => {
-                                                setUnlimitedPeriod(e.target.checked);
-                                                if (e.target.checked) {
-                                                    setPeriodValue("NoExpiry");
-                                                    setPeriodUnit("")
-                                                }
-                                            }}
-                                            className="mr-2"
-                                        />
-                                        <label htmlFor="unlimitedPeriod">{category === "Data" ? "No Expiry" : "Unlimited"}</label>
-                                    </div>
-
-                                    {!unlimitedPeriod && (
-                                        <div className="flex">
-                                            <input
-                                                type="number"
-                                                value={periodValue}
-                                                onChange={(e) => setPeriodValue(e.target.value)}
-                                                className="w-1/2 px-3 py-2 border rounded-l-md bg-black text-gray-300"
-                                                placeholder="Value"
-                                                required
-                                            />
-                                            <select
-                                                value={periodUnit}
-                                                onChange={(e) => setPeriodUnit(e.target.value)}
-                                                className="w-1/2 px-3 py-2 border rounded-r-md bg-black text-gray-300"
-                                                required
-                                            >
-                                                <option value="minutes">Minutes</option>
-                                                <option value="hours">Hours</option>
-                                                <option value="days">Days</option>
-                                            </select>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Price (KES)</label>
-                                    <input
-                                        type="number"
-                                        name="price"
-                                        defaultValue={currentPackage?.price || ""}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Speed (Mbps)</label>
-                                    <input
-                                        type="text"
-                                        name="speed"
-                                        value={speed}
-                                        onChange={(e) => setSpeed(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
-                                        required
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Devices</label>
-                                    <div className="flex items-center mb-2">
-                                        <input
-                                            type="checkbox"
-                                            id="unlimitedDevices"
-                                            checked={unlimitedDevices}
-                                            onChange={(e) => {
-                                                setUnlimitedDevices(e.target.checked);
-                                                if (e.target.checked) setDevices("");
-                                            }}
-                                            className="mr-2"
-                                        />
-                                        <label htmlFor="unlimitedDevices">Unlimited</label>
-                                    </div>
-                                    {!unlimitedDevices && (
+                                {!unlimitedPeriod && (
+                                    <div className="flex">
                                         <input
                                             type="number"
-                                            name="devices"
-                                            value={devices}
-                                            onChange={(e) => setDevices(e.target.value)}
-                                            className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                            value={periodValue}
+                                            onChange={(e) => setPeriodValue(e.target.value)}
+                                            placeholder="Value"
                                             required
+                                            className="w-1/2 px-3 py-2 border rounded-l-md 
+           bg-white text-gray-900 border-gray-300 
+           dark:bg-black dark:text-gray-300 dark:border-gray-600 
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         />
-                                    )}
-                                    <input
-                                        type="hidden"
-                                        name="devices"
-                                        value={unlimitedDevices ? "Unlimited" : ""}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Usage</label>
-                                    <div className="flex items-center mb-2">
-                                        <input
-                                            type="checkbox"
-                                            id="unlimited"
-                                            checked={isUnlimited}
-                                            onChange={(e) => setIsUnlimited(e.target.checked)}
-                                            className="mr-2"
-                                        />
-                                        <label htmlFor="unlimited">Unlimited</label>
+                                        <select
+                                            value={periodUnit}
+                                            onChange={(e) => setPeriodUnit(e.target.value)}
+                                            required
+                                            className="w-1/2 px-3 py-2 border rounded-r-md
+           bg-white text-gray-900 border-gray-300
+           dark:bg-black dark:text-gray-300 dark:border-gray-600
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
+                                        >
+                                            <option value="minutes">Minutes</option>
+                                            <option value="hours">Hours</option>
+                                            <option value="days">Days</option>
+                                        </select>
                                     </div>
-                                    {!isUnlimited && (
-                                        <div className="flex">
-                                            <input
-                                                type="number"
-                                                name="usage"
-                                                defaultValue={
-                                                    currentPackage?.usage !== "Unlimited"
-                                                        ? parseFloat(currentPackage?.usage || "0")
-                                                        : ""
-                                                }
-                                                className="w-1/2 px-3 py-2 border rounded-l-md bg-black text-gray-300"
-                                                required={!isUnlimited}
-                                            />
-                                            <select
-                                                name="usageUnit"
-                                                defaultValue={
-                                                    currentPackage?.usage !== "Unlimited"
-                                                        ? currentPackage?.usage.replace(/[0-9.\s]/g, "").toUpperCase()
-                                                        : "MB"
-                                                }
-                                                className="w-1/2 px-3 py-2 border rounded-r-md bg-black text-gray-300"
-                                                required={!isUnlimited}
-                                            >
-                                                <option value="MB">MB</option>
-                                                <option value="GB">GB</option>
-                                                <option value="TB">TB</option>
-                                            </select>
-                                        </div>
+                                )}
+                            </div>
 
-                                    )}
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Price (KES)</label>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    defaultValue={currentPackage?.price || ""}
+                                    required
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Speed (Mbps)</label>
+                                <input
+                                    type="text"
+                                    name="speed"
+                                    value={speed}
+                                    onChange={(e) => setSpeed(e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Devices</label>
+                                <div className="flex items-center mb-2">
+                                    <input
+                                        type="checkbox"
+                                        id="unlimitedDevices"
+                                        checked={unlimitedDevices}
+                                        onChange={(e) => {
+                                            setUnlimitedDevices(e.target.checked);
+                                            if (e.target.checked) setDevices("");
+                                        }}
+                                        className="mr-2"
+                                    />
+                                    <label htmlFor="unlimitedDevices">Unlimited</label>
                                 </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Package Visibility</label>
-                                    <select
-                                        name="packagestatus"
-                                        value={packagestatus}
-                                        onChange={(e) => setPackageStatus(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                {!unlimitedDevices && (
+                                    <input
+                                        type="number"
+                                        name="devices"
+                                        value={devices}
+                                        onChange={(e) => setDevices(e.target.value)}
                                         required
-                                    >
-                                        <option value="live">Visible to Users</option>
-                                        <option value="hidden">Hidden</option>
-                                    </select>
-                                </div>
+                                        className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                )}
+                                <input
+                                    type="hidden"
+                                    name="devices"
+                                    value={unlimitedDevices ? "Unlimited" : ""}
+                                />
+                            </div>
 
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Usage</label>
+                                <div className="flex items-center mb-2">
+                                    <input
+                                        type="checkbox"
+                                        id="unlimited"
+                                        checked={isUnlimited}
+                                        onChange={(e) => setIsUnlimited(e.target.checked)}
+                                        className="mr-2"
+                                    />
+                                    <label htmlFor="unlimited">Unlimited</label>
+                                </div>
+                                {!isUnlimited && (
+                                    <div className="flex">
+                                        <input
+                                            type="number"
+                                            name="usage"
+                                            defaultValue={
+                                                currentPackage?.usage !== "Unlimited"
+                                                    ? parseFloat(currentPackage?.usage || "0")
+                                                    : ""
+                                            }
+                                            required={!isUnlimited}
+                                            className="w-1/2 px-3 py-2 border rounded-l-md 
+           bg-white text-gray-900 border-gray-300 
+           dark:bg-black dark:text-gray-300 dark:border-gray-600 
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        />
+                                        <select
+                                            name="usageUnit"
+                                            defaultValue={
+                                                currentPackage?.usage !== "Unlimited"
+                                                    ? currentPackage?.usage.replace(/[0-9.\s]/g, "").toUpperCase()
+                                                    : "MB"
+                                            }
+                                            required={!isUnlimited}
+                                            className="w-1/2 px-3 py-2 border rounded-r-md
+           bg-white text-gray-900 border-gray-300
+           dark:bg-black dark:text-gray-300 dark:border-gray-600
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
+                                        >
+                                            <option value="MB">MB</option>
+                                            <option value="GB">GB</option>
+                                            <option value="TB">TB</option>
+                                        </select>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Package Visibility</label>
+                                <select
+                                    name="packagestatus"
+                                    value={packagestatus}
+                                    onChange={(e) => setPackageStatus(e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    <option value="live">Visible to Users</option>
+                                    <option value="hidden">Hidden</option>
+                                </select>
                             </div>
 
                             <div className="flex justify-end space-x-2 mt-6">
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700"
+                                    className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                                     disabled={isAdding}
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                                 >
                                     {isAdding ? "Adding..." : currentPackage ? "Update Package" : "Add Package"}
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div >
-            )
-            }
+                </div>
+            )}
+
         </div >
     );
 }
