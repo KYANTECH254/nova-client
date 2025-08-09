@@ -50,12 +50,12 @@ export default function Files() {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/req/fetchBackUp`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ token })
+                    body: JSON.stringify({ token }),
                 });
                 const res = await response.json();
                 if (res.success) {
                     const backup = res.backup;
-                    setBackUp(backup)
+                    setBackUp(backup);
                 }
             } catch (error) {
                 console.error("Error fetching backup file:", error);
@@ -72,7 +72,7 @@ export default function Files() {
                 setHash(hashed);
             } catch (err) {
                 console.log("Failed to hash internal IP:", err);
-                setHash("")
+                setHash("");
             }
         }
     }, [selectedStation]);
@@ -80,39 +80,50 @@ export default function Files() {
     useEffect(() => {
         if (!selectedStation || !backup?.length) return;
 
-        const latestBackup = backup.find(
-            (b: any) => b.host === selectedStation.mikrotikHost
-        );
+        const latestBackup = backup.find((b: any) => b.host === selectedStation.mikrotikHost);
 
         setselectedBackUp(latestBackup || null);
     }, [selectedStation, backup]);
 
     return (
         <div className="p-6 max-w-4xl mx-auto mt-14">
-            <h1 className="text-2xl font-bold mb-6">Files</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Files</h1>
 
             <div className="flex gap-4 mb-6">
                 <button
                     onClick={() => setTab("hotspot")}
-                    className={`px-4 py-2 rounded-md ${tab === "hotspot" ? "bg-blue-600 text-white" : "bg-gray-700 text-gray-300"}`}
-                >Hotspot Folder</button>
+                    className={`px-4 py-2 rounded-md ${
+                        tab === "hotspot"
+                            ? "bg-blue-600 text-white"
+                            : "bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                    }`}
+                >
+                    Hotspot Folder
+                </button>
                 <button
                     onClick={() => setTab("backup")}
-                    className={`px-4 py-2 rounded-md ${tab === "backup" ? "bg-blue-600 text-white" : "bg-gray-700 text-gray-300"}`}
-                >Cloud Backup</button>
+                    className={`px-4 py-2 rounded-md ${
+                        tab === "backup"
+                            ? "bg-blue-600 text-white"
+                            : "bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                    }`}
+                >
+                    Cloud Backup
+                </button>
             </div>
+
             <form className="space-y-6">
                 {tab === "backup" && (
-                    <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
-                        <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">
+                    <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
+                        <h2 className="text-lg font-semibold mb-4 border-b border-gray-300 dark:border-gray-700 pb-2 text-gray-900 dark:text-gray-200">
                             Latest Backup
-                            <p className="text-xs font-semibold text-green-500 italic p-1 bg-black/30 rounded-md">
+                            <p className="text-xs font-semibold italic p-1 bg-green-100 dark:bg-black/30 rounded-md text-green-700 dark:text-green-400">
                                 Cloud backup runs automatically every 5 minutes. Latest configuration snapshot is available below.
                             </p>
                         </h2>
 
                         <div className="mb-4">
-                            <h4 className="text-lg font-semibold text-gray-300 mb-2">
+                            <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-300">
                                 Select Station / Router
                             </h4>
                             <div className="flex gap-4 flex-wrap">
@@ -121,10 +132,11 @@ export default function Files() {
                                         key={station.id}
                                         type="button"
                                         onClick={() => setSelectedStation(station)}
-                                        className={`px-4 py-2 rounded-md ${selectedStation?.id === station.id
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-gray-700 text-gray-300"
-                                            }`}
+                                        className={`px-4 py-2 rounded-md ${
+                                            selectedStation?.id === station.id
+                                                ? "bg-blue-600 text-white"
+                                                : "bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                        }`}
                                     >
                                         {station.name || "Unnamed Station"}
                                     </button>
@@ -135,37 +147,38 @@ export default function Files() {
                         {selectedbackup ? (
                             <>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-green-400 font-mono">{selectedbackup.filename}</span>
+                                    <span className="text-green-600 dark:text-green-400 font-mono">{selectedbackup.filename}</span>
                                     <a
                                         href={`${process.env.NEXT_PUBLIC_SERVER_URL}/req/backups/remote-hosts/${selectedbackup.host}/${selectedbackup.filename}?token=${token}`}
                                         download
-                                        className="text-blue-400 hover:underline"
+                                        className="text-blue-600 dark:text-blue-400 hover:underline"
                                     >
                                         Download
                                     </a>
                                 </div>
                                 {selectedbackup.createdAt && (
-                                    <p className="text-sm text-gray-400 mt-2 italic">
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 italic">
                                         Updated {getTimeAgo(selectedbackup.updatedAt)}
                                     </p>
                                 )}
                             </>
                         ) : (
-                            <p className="text-red-500">No backup found for this station.</p>
+                            <p className="text-red-600 dark:text-red-500">No backup found for this station.</p>
                         )}
                     </div>
                 )}
+
                 {tab === "hotspot" && (
-                    <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
-                        <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">
+                    <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
+                        <h2 className="text-lg font-semibold mb-4 border-b border-gray-300 dark:border-gray-700 pb-2 text-gray-900 dark:text-gray-200">
                             Hotspot folder
-                            <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">
+                            <p className="text-xs font-semibold italic p-1 bg-green-100 dark:bg-black/30 rounded-md text-green-700 dark:text-green-400">
                                 Configure WiFi DNS and Hotspot server profile to use hotspot folder. Update your login.html with the file below.
                             </p>
                         </h2>
 
                         <div className="mb-4">
-                            <h4 className="text-lg font-semibold text-gray-300 mb-2">
+                            <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-300">
                                 Select Station / Router
                             </h4>
                             <div className="flex gap-4 flex-wrap">
@@ -174,10 +187,11 @@ export default function Files() {
                                         key={station.id}
                                         type="button"
                                         onClick={() => setSelectedStation(station)}
-                                        className={`px-4 py-2 rounded-md ${selectedStation?.id === station.id
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-gray-700 text-gray-300"
-                                            }`}
+                                        className={`px-4 py-2 rounded-md ${
+                                            selectedStation?.id === station.id
+                                                ? "bg-blue-600 text-white"
+                                                : "bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                        }`}
                                     >
                                         {station.name || "Unnamed Station"}
                                     </button>
@@ -248,9 +262,6 @@ export default function Files() {
                         />
                     </div>
                 )}
-
-
-
             </form>
         </div>
     );
@@ -274,18 +285,18 @@ export function CodeBlock({
     };
 
     return (
-        <div className="relative bg-black border border-green-300 rounded-md overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-green-300">
-                <span className="text-sm text-green-400 font-mono">{fileName}</span>
+        <div className="relative bg-white dark:bg-black border border-green-300 rounded-md overflow-hidden shadow-sm">
+            <div className="flex items-center justify-between px-4 py-2 bg-green-100 dark:bg-zinc-900 border-b border-green-300">
+                <span className="text-sm font-mono text-green-700 dark:text-green-400">{fileName}</span>
                 <div className="flex items-center space-x-2">
                     <Download
                         size={18}
-                        className="text-green-300 cursor-pointer hover:text-white"
+                        className="text-green-600 dark:text-green-300 cursor-pointer hover:text-green-900 dark:hover:text-white"
                         onClick={handleDownload}
                     />
                     <Copy
                         size={18}
-                        className="text-green-300 cursor-pointer hover:text-white"
+                        className="text-green-600 dark:text-green-300 cursor-pointer hover:text-green-900 dark:hover:text-white"
                         onClick={() => {
                             navigator.clipboard.writeText(code);
                             toast.success("Code copied to clipboard");
@@ -293,8 +304,8 @@ export function CodeBlock({
                     />
                 </div>
             </div>
-            <pre className="overflow-x-auto text-sm text-gray-200 font-mono whitespace-pre m-0">
-                <code className="block px-4 py-3">{code}</code>
+            <pre className="overflow-x-auto text-sm font-mono whitespace-pre m-0 text-gray-900 dark:text-gray-200 bg-white dark:bg-black px-4 py-3">
+                <code className="block">{code}</code>
             </pre>
         </div>
     );
