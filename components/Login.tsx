@@ -85,7 +85,9 @@ export default function Login() {
                 // }
                 login({ token: res.token, userData: res.user });
                 toast.success("Login successful!");
-                if (returnUrl) {
+                console.log(returnUrl);
+                
+                if (returnUrl && returnUrl !== "/") {
                     window.location.href = `${window.location.origin}${returnUrl}`;
                 } else {
                     window.location.href = `${window.location.origin}/admin`;
