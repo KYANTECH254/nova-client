@@ -83,7 +83,7 @@ export default function Templates() {
   }
 
   return (
-  <div className="p-6 max-w-6xl mx-auto mt-14 min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <div className="p-6 max-w-6xl mx-auto mt-14 min-h-screen text-gray-900 dark:text-gray-100">
   <div className="flex justify-between flex-wrap">
     <h1 className="text-3xl font-bold mb-6">Templates</h1>
     <button

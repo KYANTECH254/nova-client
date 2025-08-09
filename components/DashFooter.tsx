@@ -90,7 +90,7 @@ export default function DashFooter() {
       {/* Footer */}
       {latestVersion && !hideFooter && (
         <footer
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white text-gray-900 px-4 py-2 rounded-full shadow-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 transition
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-200 text-gray-900 px-4 py-2 rounded-full shadow-md flex items-center gap-2 cursor-pointer hover:bg-gray-100 transition
                      dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
         >
           <div onClick={() => setShowModal(true)} className="flex items-center gap-2">
