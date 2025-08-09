@@ -369,9 +369,9 @@ export default function Dashboard() {
                                 { title: "Total Balance", value: `KSH ${funds.balance}` },
                                 { title: "Total Withdrawals", value: `KSH ${funds.withdrawals}` },
                             ].map((stat, index) => (
-                                <div key={index} className="bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
+                                <div key={index} className="bg-gray-200 dark:bg-black rounded-lg shadow p-6 border-l-5 border-blue-500">
                                     <h3 className="text-sm font-medium text-gray-500">{stat.title}</h3>
-                                    <p className="text-2xl font-bold mt-2 text-gray-300">{stat.value}</p>
+                                    <p className="text-2xl font-bold mt-2 text-black dark:text-gray-300">{stat.value}</p>
                                 </div>
                             ))}
                         </div>
@@ -429,46 +429,97 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-            {showModal && (
-                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md max-h-full overflow-y-auto space-y-6">
-                        <h2 className="text-xl font-bold mb-4">Add New User</h2>
-                        <form onSubmit={handleSave} className="space-y-4">
-                            <input type="text" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2 border rounded-md bg-black text-white" required />
-                            <select value={packageID} onChange={(e) => setPackageID(e.target.value)} className="w-full px-3 py-2 border rounded-md bg-black text-white" required>
-                                <option value="">Select Package</option>
-                                {packages.map((pkg) => (
-                                    <option key={pkg.id} value={pkg.id}>{pkg.name}</option>
-                                ))}
-                            </select>
-                            <div className="flex justify-end space-x-2 mt-6">
-                                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md">Cancel</button>
-                                <button disabled={isAdding} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">{isAdding ? "Saving" : "Save"}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-            {showCodeModal && (
-                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md max-h-full overflow-y-auto space-y-6">
-                        <h2 className="text-xl font-bold mb-4">Add New Code</h2>
-                        <form onSubmit={handleSave} className="space-y-4">
-                            <input type="text" minLength={3} placeholder="Code" value={code} onChange={(e) => setCode(e.target.value)} className="w-full px-3 py-2 border rounded-md bg-black text-white" required />
-                            <select value={packageID} onChange={(e) => setPackageID(e.target.value)} className="w-full px-3 py-2 border rounded-md bg-black text-white" required>
-                                <option value="">Select Package</option>
-                                {packages.map((pkg) => (
-                                    <option key={pkg.id} value={pkg.id}>{pkg.name}</option>
-                                ))}
-                            </select>
-                            <div className="flex justify-end space-x-2 mt-6">
-                                <button type="button" onClick={() => setShowCodeModal(false)} className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md">Cancel</button>
-                                <button disabled={isAdding} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">{isAdding ? "Saving" : "Save"}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+      {showModal && (
+  <div className="fixed inset-0 bg-black/40 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div className="flex flex-col bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md max-h-full overflow-y-auto space-y-6">
+      <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Add New User</h2>
+      <form onSubmit={handleSave} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+        <select
+          value={packageID}
+          onChange={(e) => setPackageID(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        >
+          <option value="">Select Package</option>
+          {packages.map((pkg) => (
+            <option key={pkg.id} value={pkg.id}>{pkg.name}</option>
+          ))}
+        </select>
+        <div className="flex justify-end space-x-2 mt-6">
+          <button
+            type="button"
+            onClick={() => setShowModal(false)}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md"
+          >
+            Cancel
+          </button>
+          <button
+            disabled={isAdding}
+            type="submit"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md disabled:opacity-50"
+          >
+            {isAdding ? "Saving" : "Save"}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+{showCodeModal && (
+  <div className="fixed inset-0 bg-black/40 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div className="flex flex-col bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full max-w-md max-h-full overflow-y-auto space-y-6">
+      <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Add New Code</h2>
+      <form onSubmit={handleSave} className="space-y-4">
+        <input
+          type="text"
+          minLength={3}
+          placeholder="Code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+        <select
+          value={packageID}
+          onChange={(e) => setPackageID(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        >
+          <option value="">Select Package</option>
+          {packages.map((pkg) => (
+            <option key={pkg.id} value={pkg.id}>{pkg.name}</option>
+          ))}
+        </select>
+        <div className="flex justify-end space-x-2 mt-6">
+          <button
+            type="button"
+            onClick={() => setShowCodeModal(false)}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md"
+          >
+            Cancel
+          </button>
+          <button
+            disabled={isAdding}
+            type="submit"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md disabled:opacity-50"
+          >
+            {isAdding ? "Saving" : "Save"}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
         </>
     );
 }

@@ -67,7 +67,7 @@ export default function AdminHeader() {
                 className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300
                     ${isScrolled
                         ? "bg-[var(--background)] text-white shadow-lg dark:bg-[var(--background)]"
-                        : "bg-slate-800 text-white dark:bg-black dark:text-white"
+                        : "bg-gray-100 dark:bg-slate-800 text-white dark:bg-black dark:text-white"
                     }
                 `}
             >
@@ -86,21 +86,20 @@ export default function AdminHeader() {
                     )}
                     <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
                         <h1 className={`text-black dark:text-white text-2xl sm:text-3xl font-bold tracking-wide 
-                            ${!isScrolled && "text-white"
-                            }`}>
+                           `}>
                             {name} Portal
                         </h1>
                     </div>
                     <button
                         onClick={toggleProfile}
-                        className="fixed top-4 right-4 z-30 p-2 rounded-md bg-gray-900 shadow-lg dark:bg-gray-800"
+                        className="fixed top-4 right-4 z-30 p-2 rounded-md bg-white dark:bg-gray-900 shadow-lg dark:bg-gray-800"
                     >
                         <div className="flex flex-row items-center justify-center">
-                            <User size={40} className="w-6 h-6 text-gray-100 dark:text-gray-200" />
+                            <User size={40} className="w-6 h-6 text-black dark:text-gray-100 dark:text-gray-200" />
                             {!isOpenUser ? (
-                                <ChevronDown size={16} className="text-gray-100 font-bold dark:text-gray-200" />
+                                <ChevronDown size={16} className="text-black font-bold dark:text-gray-200" />
                             ) : (
-                                <ChevronUp size={16} className="text-gray-100 font-bold dark:text-gray-200" />
+                                <ChevronUp size={16} className="text-black font-bold dark:text-gray-200" />
                             )}
                         </div>
                     </button>
