@@ -36,6 +36,13 @@ export default function Login() {
     }, [platformName]);
 
     useEffect(() => {
+        if (window.location.hostname === "demo.novawifi.online") {
+            setPassword("12345678");
+            setEmail("demo@novawifi.online");
+        }
+    }, []);
+
+    useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const form = urlParams.get("form");
         const resetCode = urlParams.get("code");
