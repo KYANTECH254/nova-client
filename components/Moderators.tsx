@@ -281,7 +281,8 @@ export default function Moderators() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+                    <div className="flex flex-col bg-gray-100 border border-gray-300 text-gray-900 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6
+                    dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100">
                         <h2 className="text-xl font-bold mb-4">
                             {currentModerator ? "Edit Moderator" : "Add New Moderator"}
                         </h2>
@@ -293,8 +294,10 @@ export default function Moderators() {
                                         type="text"
                                         name="name"
                                         defaultValue={currentModerator?.name || ""}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-white dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
 
@@ -304,8 +307,10 @@ export default function Moderators() {
                                         type="email"
                                         name="email"
                                         defaultValue={currentModerator?.email || ""}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-white dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
 
@@ -315,15 +320,16 @@ export default function Moderators() {
                                         <input
                                             type={showPassword ? "text" : "password"}
                                             name="password"
-                                            defaultValue={currentModerator ? "" : ""}
                                             placeholder={currentModerator ? "Leave blank to keep current" : ""}
-                                            className="w-full px-3 py-2 border rounded-md bg-black text-white pr-10"
+                                            className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 pr-10 border-gray-300
+                           dark:bg-black dark:text-white dark:border-gray-600
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             required={!currentModerator}
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
                                         >
                                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                         </button>
@@ -332,7 +338,7 @@ export default function Moderators() {
                                         type="button"
                                         onClick={generateRandomPassword}
                                         disabled={isGeneratingPassword}
-                                        className="mt-2 text-sm hover:text-blue-800 text-blue-400 disabled:opacity-50"
+                                        className="mt-2 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 disabled:opacity-50"
                                     >
                                         {isGeneratingPassword ? "Generating..." : "Generate Random Password"}
                                     </button>
@@ -344,7 +350,9 @@ export default function Moderators() {
                                         type="tel"
                                         name="phone"
                                         defaultValue={currentModerator?.phone || ""}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-white dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
 
@@ -353,8 +361,10 @@ export default function Moderators() {
                                     <select
                                         name="role"
                                         defaultValue={currentModerator?.role || "admin"}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-white"
                                         required
+                                        className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-white dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     >
                                         <option value="admin">Admin</option>
                                         <option value="superuser">Superuser</option>
@@ -366,14 +376,14 @@ export default function Moderators() {
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md"
+                                    className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                                     disabled={isAdding}
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                                 >
                                     {isAdding ? "Adding..." : currentModerator ? "Update Moderator" : "Add Moderator"}
                                 </button>
@@ -382,6 +392,7 @@ export default function Moderators() {
                     </div>
                 </div>
             )}
+
         </div>
     );
 }
