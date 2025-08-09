@@ -220,7 +220,7 @@ export default function PPPoE() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ token })
+                    body: JSON.stringify({ token }),
                 });
 
                 const res = await response.json();
@@ -228,12 +228,13 @@ export default function PPPoE() {
                 if (res.success) {
                     const interfacesData = res.profiles
                         .map((interfaceGroup: any) =>
-                            (interfaceGroup.data?.interfaces || []).map((intf: any) => ({
-                                ...intf,
-                                host: interfaceGroup.host,
-                                username: interfaceGroup.username,
-                                profileId: interfaceGroup.id,
-                            }))
+                            (interfaceGroup.data?.interfaces || [])
+                                .map((intf: any) => ({
+                                    ...intf,
+                                    host: interfaceGroup.host,
+                                    station: interfaceGroup.station,
+                                    profileId: interfaceGroup.id,
+                                }))
                         )
                         .flat();
 
@@ -242,7 +243,7 @@ export default function PPPoE() {
                     toast.error(res.message);
                 }
             } catch (error) {
-                console.log("Error fetching interfaces:", error);
+                console.error("Error fetching interfaces:", error);
                 toast.error("Failed to fetch interfaces");
             }
         });
@@ -454,6 +455,8 @@ export default function PPPoE() {
     const handleServerChange = (serviceName: string) => {
         const serv = filteredPppServers.find(i => i.serviceName === serviceName);
         setSelectedServer(serv);
+        setServicename(serv.serviceName)
+        
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -685,7 +688,7 @@ export default function PPPoE() {
                                         onChange={(e) => handleServerChange(e.target.value)}
                                     >
                                         <option value="">Select Server</option>
-                                        {filteredPppProfiles.map((server) => (
+                                        {filteredPppServers.map((server) => (
                                             <option key={server.serviceName} value={server.serviceName}>
                                                 {server.serviceName}
                                             </option>
