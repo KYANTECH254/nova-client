@@ -539,13 +539,9 @@ export default function Packages() {
 
                                             if (selectedProfile) {
                                                 setName(selectedProfile.name);
-
-                                                // Parse rateLimit first part and set speed
                                                 const rateLimit = selectedProfile.rateLimit.split('/')[0].replace('M', '');
                                                 setSpeed(rateLimit);
-
                                                 setDevices(selectedProfile.sharedUsers.toString());
-
                                                 const sessionTimeout = selectedProfile.sessionTimeout || 'none';
 
                                                 if (sessionTimeout === 'none' || sessionTimeout === '') {
