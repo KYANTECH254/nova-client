@@ -9,6 +9,7 @@ import { Toaster } from "sonner";
 import { PaymentProvider } from "@/contexts/PaymentProvider";
 import { TutorialProvider } from "@/contexts/TutorialProvider";
 import { RoleGateProvider } from "@/contexts/RoleProvider";
+import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
@@ -41,23 +42,25 @@ export default function RootLayout({
             }
           }}
         />
-        <SocketProvider >
-          <Suspense>
-            <ManagerAuthProvider>
-              <AdminAuthProvider>
-                <RoleGateProvider>
-                  <PlatformProvider>
-                    <PaymentProvider>
-                      <TutorialProvider>
-                        {children}
-                      </TutorialProvider>
-                    </PaymentProvider>
-                  </PlatformProvider>
-                </RoleGateProvider>
-              </AdminAuthProvider>
-            </ManagerAuthProvider>
-          </Suspense>
-        </SocketProvider>
+        <ThemeProvider>
+          <SocketProvider >
+            <Suspense>
+              <ManagerAuthProvider>
+                <AdminAuthProvider>
+                  <RoleGateProvider>
+                    <PlatformProvider>
+                      <PaymentProvider>
+                        <TutorialProvider>
+                          {children}
+                        </TutorialProvider>
+                      </PaymentProvider>
+                    </PlatformProvider>
+                  </RoleGateProvider>
+                </AdminAuthProvider>
+              </ManagerAuthProvider>
+            </Suspense>
+          </SocketProvider>
+        </ThemeProvider>
       </body>
     </html >
   );
