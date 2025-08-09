@@ -38,6 +38,13 @@ export default function PaymentLinkPPPoE() {
     const pppoeId = getPPPoEIdFromUrl();
 
     useEffect(() => {
+        const auth = sessionStorage.getItem("auth");
+        if (auth !== "true") {
+            setShowEmailPrompt(true);
+        }
+    }, []);
+
+    useEffect(() => {
         if (!pppoE || !pppoE.expiresAt) return;
 
         const calculateTimeRemaining = () => {
@@ -101,6 +108,32 @@ export default function PaymentLinkPPPoE() {
 
         fetchPppoeDetails();
     }, [pppoeId, router]);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (
+                e.key === "F12" ||
+                (e.ctrlKey && e.shiftKey && ["I", "C", "J"].includes(e.key.toUpperCase())) ||
+                (e.ctrlKey && e.key.toUpperCase() === "U")
+            ) {
+                e.preventDefault();
+                toast.error("Inspecting is disabled.");
+            }
+        };
+
+        const handleContextMenu = (e: MouseEvent) => {
+            e.preventDefault();
+            toast.error("Right-click is disabled.");
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("contextmenu", handleContextMenu);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("contextmenu", handleContextMenu);
+        };
+    }, []);
 
     const copyToClipboard = (): void => {
         navigator.clipboard.writeText(window.location.href);
@@ -209,6 +242,7 @@ export default function PaymentLinkPPPoE() {
                         <button
                             onClick={() => {
                                 if (enteredEmail.trim().toLowerCase() === pppoE.email.toLowerCase()) {
+                                    sessionStorage.setItem("auth", "true");
                                     setShowEmailPrompt(false);
                                 } else {
                                     toast.error("Incorrect email. Please try again.");
