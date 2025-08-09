@@ -192,32 +192,44 @@ export default function Settings() {
 
     return (
         <div className="p-6 max-w-4xl mx-auto mt-14">
-            <h1 className="text-2xl font-bold mb-6">Platform Settings</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+                Platform Settings
+            </h1>
 
             <form className="space-y-6">
-                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
-                    <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">Platform Configuration <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">Configure platform name & WiFi DNS</p></h2>
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
+                    <h2 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-900 dark:text-gray-200">
+                        Platform Configuration{" "}
+                        <p className="text-xs font-semibold text-green-600 italic p-1 bg-green-100 dark:bg-black/30 rounded-md">
+                            Configure platform name & WiFi DNS
+                        </p>
+                    </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-300">Platform Name</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Platform Name
+                            </label>
                             <input
                                 type="text"
                                 name="name"
                                 value={name}
                                 onChange={handleChange}
                                 placeholder="Enter Platform Name"
-                                className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                             />
                         </div>
                     </div>
+
                     <div className="space-y-2 md:col-span-2 mt-3">
-                        <label className="block text-sm font-medium text-gray-300">Live Platform URL (WiFi DNS)</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Live Platform URL (WiFi DNS)
+                        </label>
                         <div className="relative flex items-center">
                             <input
                                 type="text"
                                 value={`${platurl}`}
                                 readOnly
-                                className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                             />
                             <div className="absolute right-3 cursor-pointer">
                                 <Copy
@@ -230,14 +242,17 @@ export default function Settings() {
                             </div>
                         </div>
                     </div>
+
                     <div className="space-y-2 md:col-span-2 mt-3">
-                        <label className="block text-sm font-medium text-gray-300">Live Admin Portal URL</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Live Admin Portal URL
+                        </label>
                         <div className="relative flex items-center">
                             <input
                                 type="text"
                                 value={`${platurl}/admin`}
                                 readOnly
-                                className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                             />
                             <div className="absolute right-3 cursor-pointer">
                                 <Copy
@@ -250,79 +265,98 @@ export default function Settings() {
                             </div>
                         </div>
                     </div>
-                    <div
-                        onClick={handleSubmitName}
-                        className="flex justify-start mt-3">
+
+                    <div onClick={handleSubmitName} className="flex justify-start mt-3">
                         <button
                             type="button"
                             disabled={isChangingName}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                         >
                             {isChangingName ? "Updating..." : "Update Platform"}
                         </button>
                     </div>
                 </div>
 
-                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
-                    <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">MPESA Configuration <p className="text-xs font-semibold text-green-600 italic p-1 bg-black/30 rounded-md">Configure how you receive payments from customers</p></h2>
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
+                    <h2 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-900 dark:text-gray-200">
+                        MPESA Configuration{" "}
+                        <p className="text-xs font-semibold text-green-600 italic p-1 bg-green-100 dark:bg-black/30 rounded-md">
+                            Configure how you receive payments from customers
+                        </p>
+                    </h2>
 
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-300 mb-2">MPESA Type</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            MPESA Type
+                        </label>
                         <div className="flex gap-4">
                             <button
                                 type="button"
                                 onClick={() => handleToggle("C2B")}
-                                className={`px-4 py-2 rounded-md ${settings.IsC2B ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'}`}
+                                className={`px-4 py-2 rounded-md ${settings.IsC2B
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-gray-300 dark:bg-gray-700 dark:text-gray-300 text-gray-900"
+                                    }`}
                             >
                                 Mpesa C2B
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleToggle("B2B")}
-                                className={`px-4 py-2 rounded-md ${settings.IsB2B ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'}`}
+                                className={`px-4 py-2 rounded-md ${settings.IsB2B
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-gray-300 dark:bg-gray-700 dark:text-gray-300 text-gray-900"
+                                    }`}
                             >
                                 Mpesa B2B
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleToggle("API")}
-                                className={`px-4 py-2 rounded-md ${settings.IsAPI ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'}`}
+                                className={`px-4 py-2 rounded-md ${settings.IsAPI
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-gray-300 dark:bg-gray-700 dark:text-gray-300 text-gray-900"
+                                    }`}
                             >
                                 Mpesa API
                             </button>
                         </div>
                     </div>
 
-                    <h3 className="text-sm text-green-500 font-semibold mb-2 flex flex-row items-center gap-1">
+                    <h3 className="text-sm text-green-600 dark:text-green-400 font-semibold mb-2 flex items-center gap-1">
                         <Info size={14} />
-                        {settings.IsB2B && ("Your Clients Pay directly to us then we Pay you.")}
-                        {settings.IsC2B && ("Receive funds directly from your clients.")}
-                        {settings.IsAPI && ("Receive funds directly from your clients. Get your API Keys from MPESA Portal.")}
+                        {settings.IsB2B && "Your Clients Pay directly to us then we Pay you."}
+                        {settings.IsC2B && "Receive funds directly from your clients."}
+                        {settings.IsAPI &&
+                            "Receive funds directly from your clients. Get your API Keys from MPESA Portal."}
                     </h3>
-
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {settings.IsB2B && (
                             <>
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Short Code / Phone Number</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Short Code / Phone Number
+                                    </label>
                                     <input
                                         type="text"
                                         name="mpesaShortCode"
                                         value={settings.mpesaShortCode || ""}
                                         onChange={handleChange}
                                         placeholder="Enter MPESA Short Code"
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Short Code Type</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Short Code Type
+                                    </label>
                                     <select
                                         name="mpesaShortCodeType"
                                         value={settings.mpesaShortCodeType || "Till"}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                     >
                                         <option value="Paybill">Paybill</option>
                                         <option value="Till">Till</option>
@@ -332,42 +366,49 @@ export default function Settings() {
 
                                 {settings.mpesaShortCodeType === "Paybill" && (
                                     <div className="space-y-2 md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-300">Account No (Leave Blank to use customer's phone number as account no.)</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Account No (Leave Blank to use customer's phone number as
+                                            account no.)
+                                        </label>
                                         <input
                                             type="text"
                                             name="mpesaAccountNumber"
                                             value={settings.mpesaAccountNumber || ""}
                                             onChange={handleChange}
                                             placeholder="Enter MPESA Account No"
-                                            className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                            className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                         />
                                     </div>
                                 )}
                             </>
-                        )}{/* Form Section */}
+                        )}
+
                         {settings.IsC2B && (
                             <div className="relative">
-
                                 <>
                                     <div className="space-y-2">
-                                        <label className="block text-sm font-medium text-gray-300">Short Code</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Short Code
+                                        </label>
                                         <input
                                             type="text"
                                             name="mpesaShortCode"
                                             value={settings.mpesaShortCode || ""}
                                             onChange={handleChange}
                                             placeholder="Enter MPESA Short Code"
-                                            className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                            className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                         />
                                     </div>
 
                                     <div className="space-y-2 mt-4">
-                                        <label className="block text-sm font-medium text-gray-300">Short Code Type</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Short Code Type
+                                        </label>
                                         <select
                                             name="mpesaShortCodeType"
                                             value={settings.mpesaShortCodeType || "Phone"}
                                             onChange={handleChange}
-                                            className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                            className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                         >
                                             <option value="Phone">Phone Number</option>
                                             <option value="Paybill">Paybill</option>
@@ -377,28 +418,34 @@ export default function Settings() {
 
                                     {/* Blur Overlay */}
                                     <div className="absolute inset-0 bg-black/50 bg-opacity-60 backdrop-blur-md flex items-center justify-center rounded-md z-10">
-                                        <p className="text-white text-lg font-semibold text-center">C2B is Under Maintenance</p>
+                                        <p className="text-white text-lg font-semibold text-center">
+                                            C2B is Under Maintenance
+                                        </p>
                                     </div>
                                 </>
-
                             </div>
                         )}
+
                         {settings.IsAPI && (
                             <>
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Consumer Key</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Consumer Key
+                                    </label>
                                     <input
                                         type="text"
                                         name="mpesaConsumerKey"
                                         value={settings.mpesaConsumerKey || ""}
                                         onChange={handleChange}
                                         placeholder="Enter MPESA Consumer Key"
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Consumer Secret</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Consumer Secret
+                                    </label>
                                     <div className="relative flex items-center flex-row">
                                         <input
                                             type={showconsumer ? "text" : "password"}
@@ -406,33 +453,40 @@ export default function Settings() {
                                             value={settings.mpesaConsumerSecret || ""}
                                             onChange={handleChange}
                                             placeholder="Enter MPESA Consumer Secret"
-                                            className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                            className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                         />
-                                        <div className="absolute fontbold right-5 text-gray-300 cursor-pointer" onClick={() => setShowConsumer(prev => !prev)}>
+                                        <div
+                                            className="absolute fontbold right-5 text-gray-700 dark:text-gray-300 cursor-pointer"
+                                            onClick={() => setShowConsumer((prev) => !prev)}
+                                        >
                                             {showconsumer ? <Eye /> : <EyeClosed />}
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Short Code</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Short Code
+                                    </label>
                                     <input
                                         type="text"
                                         name="mpesaShortCode"
                                         value={settings.mpesaShortCode || ""}
                                         onChange={handleChange}
                                         placeholder="Enter MPESA Short Code"
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-gray-300">Short Code Type</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Short Code Type
+                                    </label>
                                     <select
                                         name="mpesaShortCodeType"
                                         value={settings.mpesaShortCodeType || "Till"}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                     >
                                         <option value="Paybill">Paybill</option>
                                         <option value="Till">Till</option>
@@ -440,7 +494,9 @@ export default function Settings() {
                                 </div>
 
                                 <div className="space-y-2 md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-300">Till No / PayBill No</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Till No / PayBill No
+                                    </label>
                                     <input
                                         required
                                         type="text"
@@ -448,12 +504,14 @@ export default function Settings() {
                                         value={settings.mpesaAccountNumber || ""}
                                         onChange={handleChange}
                                         placeholder="Enter MPESA Till or PayBill Number"
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                        className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                     />
                                 </div>
 
                                 <div className="space-y-2 md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-300">Pass Key</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Pass Key
+                                    </label>
                                     <div className="relative flex items-center flex-row">
                                         <input
                                             type={showpasskey ? "text" : "password"}
@@ -461,70 +519,48 @@ export default function Settings() {
                                             value={settings.mpesaPassKey || ""}
                                             onChange={handleChange}
                                             placeholder="Enter MPESA Pass Key"
-                                            className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
+                                            className="w-full px-3 py-2 border bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 rounded-md shadow-sm"
                                         />
-                                        <div className="absolute fontbold right-5 text-gray-300 cursor-pointer" onClick={() => setShowpasskey(prev => !prev)}>
+                                        <div
+                                            className="absolute fontbold right-5 text-gray-700 dark:text-gray-300 cursor-pointer"
+                                            onClick={() => setShowpasskey((prev) => !prev)}
+                                        >
                                             {showpasskey ? <Eye /> : <EyeClosed />}
                                         </div>
                                     </div>
                                 </div>
                             </>
                         )}
-
-                        {/* {settings.IsAPI && (
-                            <div className="space-y-2 md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-300">Live API URL</label>
-                                <div className="relative flex items-center">
-                                    <input
-                                        type="text"
-                                        value={process.env.NEXT_PUBLIC_SERVER_URL}
-                                        readOnly
-                                        className="w-full px-3 py-2 border bg-black text-gray-300 border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    <div className="absolute right-3 cursor-pointer">
-                                        <Copy
-                                            size={20}
-                                            onClick={() => {
-                                                navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
-                                                toast.success("Copied to clipboard");
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        )} */}
                     </div>
 
                     <div className="flex justify-start mt-3 relative">
-                        {settings.IsC2B ? (
-                            <></>
-                        ) : (
+                        {!settings.IsC2B && (
                             <button
                                 onClick={handleSubmit}
                                 type="button"
                                 disabled={isLoading}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                             >
                                 {isLoading ? "Updating..." : "Update Mpesa"}
                             </button>
                         )}
-
                     </div>
                 </div>
 
-                <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-md w-full">
-                    <h2 className="text-lg text-gray-200 font-semibold mb-4 border-b pb-2">Delete {name} Platform
-                        <p className="text-xs font-semibold text-red-600 italic p-1 bg-black/30 rounded-md">Delete all {name} platform information stored on our site, note that all information will be deleted and can not be recovered!</p></h2>
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
+                    <h2 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-900 dark:text-gray-200">
+                        Delete {name} Platform
+                        <p className="text-xs font-semibold text-red-600 italic p-1 bg-red-100 dark:bg-black/30 rounded-md">
+                            Delete all {name} platform information stored on our site, note that
+                            all information will be deleted and can not be recovered!
+                        </p>
+                    </h2>
 
-                    <div
-                        onClick={() => {
-                            setshowModal(true)
-                        }}
-                        className="flex justify-start mt-3">
+                    <div onClick={() => setshowModal(true)} className="flex justify-start mt-3">
                         <button
                             type="button"
                             disabled={isDeleting}
-                            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                         >
                             {isDeleting ? "Deleting..." : "Delete Platform"}
                         </button>
@@ -534,30 +570,30 @@ export default function Settings() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+                    <div className="flex flex-col bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
                         <h2 className="text-xl font-bold mb-2 flex items-center gap-x-1 flex-wrap">
                             <span>Are you sure you want to delete</span>
                             <span className="text-red-500">"{name}"</span>
                             <span>Platform</span>
                         </h2>
 
-                        <p className="text-sm text-gray-400 mb-4">
-                            This action will permanently delete all information stored on our site, note that all information will be deleted and can not be recovered!
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            This action will permanently delete all information stored on our
+                            site, note that all information will be deleted and can not be
+                            recovered!
                         </p>
                         <div className="flex justify-end space-x-2 mt-6">
                             <button
                                 type="button"
-                                onClick={() => {
-                                    setshowModal(false)
-                                }}
-                                className="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700"
+                                onClick={() => setshowModal(false)}
+                                className="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 text-white"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleDelete}
                                 type="submit"
-                                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50"
                                 disabled={isDeleting}
                             >
                                 {isDeleting ? "Deleting..." : "Delete"}
@@ -566,7 +602,7 @@ export default function Settings() {
                     </div>
                 </div>
             )}
-
         </div>
     );
+
 };
