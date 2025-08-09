@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, Cog } from 'lucide-react';
 import { useAdminAuth } from '@/contexts/AdminSessionProvider';
 
 export default function ProfilePopup({ isOpenUser }: any) {
@@ -17,6 +17,16 @@ export default function ProfilePopup({ isOpenUser }: any) {
                         >
                             <User className="w-4 h-4 mr-3" />
                             Profile
+                        </Link>
+                    </div>
+                    <div className="border-t border-gray-800"></div>
+                    <div className="py-1">
+                        <Link
+                            href="/admin/settings"
+                            className="flex items-center px-4 py-2 text-sm text-gray-100 hover:bg-gray-800 transition-colors"
+                        >
+                            <Cog className="w-4 h-4 mr-3" />
+                            Settings
                         </Link>
                     </div>
                     <div className="border-t border-gray-800"></div>
