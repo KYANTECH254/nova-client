@@ -29,7 +29,11 @@ export default function Login() {
 
     useEffect(() => {
         if (!isLoading && isAuthenticated) {
-            window.location.href = `${window.location.origin}/admin`;
+            if (returnUrl) {
+                window.location.href = `${window.location.origin}${returnUrl}`;
+            } else {
+                window.location.href = `${window.location.origin}/admin`;
+            }
         }
     }, [isAuthenticated, isLoading]);
 
@@ -82,7 +86,7 @@ export default function Login() {
                 login({ token: res.token, userData: res.user });
                 toast.success("Login successful!");
                 if (returnUrl) {
-                    router.push(returnUrl)
+                    window.location.href = `${window.location.origin}${returnUrl}`;
                 } else {
                     window.location.href = `${window.location.origin}/admin`;
                 }

@@ -218,7 +218,7 @@ export default function Dashboard() {
                     ].map((stat, index) => (
                         <div
                             key={index}
-                            className="bg-gray-200 dark:bg-[var(--background)] rounded-lg shadow p-6 border-l-5 border-blue-500"
+                            className="bg-gray-200 dark:bg-black rounded-lg shadow p-6 border-l-5 border-blue-500"
                         >
                             <div className="flex justify-between items-start">
                                 <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.title}</h3>
