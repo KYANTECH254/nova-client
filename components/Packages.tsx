@@ -34,7 +34,7 @@ export default function Packages() {
     const [showModal, setShowModal] = useState(false);
     const [currentPackage, setCurrentPackage] = useState<Package | null>(null);
     const [periodValue, setPeriodValue] = useState("");
-    const [periodUnit, setPeriodUnit] = useState("days");
+    const [periodUnit, setPeriodUnit] = useState<any>("days");
     const [usageValue, setUsageValue] = useState("");
     const [isUnlimited, setIsUnlimited] = useState(false);
     const [unlimitedDevices, setUnlimitedDevices] = useState(false);
@@ -147,24 +147,32 @@ export default function Packages() {
     }, []);
 
     useEffect(() => {
-        const fetchprofiles = cache(async () => {
-            const data = {
-                token
-            }
+        const fetchProfiles = cache(async () => {
+            const data = { token };
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/mkt/hotspot-profiles`, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data)
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
                 });
+
                 const res = await response.json();
+
                 if (res.success) {
                     const profilesData = res.profiles
                         .map((profileGroup: any) =>
-                            profileGroup.data.profiles.map((p: any) => ({
-                                ...p,
+                            (profileGroup.data?.profiles || []).map((p: any) => ({
+                                name: p.name || '',
+                                rateLimit: p.rateLimit || '',
+                                sharedUsers: p.sharedUsers || '',
+                                idleTimeout: p.idleTimeout || '',
+                                keepaliveTimeout: p.keepaliveTimeout || '',
+                                sessionTimeout: p.sessionTimeout || '',
+                                statusAutorefresh: p.statusAutorefresh || '',
+                                addMacCookie: p.addMacCookie || '',
+                                macCookieTimeout: p.macCookieTimeout || '',
+                                addressPool: p.addressPool || '',
+                                comment: p.comment || '',
                                 host: profileGroup.host,
                                 username: profileGroup.username,
                             }))
@@ -179,7 +187,8 @@ export default function Packages() {
                 toast.error("Failed to fetch profiles");
             }
         });
-        fetchprofiles();
+
+        fetchProfiles();
     }, []);
 
     const filteredPackages = packages.filter((pkg) =>
@@ -523,16 +532,47 @@ export default function Packages() {
                                         className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
                                         value={selectedProfileId}
                                         onChange={(e) => {
-                                            const profileId = e.target.value;
-                                            setSelectedProfileId(profileId);
-                                            const selectedProfile = filteredProfiles.find(p => p.name === profileId);
+                                            const profileName = e.target.value;
+                                            setSelectedProfileId(profileName);
+
+                                            const selectedProfile = filteredProfiles.find(p => p.name === profileName);
+
                                             if (selectedProfile) {
                                                 setName(selectedProfile.name);
+
+                                                // Parse rateLimit first part and set speed
                                                 const rateLimit = selectedProfile.rateLimit.split('/')[0].replace('M', '');
                                                 setSpeed(rateLimit);
+
                                                 setDevices(selectedProfile.sharedUsers.toString());
+
+                                                const sessionTimeout = selectedProfile.sessionTimeout || 'none';
+
+                                                if (sessionTimeout === 'none' || sessionTimeout === '') {
+                                                    setUnlimitedPeriod(true);
+                                                    setPeriodValue('');
+                                                    setPeriodUnit('minutes');  
+                                                } else {
+                                                    setUnlimitedPeriod(false);
+                                                    const match = sessionTimeout.match(/^(\d+)([mhd])$/i);
+                                                    if (match) {
+                                                        const value = match[1];
+                                                        const unitCode = match[2].toLowerCase();
+                                                        setPeriodValue(value);
+                                                        const unitMap = {
+                                                            m: 'minutes',
+                                                            h: 'hours',
+                                                            d: 'days',
+                                                        };
+                                                       setPeriodUnit(unitMap[unitCode as keyof typeof unitMap] || 'days');
+                                                    } else {
+                                                        setPeriodValue('');
+                                                        setPeriodUnit('minutes');
+                                                    }
+                                                }
                                             }
                                         }}
+
                                     >
                                         <option value="">--- Pick profile ---</option>
                                         {filteredProfiles.map((profile) => (
