@@ -170,7 +170,7 @@ export default function Users() {
     }
   };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     setIsEditing(true);
     e.preventDefault();
     const userData = {
@@ -296,7 +296,8 @@ export default function Users() {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+          <div className="flex flex-col bg-gray-100 border border-gray-300 text-gray-900 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6
+                    dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100">
             <h2 className="text-xl font-bold mb-4">
               Edit User
             </h2>
@@ -309,7 +310,9 @@ export default function Users() {
                     name="name"
                     value={username || selectedUser?.username || ""}
                     onChange={(e) => setusername(e.target.value)}
-                    className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                    className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required
                   />
                 </div>
@@ -321,7 +324,9 @@ export default function Users() {
                     name="address"
                     value={phone || selectedUser?.phone || ""}
                     onChange={(e) => setphone(e.target.value)}
-                    className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                    className="w-full px-3 py-2 border rounded-md bg-white text-gray-900 border-gray-300
+                         dark:bg-black dark:text-gray-300 dark:border-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -330,13 +335,13 @@ export default function Users() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700"
+                  className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                   disabled={isEditing}
                 >
                   {isEditing ? "Updating..." : "Update User"}
@@ -345,9 +350,8 @@ export default function Users() {
             </form>
           </div>
         </div>
+      )}
 
-      )
-      }
     </div>
   );
 }
