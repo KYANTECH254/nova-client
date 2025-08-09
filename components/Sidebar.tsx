@@ -158,7 +158,7 @@ export default function Sidebar({ isOpen, setIsOpen }: any) {
           </div>
 
           {/* Footer */}
-          <div className="p-4 border-t border-gray-900">
+          <div className="p-4">
             <button
               onClick={logout}
               className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800 hover:text-red-600 transition-colors w-full"

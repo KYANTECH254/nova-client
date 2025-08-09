@@ -75,12 +75,12 @@ export default function AdminHeader() {
                     {isAuthenticated && (
                         <button
                             onClick={toggleSidebar}
-                            className="fixed top-4 left-4 z-30 p-2 rounded-md bg-gray-900 shadow-lg dark:bg-gray-800"
+                            className="fixed top-4 left-4 z-30 p-2 rounded-md bg-white dark:bg-gray-900 shadow-lg dark:bg-gray-800"
                         >
                             {isOpen ? (
-                                <X className="w-6 h-6 text-gray-100 dark:text-gray-200" />
+                                <X className="w-6 h-6 text-black dark:text-gray-200" />
                             ) : (
-                                <Menu size={40} className="w-6 h-6 text-gray-100 dark:text-gray-200" />
+                                <Menu size={40} className="w-6 h-6 text-black dark:text-gray-200" />
                             )}
                         </button>
                     )}
