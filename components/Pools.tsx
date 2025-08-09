@@ -291,7 +291,7 @@ export default function Pools() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                    <div className="flex flex-col bg-gray-900 border border-gray-700 text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
+                    <div className="flex flex-col bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg shadow-2xl p-6 w-full max-w-md max-h-full overflow-y-auto space-y-6">
                         <h2 className="text-xl font-bold mb-4">
                             {selectedPool ? "Edit Pool" : "Add New Pool"}
                         </h2>
@@ -301,7 +301,7 @@ export default function Pools() {
                                     <label className="block text-sm font-medium mb-1">Select Station / Router</label>
                                     <select
                                         name="station"
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                                         required
                                         value={selectedStation?.id || ""}
                                         onChange={(e) => handleStationChange(e.target.value)}
@@ -320,7 +320,7 @@ export default function Pools() {
                                         name="name"
                                         value={name || selectedPool?.name || ""}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                                         required
                                     />
                                 </div>
@@ -332,7 +332,7 @@ export default function Pools() {
                                         name="address"
                                         value={address || selectedPool?.ranges || ""}
                                         onChange={(e) => setAddress(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                                         required
                                     />
                                 </div>
@@ -341,10 +341,10 @@ export default function Pools() {
                                     <label className="block text-sm font-medium mb-1">Comment</label>
                                     <input
                                         type="text"
-                                        name="address"
+                                        name="comment"
                                         value={comment || selectedPool?.comment || ""}
                                         onChange={(e) => setComment(e.target.value)}
-                                        className="w-full px-3 py-2 border rounded-md bg-black text-gray-300"
+                                        className="w-full px-3 py-2 border rounded-md bg-white dark:bg-black text-gray-900 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
                             </div>
@@ -353,13 +353,13 @@ export default function Pools() {
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700"
+                                    className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                                     disabled={isAdding}
                                 >
                                     {isAdding ? "Adding..." : selectedPool ? "Update Pool" : "Add Pool"}
@@ -369,6 +369,7 @@ export default function Pools() {
                     </div>
                 </div>
             )}
+
         </div>
     );
 }

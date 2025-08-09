@@ -16,7 +16,7 @@ export default function Preferences() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto mt-14">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Settings</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">System Settings</h1>
 
       <div className="space-y-6">
         <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
