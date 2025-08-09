@@ -19,7 +19,7 @@ export default function Preferences() {
       <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Settings</h1>
 
       <div className="space-y-6">
-        <div className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
+        <div className="bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md w-full">
           <h2 className="text-lg font-semibold mb-4 border-b pb-2 text-gray-800 dark:text-gray-200">
             Browser Theme
           </h2>
@@ -27,7 +27,7 @@ export default function Preferences() {
           <button
             type="button"
             onClick={cycleTheme}
-            className="p-2 rounded border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="p-2 rounded bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             aria-label="Toggle theme"
           >
             {theme === "light" && "🌞 Light"}

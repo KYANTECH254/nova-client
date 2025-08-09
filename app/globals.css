@@ -1,9 +1,22 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Light mode variables */
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #ffffff;          /* white background for light mode */
+  --foreground: #000000;          /* black text for light mode */
+  --color-text: #000000;
+  --color-base: #f0f0f0;
+  --color-accent-primary: #0077cc;
+  --color-accent-secondary: #8e44ad;
+  --color-neutral: #555555;
+  --font-primary: var(--font-nunito), sans-serif !important;
+}
+
+/* Dark mode overrides */
+.dark, .dark * {
+  --background: #0a0a0a;         
+  --foreground: #ededed;         
   --color-text: #ffffff;
   --color-base: #1b263b;
   --color-accent-primary: #00aeef;
